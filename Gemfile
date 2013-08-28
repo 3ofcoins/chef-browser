@@ -5,4 +5,8 @@ group :development do
   gem "haml"
   gem "app"
   gem "chef-zero"
+  gem "ridley"
+  gem "cucumber"
+  gem "erubis", "~> 2.7.0"
+#  gem "erb"
 end
