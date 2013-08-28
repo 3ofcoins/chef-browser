@@ -1,5 +1,14 @@
-Given /^I visit the main page$/ do
-  visit 'http://localhost:9292'
+require 'minitest/autorun'
+require 'watir-webdriver'
+
+SITE = "http://localhost:9292"
+BROWSER = Watir::Browser.start(SITE, :firefox)
+PAGES = {
+  "Main page" => "http://localhost:9292"
+}
+
+Given /^I visit the (.*)$/ do |page|
+  BROWSER.goto(PAGES[page])
 end
 
 Then /^I should see '("Hello world!")'$/ do |text|

@@ -1,4 +1,4 @@
 Feature: Main page
-Scenario:
-  Given I typed "http://localhost:9292" in my browser
-  Then I should see a "Hello World" on the screen.
+Scenario: Visible greeting
+  Given I visit the "Main page"
+  Then I should see "Hello World"

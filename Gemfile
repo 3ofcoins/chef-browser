@@ -8,5 +8,8 @@ group :development do
   gem "ridley"
   gem "cucumber"
   gem "erubis", "~> 2.7.0"
-#  gem "erb"
+  gem "watir-webdriver"
+  gem "spec"
+  gem "minitest"
+  
 end
