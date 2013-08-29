@@ -7,7 +7,7 @@ PAGES = {
   "Main page" => "http://localhost:9292"
 }
 
-Given /^I visit the (Main page)$/ do |page|
+Given (/^I visit the (Main page)$/) do |page|
   BROWSER.goto(PAGES[page])
 end
 
