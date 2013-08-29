@@ -7,10 +7,10 @@ PAGES = {
   "Main page" => "http://localhost:9292"
 }
 
-Given /^I visit the (.*)$/ do |page|
+Given /^I visit the (Main page)$/ do |page|
   BROWSER.goto(PAGES[page])
 end
 
-Then /^I should see '("Hello world!")'$/ do |text|
+Then /^I should see (Hello world!)$/ do |text|
   body.should match(/#{text}/m)
 end
