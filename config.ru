@@ -1,4 +1,4 @@
-require 'sinatra'
+require 'bundler/setup'
 require './chefapp'
 
 run ChefApp.new
