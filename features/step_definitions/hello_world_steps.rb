@@ -1,16 +1,14 @@
-require 'minitest/autorun'
-require 'watir-webdriver'
-
-SITE = "http://localhost:9292"
-BROWSER = Watir::Browser.start(SITE, :firefox)
 PAGES = {
-  "Main page" => "http://localhost:9292"
+  'main page' => '/'
 }
 
-Given (/^I visit the (Main page)$/) do |page|
-  BROWSER.goto(PAGES[page])
+When(/^I visit (?:the )?"(.*?)"$/) do |page|
+  # Find address from dictionary of named pages, unless we actually got
+  # an URL path.
+  page = PAGES[page.downcase] unless page =~ /^\//
+  get(page)
 end
 
-Then /^I should see (Hello world!)$/ do |text|
-  body.should match(/#{text}/m)
+Then(/^I should see "(.*?)"$/) do |text|
+  assert { last_response.body.include?(text) }
 end
