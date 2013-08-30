@@ -10,5 +10,8 @@ When(/^I visit (?:the )?"(.*?)"$/) do |page|
 end
 
 Then(/^I should see "(.*?)"$/) do |text|
+  # We normally expect the request to succeed, put the assertion here
+  # to avoid too verbose feature files.
+  assert { last_response.ok? }
   assert { last_response.body.include?(text) }
 end
