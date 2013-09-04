@@ -1,5 +1,9 @@
-            <div class="span10"><h2>Nodes</h2>
-                <div class="span4">Available nodes:
-                </div>
-            </div>
+      <div class="span10"><h2>Nodes</h2>
+        <div class="span4">Available nodes:
+
+          <% my_server = Ridley.new(server_url: "http://127.0.0.1:4000", client_name: "marta", client_key: "/home/marta/.chef/marta.pem") %>
+
+          <%= my_server.node.all %>
         </div>
+      </div>
+      </div>

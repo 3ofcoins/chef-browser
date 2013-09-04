@@ -1,4 +1,6 @@
 require 'sinatra'
+require 'ridley'
+require 'chef_zero/server'
 
 class ChefApp < Sinatra::Base
 
