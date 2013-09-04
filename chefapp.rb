@@ -6,5 +6,8 @@ class ChefApp < Sinatra::Base
     erb :index
   end
 
-end
+  get '/nodes' do
+    erb :nodes
+  end
 
+end
