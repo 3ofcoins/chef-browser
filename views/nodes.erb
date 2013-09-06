@@ -1,6 +1,14 @@
         <div class="span10"><h3>Nodes</h3>
           <% my_server = Ridley.new(server_url: "http://127.0.0.1:4000", client_name: "marta", client_key: "/home/marta/.chef/marta.pem") %>
           <% @nodes = my_server.node.all %>
+          <% @environments = my_server.environment.all %>
+          <table class = "table table-striped table-bordered">
+            <tr>
+              <% @environments.each do |env| %>
+                <td><%= env._attributes_.name %></td>
+              <% end %>
+            </tr>
+          </table>
           <table class = "table table-striped table-bordered">
             <% @nodes.each do |node| %>
                 <tr><td><%= node._attributes_.name %></td></tr>
