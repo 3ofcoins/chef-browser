@@ -4,36 +4,40 @@
     <title>Chef browser</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
   </head>
   <body>
-    <div class="row-fluid">
-      <div class="row-fluid">
-        <div class="span2"><h1>Chef browser</h1>
-        </div>
-        <div class="span4">
-          <a href="/nodes">Nodes</a>
-          <a href="/">Data</a>
-          <a href="/">Configuration</a>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Chef browser</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/nodes">Nodes</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Environment</a></li>
+                  <li><a href="#">Server details</a></li>
+                  <li><a href="#">Data bags</a></li>
+                  <li class="divider"></li>
+                  <li class="nav-header">Configuration</li>
+                  <li><a href="#">Roles</a></li>
+                  <li><a href="#">Recipes</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
     <div class="container-fluid">
-      <div class="span2">
-        <h2>Stuff</h2>
-        <h3>Servers</h3>
-        <a href="/nodes">Nodes</a>
-        <a href="">Environment view</a>
-        <a href="">Single server details</a>
-        <h3>Data</h3>
-        <a href="/">Data bag item #1</a>
-        <a href="/">Data bag item #2</a>
-        <a href="/">Data bag item #3</a>
-        <a href="/">Data bag item #4</a>
-        <h3>Configuration</h3>
-        <a href="/">Roles</a>
-        <a href="/">Environments</a>
-        <a href="/">Recipes</a>
-      </div>
       <%= yield %>
       <script src="http://code.jquery.com/jquery.js"></script>
       <script src="js/bootstrap.js"></script>
