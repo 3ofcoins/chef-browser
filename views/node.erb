@@ -1,0 +1,19 @@
+        <div class="span10"><h3>Node details</h3>
+          <% my_server = Ridley.new(server_url: "http://127.0.0.1:4000", client_name: "marta", client_key: "/home/marta/.chef/marta.pem") %>
+          <% @nodes = my_server.node.all %>
+          <% @node_array = Array.new %>
+
+          <% @nodes.each do |node| %>
+            <% @node_array.push(node.to_hash["name"]) %>
+          <% end %>
+              <h3><%= my_server.node.find('wordpress')._attributes_["name"] %></h3>
+              <p><%= my_server.node.find('wordpress')._attributes_["name"] %>(<%= my_server.node.find('wordpress')._attributes_["automatic"]["fqdn"] %>), (<%= my_server.node.find('wordpress')._attributes_["name"] %>[<%= my_server.node.find('wordpress')._attributes_["automatic"]["ipaddress"] %>])</p
+              <p>Environment: <%= my_server.node.find('wordpress')._attributes_["chef_environment"] %></p>
+              <p>Tags: <%= my_server.node.find('wordpress')._attributes_["normal"]["tags"] %></p>
+              <h4>Run list:</h6>
+              <p><%= my_server.node.find('wordpress')._attributes_["run_list"] %></p>
+              <h4>Attributes (JSON)</h4>
+              <%= escape_html(my_server.node.find('wordpress')._attributes_) %>
+        </div>
+      </div>
+      </div>

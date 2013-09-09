@@ -11,7 +11,7 @@
           </table>
           <table class = "table table-striped table-bordered">
             <% @nodes.each do |node| %>
-                <tr><td><%= node._attributes_.name %></td></tr>
+                <tr><td><a href="/node"><%= node._attributes_.name %></a></td></tr>
             <% end %>
           </table>
         </div>
