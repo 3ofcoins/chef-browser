@@ -11,7 +11,7 @@
           </table>
           <table class = "table table-striped table-bordered">
             <% @nodes.each do |node| %>
-                <tr><td><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></td></tr>
+                <tr><td><a href="/<%= node[:name] %>"><%= node[:name] %></a></td></tr>
             <% end %>
           </table>
         </div>
