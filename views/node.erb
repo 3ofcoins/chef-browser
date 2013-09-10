@@ -4,21 +4,25 @@
           <% @node_array = Array.new %>
 
           <% @nodes.each do |node| %>
-            <% @node_array.push(node.to_hash["name"]) %>
+            <% @node_array.push(node[:name]) %>
           <% end %>
-              <h3><%= my_server.node.find('wordpress')[:name] %></h3>
-              <p><%= my_server.node.find('wordpress')[:name] %>(<%= my_server.node.find('wordpress')[:automatic][:fqdn] %>) (<%= my_server.node.find('wordpress')[:name] %>[<%= my_server.node.find('wordpress')[:automatic][:ipaddress] %>])</p
-              <p>Environment: <%= my_server.node.find('wordpress')[:chef_environment] %></p>
-              <p>Tags: <% my_server.node.find('wordpress')[:normal][:tags].each do |tag| %></p>
-                <%= tag %>
-                <% end %>
-              </p>
-              <h4>Run list:</h6>
-              <p><ul><% my_server.node.find('wordpress')[:run_list].each do |run_list| %>
-                <li><%= run_list %></li>
-                <% end %>
-              </ul>
-              </p>
+
+              <% @node_array.each do |node_name| %>
+                <h3><%= my_server.node.find(node_name)[:name] %></h3>
+                <p><%= my_server.node.find(node_name)[:name] %>(<%= my_server.node.find(node_name)[:automatic][:fqdn] %>) (<%= my_server.node.find(node_name)[:name] %>[<%= my_server.node.find(node_name)[:automatic][:ipaddress] %>])</p
+                <p>Environment: <%= my_server.node.find(node_name)[:chef_environment] %></p>
+                <p>Tags:<ul class="inline"><% my_server.node.find(node_name)[:normal][:tags].each do |tag| %>
+                  <li><%= tag %></li>
+                  <% end %>
+                </ul></p>
+                <h4>Run list:</h4>
+                <p><ul><% my_server.node.find(node_name)[:run_list].each do |run_list| %>
+                  <li><%= run_list %></li>
+                  <% end %>
+                </ul>
+                </p>
+              <% end %>
+
               <h4>Attributes (JSON)</h4>
               <%= escape_html(my_server.node.find('wordpress')._attributes_) %>
         </div>

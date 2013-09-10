@@ -19,5 +19,15 @@ class ChefApp < Sinatra::Base
     erb :node
   end
 
+  get '/data_bags' do
+    erb :data_bags
+  end
+
+  #get 'node/:node_name' do
+  #take a :node_name from a node_list[] using the .each method
+  #and redirect to a "customized" node.erb file w/ the above URL,
+  #populated w/ details of the given node:
+  # erb :node
+  #end
 
 end
