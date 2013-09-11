@@ -23,8 +23,7 @@ class ChefApp < Sinatra::Base
   end
 
   get '/:node_name' do
-  #1. create a node_array[] using the .each method, with a list of all :node_names
-  #2. take a :node_name and redirect the above URL to a "customized" node.erb,
+  #   take a :node_name and redirect the above URL to a dynamically created page w/the "node" layout,
   #   populated w/ details of the given node. Break it down into smaller steps:
   #     a. create a :node_name redirection & all of the URLs end in the
   #        "uncustomized" erb :node
