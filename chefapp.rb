@@ -34,15 +34,15 @@ class ChefApp < Sinatra::Base
     my_server = Ridley.new(server_url: "http://127.0.0.1:4000", client_name: "marta", client_key: "/home/marta/.chef/marta.pem")
     @nodes = my_server.node.all
     @node_array = Array.new
-
+    @node_name = request.path.delete "/"
     @nodes.each do |node|
       @node_array.push(node[:name])
     end
 
-    if @node_array.include? :node_name
-        erb :data_bags
+    if @node_array == nil
+        "Sorry, the node you're looking for doesn't exist."
       else
-        erb :index
+        p my_server.node.find(@node_name)[:name] + my_server.node.find(@node_name)[:automatic][:fqdn] + my_server.node.find(@node_name)[:name] + my_server.node.find(@node_name)[:automatic][:ipaddress]
     end
   end
 end
