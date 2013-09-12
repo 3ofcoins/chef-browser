@@ -43,7 +43,7 @@ class ChefApp < Sinatra::Base
 
     code = %q{
       <h3><%= @my_server.node.find(@node_name)[:name] %></h3>
-     <p>fqdn: <%= @my_server.node.find(@node_name)[:automatic][:fqdn] %>, IP: <%= @my_server.node.find(@node_name)[:name] %>[<%= @my_server.node.find(@node_name)[:automatic][:ipaddress] %>]</p>
+     <p><%= @my_server.node.find(@node_name)[:automatic][:fqdn] %> (<%= @my_server.node.find(@node_name)[:automatic][:ipaddress] %>)</p>
       <p>Environment: <%= @my_server.node.find(@node_name)[:chef_environment] %></p>
       <p>Tags:<ul class="inline"><% @my_server.node.find(@node_name)[:normal][:tags].each do |tag| %>
          <li><%= tag %></li>
@@ -55,7 +55,7 @@ class ChefApp < Sinatra::Base
        <% end %>
        </ul></p>
      <h4>Attributes (JSON)</h4>
-     <%= html_escape(JSON.pretty_generate(@my_server.node.find(@node_name)._attributes_, :indent => "", :array_nl => "", :space => "", :space_before => "")) %>
+     <pre><%= html_escape(JSON.pretty_generate(@my_server.node.find(@node_name)._attributes_, :indent => "  ", :array_nl => "\n")) %></pre>
     }
 
     erb code
