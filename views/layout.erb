@@ -12,7 +12,7 @@
     </style>
   </head>
   <body>
-  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -50,8 +50,9 @@
       </div>
     </div>
     <div class="container-fluid">
-      <%= yield %>
-      <script src="http://code.jquery.com/jquery.js"></script>
-      <script src="js/bootstrap.js"></script>
+      <%== yield %>
+    </div>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
   </body>
 </html>

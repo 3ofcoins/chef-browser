@@ -1,6 +1,5 @@
             <div class="span10"><h3>Data bags</h3>
-            <% my_server = Ridley.new(server_url: "http://127.0.0.1:4000", client_name: "marta", client_key: "/home/marta/.chef/marta.pem") %>
-            <% @bags = my_server.data_bag %>
+            <% @bags = chef_server.data_bag %>
             <% @data_bags_list = Array.new %>
 
             <% @bags.all.each do |bag| %>
