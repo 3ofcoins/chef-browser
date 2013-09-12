@@ -10,12 +10,12 @@ class ChefApp < Sinatra::Base
     erb :index
   end
 
-  get '/all_nodes' do
-    erb :all_nodes
+  get '/nodes' do
+    erb :node_list
   end
 
   get '/node' do
-    erb :node
+    erb :node_details
   end
 
   get '/data_bags' do
