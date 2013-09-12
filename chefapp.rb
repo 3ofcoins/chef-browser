@@ -30,7 +30,7 @@ class ChefApp < Sinatra::Base
   #     b. remove the redundant array w/ node names; if a wrong node name is passed,
   #        it can be handled via an `if` statement. ==> done: array removed.
   #     C. create a "customized" view of node details in code below. ==> done.
-  #     d. handle undefined method `[]' for nil:NilClass (basically = repairing the `if` statement)
+  #     d. handle undefined method `[]' for nil:NilClass (basically = an `if` statement?)
   #     e. extract the code to an erb file (?)
 
     @my_server = Ridley.new(server_url: "http://127.0.0.1:4000", client_name: "marta", client_key: "/home/marta/.chef/marta.pem")
@@ -41,21 +41,23 @@ class ChefApp < Sinatra::Base
       @node_array.push(node[:name])
     end
 
-    code = '<h3><%= @my_server.node.find(@node_name)[:name] %></h3>
-    <p><%= @my_server.node.find(@node_name)[:name] %>(<%= @my_server.node.find(@node_name)[:automatic][:fqdn] %>)</p>
-    <p><%= @my_server.node.find(@node_name)[:name] %>[<%= @my_server.node.find(@node_name)[:automatic][:ipaddress] %>]</p>
-    <p>Environment: <%= @my_server.node.find(@node_name)[:chef_environment] %></p>
-    <p>Tags:<ul class="inline"><% @my_server.node.find(@node_name)[:normal][:tags].each do |tag| %>
-        <li><%= tag %></li>
-      <% end %>
-      </ul></p>
-    <h4>Run list:</h4>
-      <p><ul><% @my_server.node.find(@node_name)[:run_list].each do |run_list| %>
-        <li><%= run_list %></li>
-      <% end %>
-      </ul></p>
-    <h4>Attributes (JSON)</h4>
-    <%= escape_html(@my_server.node.find(@node_name)._attributes_) %>'
+    code = %q{
+      <h3><%= @my_server.node.find(@node_name)[:name] %></h3>
+     <p>fqdn: <%= @my_server.node.find(@node_name)[:automatic][:fqdn] %>, IP: <%= @my_server.node.find(@node_name)[:name] %>[<%= @my_server.node.find(@node_name)[:automatic][:ipaddress] %>]</p>
+      <p>Environment: <%= @my_server.node.find(@node_name)[:chef_environment] %></p>
+      <p>Tags:<ul class="inline"><% @my_server.node.find(@node_name)[:normal][:tags].each do |tag| %>
+         <li><%= tag %></li>
+       <% end %>
+       </ul></p>
+     <h4>Run list:</h4>
+       <p><ul><% @my_server.node.find(@node_name)[:run_list].each do |run_list| %>
+         <li><%= run_list %></li>
+       <% end %>
+       </ul></p>
+     <h4>Attributes (JSON)</h4>
+     <%= html_escape(JSON.pretty_generate(@my_server.node.find(@node_name)._attributes_, :indent => "", :array_nl => "", :space => "", :space_before => "")) %>
+    }
+
     erb code
 
   end
