@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-  gem "sinatra"
-  gem "haml"
-  gem "app"
-  gem "erubis", "~> 2.7.0"
-  gem "bootstrap-sass"
-  gem "ridley"
-  
+gem "sinatra"
+gem "haml"
+gem "app"
+gem "erubis", "~> 2.7.0"
+gem "bootstrap-sass"
+gem "ridley"
+
 group :development do
   gem "chef-zero"
   gem "cucumber"
