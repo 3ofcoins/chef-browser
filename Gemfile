@@ -12,4 +12,5 @@ group :development do
   gem "cucumber"
   gem "rack-test"
   gem "wrong", git: "https://github.com/sconover/wrong.git"
+  gem "pry"
 end
