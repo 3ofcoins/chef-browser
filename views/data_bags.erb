@@ -1,24 +1,23 @@
-            <div class="span10"><h3>Data bags</h3>
-            <% @bags = chef_server.data_bag %>
-            <% @data_bags_list = Array.new %>
+<div class="span10">
+<% @bags = chef_server.data_bag -%>
+<% @data_bags_list = Array.new -%>
 
-            <% @bags.all.each do |bag| %>
-              <% @data_bags_list.push(bag[:name]) %>
-            <% end %>
-            <table class="table table-bordered table-striped">
-            <tr><th>Data bag list:</th></tr>
-            <% @data_bags_list.each do |bag| %>
-              <td><%= bag %></td>
-            <% end %>
-            </tr>
-            </table>
+<% @bags.all.each do |bag| -%>
+<%   @data_bags_list.push(bag[:name]) -%>
+<% end -%>
+  <h3>[NFY] Data bags</h3>
+
+  <h4>Data bag list:</h4>
+<% @data_bags_list.each do |bag| -%>
+<%=  bag %>
+<% end %>
 
 #Data bag item list, first for one item only
 
 <h4>Data bag name: <%= @bags.all.first[:name] %></h4>
-<p><%= html_escape(@bags.find('users').item) %></p>
-<p><%= html_escape(@bags.find('users').item.all) %></p>
-<p><%= html_escape(@bags.find('users').item.all[0]) %></p>
+<p><%= @bags.find('users').item %></p>
+<p><%= @bags.find('users').item.all %></p>
+<p><%= @bags.find('users').item.all[0] %></p>
 
-            </div>
-          </div>
+</div>
+</div>

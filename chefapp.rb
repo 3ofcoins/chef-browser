@@ -63,7 +63,7 @@ class ChefApp < Sinatra::Base
        <% end %>
        </ul></p>
      <h4>Attributes (JSON)</h4>
-     <pre><%= JSON.pretty_generate(chef_server.node.find(@node_name)._attributes_, :indent => "  ", :array_nl => "\n") %></pre>
+     <pre class="pre-scrollable"><%= JSON.pretty_generate(chef_server.node.find(@node_name)._attributes_, :indent => "  ", :array_nl => "\n") %></pre>
     }
 
     erb code
