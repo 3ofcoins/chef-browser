@@ -24,7 +24,7 @@ class ChefApp < Sinatra::Base
   end
 
   get '/data_bags' do
-    erb :data_bags, locals: {
+    erb :data_bag_list, locals: {
       bags: chef_server.data_bag
     }
   end
