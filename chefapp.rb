@@ -23,12 +23,10 @@ class ChefApp < Sinatra::Base
     }
   end
 
-  get '/node' do
-    erb :node_details
-  end
-
   get '/data_bags' do
-    erb :data_bags
+    erb :data_bags, locals: {
+      bags: chef_server.data_bag
+    }
   end
 
   get '/:node_name' do
@@ -37,4 +35,5 @@ class ChefApp < Sinatra::Base
       node_name: request.path.delete("/")
     }
   end
+
 end

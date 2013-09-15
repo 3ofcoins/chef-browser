@@ -1,23 +1,8 @@
 <div class="span10">
-<% @bags = chef_server.data_bag -%>
-<% @data_bags_list = Array.new -%>
-
-<% @bags.all.each do |bag| -%>
-<%   @data_bags_list.push(bag[:name]) -%>
+  <h3>Data bags</h3>
+  <ul class="unstyled">
+<% bags.all.each do |bag| -%>
+    <li><a href="/<%= bag[:name] %>"><%= bag[:name] %></a></li>
 <% end -%>
-  <h3>[NFY] Data bags</h3>
-
-  <h4>Data bag list:</h4>
-<% @data_bags_list.each do |bag| -%>
-<%=  bag %>
-<% end %>
-
-#Data bag item list, first for one item only
-
-<h4>Data bag name: <%= @bags.all.first[:name] %></h4>
-<p><%= @bags.find('users').item %></p>
-<p><%= @bags.find('users').item.all %></p>
-<p><%= @bags.find('users').item.all[0] %></p>
-
-</div>
+  </ul>
 </div>
