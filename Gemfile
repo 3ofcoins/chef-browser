@@ -6,6 +6,7 @@ gem "app"
 gem "erubis", "~> 2.7.0"
 gem "bootstrap-sass"
 gem "ridley"
+gem "tinyconfig", git: "https://github.com/3ofcoins/tinyconfig.git", branch: "develop"
 
 group :development do
   gem "chef-zero"

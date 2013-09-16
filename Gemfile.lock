@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/3ofcoins/tinyconfig.git
+  revision: 37975c52357100c8b770bd9fa984eca31aab59b1
+  branch: develop
+  specs:
+    tinyconfig (0.0.1)
+
+GIT
   remote: https://github.com/sconover/wrong.git
   revision: 0cbc35a07cb63f6f409bb85da6ad7d107bdab021
   specs:
@@ -157,4 +164,5 @@ DEPENDENCIES
   rack-test
   ridley
   sinatra
+  tinyconfig!
   wrong!
