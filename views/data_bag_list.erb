@@ -2,7 +2,7 @@
   <h3>Data bags:</h3>
   <ul class="unstyled">
 <% bags.all.each do |bag| -%>
-    <li><a href="/<%= bag[:name] %>"><%= bag[:name] %></a></li>
+    <li><a href="/data_bag/<%= bag[:name] %>"><%= bag[:name] %></a></li>
 <% end -%>
   </ul>
 </div>

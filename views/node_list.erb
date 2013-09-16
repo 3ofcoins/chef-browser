@@ -9,7 +9,7 @@
   <h3>Nodes</h3>
   <ul class="unstyled">
 <% nodes.each do |node| -%>
-    <li><a href="/<%= node[:name] %>"><%= node[:name] %></a></li>
+    <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
 <% end -%>
   </ul>
 </div>
