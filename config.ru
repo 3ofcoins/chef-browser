@@ -7,9 +7,6 @@ class ChefSettings < TinyConfig
   option :server_url
   option :client_name
   option :client_key
-
-  #details here...
-
 end
 
 server_details = ChefSettings.new
