@@ -6,6 +6,8 @@ class ChefApp < Sinatra::Base
   set :erb, :escape_html => true
 
   def chef_server
+    @server = ::ChefSettings.new
+    @server.load("settings.rb.example")
     @chef_server ||= Ridley.new(
       server_url: @server.server_url,
       client_name: @server.client_name,
