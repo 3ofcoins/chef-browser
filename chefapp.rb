@@ -7,9 +7,9 @@ class ChefApp < Sinatra::Base
 
   def chef_server
     @chef_server ||= Ridley.new(
-      server_url: "http://127.0.0.1:4000",
-      client_name: "marta",
-      client_key: File.join(File.dirname(__FILE__), 'features/fixtures/stub.pem'))
+      server_url: @server.server_url,
+      client_name: @server.client_name,
+      client_key: @server.client_key)
   end
 
   get '/' do

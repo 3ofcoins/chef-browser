@@ -9,10 +9,10 @@ class ChefSettings < TinyConfig
   option :client_key
 end
 
-server_details = ChefSettings.new
+@server = ChefSettings.new
 
-server_details.load("settings.rb.example")
+@server.load("settings.rb.example")
 
-puts "#{server_details.server_url}, #{server_details.client_name}, #{server_details.client_key}"
+puts "#{@server.server_url}, #{@server.client_name}, #{@server.client_key}"
 
 run ChefApp.new
