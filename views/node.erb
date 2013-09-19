@@ -1,9 +1,10 @@
-<% def pp(vv, prefix='$') -%>
-<%   if vv.is_a?(Array) -%>
+<% def pp(vv, prefix='') -%>
+<%   case vv %>
+<%   when Array -%>
 <%     vv.each_with_index do |i, v| -%>
 <%       pp(v, "#{prefix}[#{i}]") %>
 <%     end -%>
-<%   elsif vv.is_a?(Hash) -%>
+<%   when Hash -%>
 <%     vv.each do |k, v| -%>
 <%       pp(v, "#{prefix}.#{k}") %>
 <%     end -%>
@@ -11,6 +12,7 @@
 <%=    "#{prefix} = #{vv}" %>
 <%   end -%>
 <% end -%>
+
 <h3><%= chef_server.node.find(node_name)[:name] %></h3>
 <p><%= chef_server.node.find(node_name)[:automatic][:fqdn] %> (<%= chef_server.node.find(node_name)[:automatic][:ipaddress] %>)</p>
 <p>Environment: <%= chef_server.node.find(node_name)[:chef_environment] %></p>
