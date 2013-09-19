@@ -1,3 +1,16 @@
+<% def pp(vv, prefix='$') -%>
+<%   if vv.is_a?(Array) -%>
+<%     vv.each_with_index do |i, v| -%>
+<%       pp(v, "#{prefix}[#{i}]") %>
+<%     end -%>
+<%   elsif vv.is_a?(Hash) -%>
+<%     vv.each do |k, v| -%>
+<%       pp(v, "#{prefix}.#{k}") %>
+<%     end -%>
+<%   else -%>
+<%=    "#{prefix} = #{vv}" %>
+<%   end -%>
+<% end -%>
 <h3><%= chef_server.node.find(node_name)[:name] %></h3>
 <p><%= chef_server.node.find(node_name)[:automatic][:fqdn] %> (<%= chef_server.node.find(node_name)[:automatic][:ipaddress] %>)</p>
 <p>Environment: <%= chef_server.node.find(node_name)[:chef_environment] %></p>
@@ -11,4 +24,4 @@
 <% end -%>
 </ul></p>
 <h4>Attributes (JSON)</h4>
-<pre class="pre-scrollable"><%= JSON.pretty_generate(chef_server.node.find(node_name)._attributes_, :indent => "  ", :array_nl => "\n") %></pre>
+<pre class="pre-scrollable"><% pp(chef_server.node.find(node_name)._attributes_.to_hash) %></pre>
