@@ -1,15 +1,19 @@
-<div class="span10">
-  <h3>Environments</h3>
-  <ul class="unstyled inline">
-<% environments.each do |env| -%>
-    <li><%= env[:name] %></li>
-<% end -%>
-  </ul>
-
-  <h3>Nodes</h3>
-  <ul class="unstyled">
+<div class="row-fluid">
+  <div class="span4 offset2">
+    <h3>Nodes</h3>
+    <ul class="unstyled">
 <% nodes.each do |node| -%>
-    <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
+      <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
 <% end -%>
-  </ul>
+    </ul>
+  </div>
+  
+  <div class="span4">
+    <h3>Environments</h3>
+    <ul class="unstyled">
+<% environments.each do |env| -%>
+      <li><%= env[:name] %></li>
+<% end -%>
+    </ul>
+  </div>
 </div>
