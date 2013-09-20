@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/3ofcoins/tinyconfig.git
-  revision: 37975c52357100c8b770bd9fa984eca31aab59b1
+  revision: 7a019dbea8de88ee521da02745443764fa3f799f
   branch: develop
   specs:
     tinyconfig (0.0.1)
