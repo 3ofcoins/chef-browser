@@ -25,7 +25,7 @@ module ChefBrowser
     end
 
     get '/' do
-      erb :index
+      redirect '/nodes'
     end
 
     get '/nodes' do
