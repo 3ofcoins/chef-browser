@@ -1,5 +1,5 @@
 require 'bundler/setup'
-require './chefapp'
+
 require 'tinyconfig'
 
 class ChefSettings < TinyConfig
@@ -8,5 +8,7 @@ class ChefSettings < TinyConfig
   option :client_name
   option :client_key
 end
+
+require './chefapp'
 
 run ChefApp.new

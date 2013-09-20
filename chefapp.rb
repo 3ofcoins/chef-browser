@@ -5,13 +5,19 @@ require 'ridley'
 class ChefApp < Sinatra::Base
   set :erb, :escape_html => true
 
+  # It's named this way to have variables from the `settings.rb` file
+  # visible from inside the app as `settings.rb.setting_name`
+  set :rb, begin
+             settings_rb = ::ChefSettings.new
+             settings_rb.load 'settings.rb'
+             settings_rb
+           end
+
   def chef_server
-    @server = ::ChefSettings.new
-    @server.load("settings.rb")
     @chef_server ||= Ridley.new(
-      server_url: @server.server_url,
-      client_name: @server.client_name,
-      client_key: @server.client_key)
+      server_url: settings.rb.server_url,
+      client_name: settings.rb.client_name,
+      client_key: settings.rb.client_key)
   end
 
   get '/' do
