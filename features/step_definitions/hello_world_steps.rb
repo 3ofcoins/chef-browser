@@ -9,7 +9,7 @@ When(/^I visit (?:the )?"(.*?)"$/) do |page|
   get(page)
 end
 
-Then(/^I should see "(.*?)"$/) do |text|
+Then(/^I can see "(.*?)"$/) do |text|
   # We normally expect the request to succeed, put the assertion here
   # to avoid too verbose feature files.
   assert { last_response.ok? }
