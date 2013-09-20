@@ -25,19 +25,6 @@ class ChefApp < Sinatra::Base
     }
   end
 
-  get '/data_bags' do
-    erb :data_bag_list, locals: {
-      bags: chef_server.data_bag
-    }
-  end
-
-  get '/data_bag/:data_bag_name' do
-    erb :data_bag, locals: {
-      bags: chef_server.data_bag,
-      data_bag_name: request.path.gsub("/data_bag/", "")
-    }
-  end
-
   get '/node/:node_name' do
     erb :node, locals: {
       nodes: chef_server.node.all,
