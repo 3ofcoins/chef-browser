@@ -24,19 +24,22 @@ module ChefBrowser
         client_key: settings.rb.client_key)
     end
 
-   def pretty_JSON(vv, prefix='') 
+    helpers do
+    def pretty_json(vv, prefix='') 
      case vv 
      when Array 
        vv.each_with_index do |i, v| 
-         pretty_JSON(v, "#{prefix}[#{i}]") 
+         pretty_json(v, "#{prefix}[#{i}]") 
        end 
      when Hash 
        vv.each do |k, v| 
-         pretty_JSON(v, "#{prefix}.#{k}") 
+         pretty_json(v, "#{prefix}.#{k}") 
        end 
      else 
       "#{prefix} = #{vv}" 
-     end 
+     end
+     end
+
    end 
 
     get '/' do
@@ -53,7 +56,8 @@ module ChefBrowser
     get '/node/:node_name' do
       erb :node, locals: {
         nodes: chef_server.node.all,
-        node_name: request.path.gsub("/node/", "")
+        node_name: request.path.gsub("/node/", ""),
+        pretty: pretty_json(chef_server.node.find('wordpress')._attributes_.to_hash)
       }
     end
 

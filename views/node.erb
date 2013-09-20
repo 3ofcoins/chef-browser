@@ -1,18 +1,3 @@
-<% def pretty_JSON(vv, prefix='') -%>
-<%   case vv %>
-<%   when Array -%>
-<%     vv.each_with_index do |i, v| -%>
-<%       pretty_JSON(v, "#{prefix}[#{i}]") %>
-<%     end -%>
-<%   when Hash -%>
-<%     vv.each do |k, v| -%>
-<%       pretty_JSON(v, "#{prefix}.#{k}") %>
-<%     end -%>
-<%   else -%>
-<%=    "#{prefix} = #{vv}" %>
-<%   end -%>
-<% end -%>
-
 <h3><%= chef_server.node.find(node_name)[:name] %></h3>
 <p><%= chef_server.node.find(node_name)[:automatic][:fqdn] %> (<%= chef_server.node.find(node_name)[:automatic][:ipaddress] %>)</p>
 <p><strong>Environment:</strong> <%= chef_server.node.find(node_name)[:chef_environment] %></p>
@@ -26,4 +11,4 @@
 <% end -%>
 </ul></p>
 <h4>Attributes (JSON)</h4>
-<pre class="pre-scrollable"><% pretty_JSON(chef_server.node.find(node_name)._attributes_.to_hash) %></pre>
+<pre class="pre-scrollable"><%= pretty %></pre>
