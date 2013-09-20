@@ -24,8 +24,23 @@ module ChefBrowser
         client_key: settings.rb.client_key)
     end
 
+   def pretty_JSON(vv, prefix='') 
+     case vv 
+     when Array 
+       vv.each_with_index do |i, v| 
+         pretty_JSON(v, "#{prefix}[#{i}]") 
+       end 
+     when Hash 
+       vv.each do |k, v| 
+         pretty_JSON(v, "#{prefix}.#{k}") 
+       end 
+     else 
+      "#{prefix} = #{vv}" 
+     end 
+   end 
+
     get '/' do
-      erb :index
+      redirect '/nodes'
     end
 
     get '/nodes' do

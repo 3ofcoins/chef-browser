@@ -1,12 +1,12 @@
-<% def pp(vv, prefix='') -%>
+<% def pretty_JSON(vv, prefix='') -%>
 <%   case vv %>
 <%   when Array -%>
 <%     vv.each_with_index do |i, v| -%>
-<%       pp(v, "#{prefix}[#{i}]") %>
+<%       pretty_JSON(v, "#{prefix}[#{i}]") %>
 <%     end -%>
 <%   when Hash -%>
 <%     vv.each do |k, v| -%>
-<%       pp(v, "#{prefix}.#{k}") %>
+<%       pretty_JSON(v, "#{prefix}.#{k}") %>
 <%     end -%>
 <%   else -%>
 <%=    "#{prefix} = #{vv}" %>
@@ -26,4 +26,4 @@
 <% end -%>
 </ul></p>
 <h4>Attributes (JSON)</h4>
-<pre class="pre-scrollable"><% pp(chef_server.node.find(node_name)._attributes_.to_hash) %></pre>
+<pre class="pre-scrollable"><% pretty_JSON(chef_server.node.find(node_name)._attributes_.to_hash) %></pre>
