@@ -15,4 +15,11 @@ Then(/^I can see "(.*?)"$/) do |text|
   assert { (200..399).include?(page.status_code) }
   assert { page.has_content?(text) }
 end
+
+When(/^I click on "(.*?)"$/) do |text|
+  click_on(text)
+end
+
+Then(/^I am at "(.*?)"$/) do |path|
+  assert { current_path == path }
 end
