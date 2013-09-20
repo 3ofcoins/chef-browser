@@ -7,7 +7,7 @@ class ChefApp < Sinatra::Base
 
   def chef_server
     @server = ::ChefSettings.new
-    @server.load("settings.rb.example")
+    @server.load("settings.rb")
     @chef_server ||= Ridley.new(
       server_url: @server.server_url,
       client_name: @server.client_name,
