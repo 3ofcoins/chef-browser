@@ -15,13 +15,13 @@
 
 <h3><%= chef_server.node.find(node_name)[:name] %></h3>
 <p><%= chef_server.node.find(node_name)[:automatic][:fqdn] %> (<%= chef_server.node.find(node_name)[:automatic][:ipaddress] %>)</p>
-<p>Environment: <%= chef_server.node.find(node_name)[:chef_environment] %></p>
-<p>Tags:<ul class="inline"><% chef_server.node.find(node_name)[:normal][:tags].each do |tag| %>
+<p><strong>Environment:</strong> <%= chef_server.node.find(node_name)[:chef_environment] %></p>
+<p><strong>Tags:</strong><ul class="inline"><% chef_server.node.find(node_name)[:normal][:tags].each do |tag| %>
 <li><%= tag %></li>
 <% end -%>
 </ul></p>
-<h4>Run list:</h4>
-<p><ul><% chef_server.node.find(node_name)[:run_list].each do |run_list| %>
+<p><strong>Run list:</strong>
+<ul><% chef_server.node.find(node_name)[:run_list].each do |run_list| %>
 <li><%= run_list %></li>
 <% end -%>
 </ul></p>
