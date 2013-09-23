@@ -6,15 +6,13 @@ Easily browse through Chef data in a user-friendly format using your favorite br
 ## Usage ##
 
 1. Run `$ bundle install`.
-2. Configure your server settings. Open `chefapp.rb` and edit the following lines, providing your server url, client name and the client key:
+2. Configure your server settings. Open `lib/chef-browser/settings.rb` and edit the following lines, providing your server url, client name and the client key:
 
 ```ruby
-    def chef_server
-    @chef_server ||= Ridley.new(
-      server_url: "http://127.0.0.1:4000",
-      client_name: "marta",
-      client_key: File.join(File.dirname(__FILE__), 'features/fixtures/stub.pem'))
-  end
+    option :server_url, 'https://127.0.0.1'
+    option :client_name, 'chef-webui'
+    option :client_key, '/etc/chef-server/chef-webui.pem'
+    option :connection, {}
 ```
 
 3. Run `$ rackup config.ru`.
