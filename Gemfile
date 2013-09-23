@@ -9,6 +9,7 @@ gem "ridley"
 gem "tinyconfig", git: "https://github.com/3ofcoins/tinyconfig.git", branch: "develop"
 
 group :development do
+  gem "capybara"
   gem "chef-zero"
   gem "cucumber"
   gem "rack-test"

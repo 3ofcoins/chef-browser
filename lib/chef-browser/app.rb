@@ -12,16 +12,16 @@ module ChefBrowser
     # It's named this way to have variables from the `settings.rb` file
     # visible from inside the app as `settings.rb.setting_name`
     set :rb, begin
+               settings_path = ENV['CHEF_BROWSER_SETTINGS'] ?
+                 File.expand_path(ENV['CHEF_BROWSER_SETTINGS']) :
+                   File.join(settings.root, 'settings.rb')
                settings_rb = Settings.new
-               settings_rb.load File.join(settings.root, 'settings.rb')
+               settings_rb.load(settings_path)
                settings_rb
              end
 
     def chef_server
-      @chef_server ||= Ridley.new(
-        server_url: settings.rb.server_url,
-        client_name: settings.rb.client_name,
-        client_key: settings.rb.client_key)
+      @chef_server ||= settings.rb.ridley
     end
 
     get '/' do
