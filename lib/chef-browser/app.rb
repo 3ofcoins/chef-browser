@@ -18,10 +18,7 @@ module ChefBrowser
              end
 
     def chef_server
-      @chef_server ||= Ridley.new(
-        server_url: settings.rb.server_url,
-        client_name: settings.rb.client_name,
-        client_key: settings.rb.client_key)
+      @chef_server ||= settings.rb.ridley
     end
 
     get '/' do
