@@ -12,8 +12,11 @@ module ChefBrowser
     # It's named this way to have variables from the `settings.rb` file
     # visible from inside the app as `settings.rb.setting_name`
     set :rb, begin
+               settings_path = ENV['CHEF_BROWSER_SETTINGS'] ?
+                 File.expand_path(ENV['CHEF_BROWSER_SETTINGS']) :
+                   File.join(settings.root, 'settings.rb')
                settings_rb = Settings.new
-               settings_rb.load File.join(settings.root, 'settings.rb')
+               settings_rb.load(settings_path)
                settings_rb
              end
 
