@@ -36,11 +36,11 @@ module ChefBrowser
     end
 
     get '/node/:node_name' do
+      node = chef_server.node.find(params[:node_name])
       erb :node, locals: {
-        nodes: chef_server.node.all,
-        node_name: request.path.gsub("/node/", "")
+        node: node,
+        attributes: node.chef_attributes
       }
     end
-
   end
 end
