@@ -24,23 +24,20 @@ module ChefBrowser
         client_key: settings.rb.client_key)
     end
 
-    helpers do
-    def pretty_json(vv, prefix='') 
-     case vv 
-     when Array 
-       vv.each_with_index do |i, v| 
-         pretty_json(v, "#{prefix}[#{i}]") 
-       end 
-     when Hash 
-       vv.each do |k, v| 
-         pretty_json(v, "#{prefix}.#{k}") 
-       end 
-     else 
-      "#{prefix} = #{vv}" 
-     end
-     end
-
-   end 
+    def json_to_path(json_dump, prefix='$')
+      case json_dump
+      when Array
+        json_dump.each_with_index do |i, v|
+          json_to_path(v, "#{prefix}[#{i}]")
+        end
+      when Hash
+        json_dump.each do |k, v|
+          json_to_path(v, "#{prefix}.#{k}")
+        end
+      else
+        "#{prefix} = #{json_dump}"
+      end
+    end
 
     get '/' do
       redirect '/nodes'
@@ -54,10 +51,12 @@ module ChefBrowser
     end
 
     get '/node/:node_name' do
+      node = chef_server.node.find(params[:node_name])
+      json_path = json_to_path(node._attributes_.to_hash)
       erb :node, locals: {
-        nodes: chef_server.node.all,
-        node_name: request.path.gsub("/node/", ""),
-        pretty: pretty_json(chef_server.node.find('wordpress')._attributes_.to_hash)
+        node: node,
+        json_path: json_path,
+        attributes: node.chef_attributes
       }
     end
 
