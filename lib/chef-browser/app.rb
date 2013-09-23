@@ -24,18 +24,31 @@ module ChefBrowser
         client_key: settings.rb.client_key)
     end
 
-    def json_to_path(json_dump, prefix='$')
-      case json_dump
+    # This method takes any nested hash/array `obj`, and then
+    # calls provided block with two arguments:
+    # each value's jsonpath selector, and the value itself.
+    #
+    # Example:
+    #   json_to_path({'foo' => {'bar' => 23, 'baz' => -1}, 'xyzzy' => [5,4,3,2]}) { |k, v| p [k, v] }
+    # will print:
+    #   ["$.foo.bar", 23]
+    #   ["$.foo.baz", -1]
+    #   ["$.xyzzy[5]", 0]
+    #   ["$.xyzzy[4]", 1]
+    #   ["$.xyzzy[3]", 2]
+    #   ["$.xyzzy[2]", 3]
+    def with_jsonpath(obj, prefix='$', &block)
+      case obj
       when Array
-        json_dump.each_with_index do |i, v|
-          json_to_path(v, "#{prefix}[#{i}]")
+        obj.each_with_index do |i, v|
+          json_to_path(v, "#{prefix}[#{i}]", &block)
         end
       when Hash
-        json_dump.each do |k, v|
-          json_to_path(v, "#{prefix}.#{k}")
+        obj.each do |k, v|
+          json_to_path(v, "#{prefix}.#{k}", &block)
         end
       else
-        "#{prefix} = #{json_dump}"
+        yield prefix, obj
       end
     end
 
