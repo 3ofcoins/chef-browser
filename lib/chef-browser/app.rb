@@ -40,7 +40,7 @@ module ChefBrowser
     def with_jsonpath(obj, prefix='$', &block)
       case obj
       when Array
-        obj.each_with_index do |i, v|
+        obj.each_with_index do |v, i|
           with_jsonpath(v, "#{prefix}[#{i}]", &block)
         end
       when Hash
