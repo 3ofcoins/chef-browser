@@ -1,4 +1,4 @@
 Feature: Main page
 Scenario: Visible greeting
   When I visit the "Main page"
-  Then I can see "Chef-browser allows you to access the following data"
+  Then I can see "Nodes"
