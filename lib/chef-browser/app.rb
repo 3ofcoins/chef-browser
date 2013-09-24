@@ -24,20 +24,6 @@ module ChefBrowser
         client_key: settings.rb.client_key)
     end
 
-    def json_to_path(json_dump, prefix='$')
-      case json_dump
-      when Array
-        json_dump.each_with_index do |i, v|
-          json_to_path(v, "#{prefix}[#{i}]")
-        end
-      when Hash
-        json_dump.each do |k, v|
-          json_to_path(v, "#{prefix}.#{k}")
-        end
-      else
-        return "#{prefix} = #{json_dump}"
-      end
-    end
 
     def with_jsonpath(obj, prefix='$', &block)
       case obj
@@ -67,10 +53,8 @@ module ChefBrowser
 
     get '/node/:node_name' do
       node = chef_server.node.find(params[:node_name])
-      json_path = json_to_path(node._attributes_.to_hash)
       erb :node, locals: {
         node: node,
-        json_path: json_path,
         attributes: node.chef_attributes
       }
     end
