@@ -9,6 +9,7 @@ Easily browse through Chef data in a user-friendly format using your favorite br
 2. Configure your server settings. Open `lib/chef-browser/settings.rb` and edit the following lines, providing your server url, client name and the client key:
 
 ```ruby
+<<<<<<< HEAD
 module ChefBrowser
   class Settings < TinyConfig
     #use option method to define known options

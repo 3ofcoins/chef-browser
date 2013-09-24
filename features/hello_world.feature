@@ -1,4 +1,4 @@
 Feature: Main page
 Scenario: Visible greeting
   When I visit the "Main page"
-  Then I should see "Hello World!"
+  Then I can see "Chef-browser allows you to access the following data"
