@@ -35,7 +35,22 @@ module ChefBrowser
           json_to_path(v, "#{prefix}.#{k}")
         end
       else
-        "#{prefix} = #{json_dump}"
+        return "#{prefix} = #{json_dump}"
+      end
+    end
+
+    def with_jsonpath(obj, prefix='$', &block)
+      case obj
+      when Array
+        obj.each_with_index do |i, v|
+          with_jsonpath(v, "#{prefix}[#{i}]", &block)
+        end
+      when Hash
+        obj.each do |k, v|
+          with_jsonpath(v, "#{prefix}.#{k}", &block)
+        end
+      else
+        yield prefix, obj
       end
     end
 

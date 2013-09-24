@@ -21,4 +21,8 @@
 </p>
 
 <h4>Attributes (JSON)</h4>
-<pre class="pre-scrollable"><%== json_path %></pre>
+<pre class="pre-scrollable">
+<% with_jsonpath(node._attributes_) do |path, value| -%>
+  <%= path %> = <%= value.to_json %>
+<% end -%>
+</pre>
