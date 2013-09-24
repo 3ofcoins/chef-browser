@@ -8,8 +8,10 @@ Background:
           "some-node-name": {
             "automatic": {
               "fqdn": "some-node-name.example.com",
-              "ipaddress": "1.2.3.4"
-            }          },
+              "ipaddress": "1.2.3.4",
+              "records": ["Manufacturer", "Version"]
+            }
+          },
           "another-node-name": {
             "automatic": {
               "fqdn": "another-node-name.example.com",
@@ -36,5 +38,6 @@ Scenario: List of node attributes
   When I visit "/nodes"
   And I click on "some-node-name"
   Then I am at "/node/some-node-name"
-  And I can see "$"
-  And I can see "= 1.2.3.4"
+  And I can see "$.automatic.fqdn = "some-node-name.example.com""
+  And I can see "$.automatic.ipaddress = "1.2.3.4""
+  And I can see "$.automatic.records[0] = "Manufacturer""

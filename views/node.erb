@@ -21,8 +21,8 @@
 </p>
 
 <h4>Attributes (JSON)</h4>
-<pre class="pre-scrollable">
+<table class="table table-condensed">
 <% with_jsonpath(node._attributes_) do |path, value| -%>
-  <%= path %> = <%= value.to_json %>
+  <tr><td><%= path %></td><td><code><%= value.to_json %></code></td></tr>
 <% end -%>
-</pre>
+</table>

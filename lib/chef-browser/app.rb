@@ -29,7 +29,7 @@ module ChefBrowser
     # each value's jsonpath selector, and the value itself.
     #
     # Example:
-    #   json_to_path({'foo' => {'bar' => 23, 'baz' => -1}, 'xyzzy' => [5,4,3,2]}) { |k, v| p [k, v] }
+    #   with_jsonpath({'foo' => {'bar' => 23, 'baz' => -1}, 'xyzzy' => [5,4,3,2]}) { |k, v| p [k, v] }
     # will print:
     #   ["$.foo.bar", 23]
     #   ["$.foo.baz", -1]
@@ -40,7 +40,7 @@ module ChefBrowser
     def with_jsonpath(obj, prefix='$', &block)
       case obj
       when Array
-        obj.each_with_index do |i, v|
+        obj.each_with_index do |v, i|
           with_jsonpath(v, "#{prefix}[#{i}]", &block)
         end
       when Hash
