@@ -1,12 +1,9 @@
 require 'bundler/setup'
-require './chefapp'
-require 'tinyconfig'
 
-class ChefSettings < TinyConfig
-  #use option method to define known options
-  option :server_url
-  option :client_name
-  option :client_key
-end
+# Insert `lib/` subdirectory in front of require path
+_lib = File.join(File.dirname(__FILE__), 'lib')
+$:.unshift(_lib) unless $:.include?(_lib)
 
-run ChefApp.new
+require 'chef-browser'
+
+run ChefBrowser::App.new
