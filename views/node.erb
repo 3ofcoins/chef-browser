@@ -23,13 +23,17 @@
 <h4>Attributes (JSON)</h4>
 <table class="table table-condensed">
 <% with_jsonpath(node._attributes_) do |path, value| -%>
-<%   if value.to_json == "true" %>
-  <tr><td><%= path %></td><td><code><span class="label label-success"><%= value.to_json %></code></span></code>
-<%   elsif value.to_json == "false" %>
-  <tr><td><%= path %></td><td><code><span class="label label-important"><%= value.to_json %></span></code>
-<%   else %>
+<%   if value.to_json == "true" -%>
+  <tr><td><%= path %></td><td><span class="label label-success"><%= value.to_json %></code></span>
+<%   elsif value.to_json == "false" -%>
+  <tr><td><%= path %></td><td><span class="label label-important"><%= value.to_json %></span>
+<%   elsif value.to_json == "null" -%>
+  <tr><td><%= path %></td><td><code>Ø</code>
+<%   elsif value.to_json.length >= 150 -%>
+  <tr><td><%= path %></td><td><pre><%= value.to_json.gsub("\\n", "\n") %></pre>
+<%   else -%>
   <tr><td><%= path %></td><td><code><%= value.to_json %>
-<%   end %>
+<%   end -%>
   </td></tr>
 <% end -%>
 </table>
