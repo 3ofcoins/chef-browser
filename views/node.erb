@@ -6,7 +6,7 @@
 
 <p><strong>Tags:</strong>
   <ul class="inline">
-<% (attributes[:tags] || []).each do |tag| %>
+<% (attributes[:tags] || []).each do |tag| -%>
     <li><%= tag %></li>
 <% end -%>
   </ul>
@@ -14,7 +14,7 @@
 
 <p><strong>Run list:</strong>
   <ul class="inline">
-<% node[:run_list].each do |run_list_item| %>
+<% node[:run_list].each do |run_list_item| -%>
     <li><%= run_list_item %></li>
 <% end -%>
   </ul>
@@ -23,6 +23,13 @@
 <h4>Attributes (JSON)</h4>
 <table class="table table-condensed">
 <% with_jsonpath(node._attributes_) do |path, value| -%>
-  <tr><td><%= path %></td><td><code><%= value.to_json %></code></td></tr>
+<%   if value.to_json == "true" %>
+  <tr><td><%= path %></td><td><code><span class="label label-success"><%= value.to_json %></code></span></code>
+<%   elsif value.to_json == "false" %>
+  <tr><td><%= path %></td><td><code><span class="label label-important"><%= value.to_json %></span></code>
+<%   else %>
+  <tr><td><%= path %></td><td><code><%= value.to_json %>
+<%   end %>
+  </td></tr>
 <% end -%>
 </table>
