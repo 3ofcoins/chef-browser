@@ -6,6 +6,8 @@ require 'chef-browser/settings'
 
 module ChefBrowser
   class App < Sinatra::Base
+    include Erubis::XmlHelper
+
     set :erb, :escape_html => true
     set :root, File.expand_path(File.join(File.dirname(__FILE__), '../..'))
 
@@ -49,6 +51,23 @@ module ChefBrowser
         end
       else
         yield prefix, obj
+      end
+    end
+
+    def pretty_value(value)
+      case value
+      when true    then '<span class="label label-success">true</span>'
+      when false   then '<span class="label label-important">false</span>'
+      when nil     then '<em class="text-muted">nil</em>'
+      when Numeric then value.to_s
+      when String
+        if value.include?("\n") || value.length > 150
+          "<pre>#{html_escape(value)}</pre>"
+        else
+          "<code>#{html_escape(value.to_json)}</code>"
+        end
+      else
+        "<code>#{html_escape(value.to_json)}</code>"
       end
     end
 

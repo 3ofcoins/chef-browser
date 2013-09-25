@@ -27,19 +27,9 @@
 
 <div class="tab-content">
   <div class="tab-pane active" id="jsonpath"><h4>Attributes (JSONpath)</h4>
-    <table class="table table-condensed">
+    <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(node._attributes_) do |path, value| -%>
-<%   if value.to_json == "true" -%>
-      <tr><td><%= path %></td><td><span class="label label-success"><%= value.to_json %></code></span></td></tr>
-<%   elsif value.to_json == "false" -%>
-      <tr><td><%= path %></td><td><span class="label label-important"><%= value.to_json %></span></td></tr>
-<%   elsif value.to_json == "null" -%>
-      <tr><td><%= path %></td><td><code>Ø</code></td></tr>
-<%   elsif value.to_json.length >= 150 -%>
-      <tr><td><%= path %></td><td><pre><%= value.to_json.gsub("\\n", "\n") %></pre></td></tr>
-<%   else -%>
-      <tr><td><%= path %></td><td><code><%= value.to_json %>
-<%   end -%>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
     </table>
   </div>
