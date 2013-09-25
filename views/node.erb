@@ -6,7 +6,7 @@
 
 <p><strong>Tags:</strong>
   <ul class="inline">
-<% (attributes[:tags] || []).each do |tag| %>
+<% (attributes[:tags] || []).each do |tag| -%>
     <li><%= tag %></li>
 <% end -%>
   </ul>
@@ -14,11 +14,15 @@
 
 <p><strong>Run list:</strong>
   <ul class="inline">
-<% node[:run_list].each do |run_list_item| %>
+<% node[:run_list].each do |run_list_item| -%>
     <li><%= run_list_item %></li>
 <% end -%>
   </ul>
 </p>
 
 <h4>Attributes (JSON)</h4>
-<pre class="pre-scrollable"><%= JSON.pretty_generate(node._attributes_, :indent => "  ", :array_nl => "\n") %></pre>
+<table class="table table-condensed table-striped table-hover">
+<% with_jsonpath(node._attributes_) do |path, value| -%>
+  <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<% end -%>
+</table>
