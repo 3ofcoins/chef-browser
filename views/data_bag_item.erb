@@ -1,24 +1,22 @@
 <div class="span10">
   <a class="btn" href="/data_bag_list">Back</a>
   <h3>Data bag item: <%= data_bag_item %></h3>
-  <p>Parent data bag:</p>
-
   <ul class="nav nav-pills">
-    <li><a href="#jsonpath" data-toggle="tab">JSON attributes (hardcoded for users/:data_bag_item):</a></li>
-    <li><a href="#jsonraw" data-toggle="tab">JSON raw (hardcoded for users/:data_bag_item)</a></li>
+    <li><a href="#jsonpath" data-toggle="tab">JSON attributes</a></li>
+    <li><a href="#jsonraw" data-toggle="tab">JSON raw</a></li>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane" id="jsonraw">
-      <h3>JSON raw (hardcoded for users/:data_bag_item)</h3>
+      <h3>JSON raw</h3>
       <pre>
-<%= chef_server.data_bag.find("users").item.find(data_bag_item).to_json %>
+<%= parent_data_bag.to_json %>
       </pre>
     </div>
     <div class="tab-pane" id="jsonpath">
-      <h3>JSON attributes (hardcoded for users/:data_bag_item):</h3>
+      <h3>JSON attributes</h3>
       <table class="table table-condensed table-striped table-hover">
-<% with_jsonpath(chef_server.data_bag.find("users").item.find(data_bag_item)._attributes_) do |path, value| -%>
+<% with_jsonpath(parent_data_bag._attributes_) do |path, value| -%>
       <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
       </table>

@@ -97,15 +97,15 @@ module ChefBrowser
       }
     end
 
-    get '/data_bag_item/:data_bag_item' do
-      bags = chef_server.data_bag.all
-      bag = "parent data bag" #should store the bag to which the item from
-                              #the url belongs to
+    get '/data_bag/:data_bag/:data_bag_item' do
+      data_bag = chef_server.data_bag.find(params[:data_bag])
       data_bag_item = params[:data_bag_item]
+      parent_data_bag = data_bag.item.find(data_bag_item)
+
       erb :data_bag_item, locals: {
       data_bag_item: data_bag_item,
-      bags: bags,
-      bag: bag
+      data_bag: data_bag,
+      parent_data_bag: parent_data_bag
       }
     end
   end
