@@ -92,13 +92,11 @@ module ChefBrowser
 
     get '/data_bag_list' do
       node = chef_server.node.find(params[:node_name])
-      data_bag = chef_server.node.find(params[:data_bag])
-      bags = 
+      bags = chef_server.data_bag
       erb :data_bag_list, locals: {
         node: node,
         attributes: node.chef_attributes,
-        bags: chef_server.data_bag,
-        data_bag: data_bag
+        bags: bags,
       }
     end
   end

@@ -2,18 +2,18 @@
   <h3>Data bags</h3>
 
   <ul class="nav nav-pills">
-<% chef_server.data_bag.all.each do |bag| -%>
+<% bags.all.each do |bag| -%>
     <li><a href="#<%= bag[:name] %>" data-toggle="tab"><%= bag[:name] %></a></li>
 <% end -%>
   </ul>
 
   <div class="tab-content">
-<% @chef_server.data_bag.all.each do |bag| -%>
+<% bags.all.each do |bag| -%>
     <div class="tab-pane" id="<%= bag[:name] %>">
       <h3>Data bag items</h3>
       <ul class="unstyled">
-<%   @chef_server.data_bag.find(bag[:name]).item.all.each do |item| -%>
-        <li><a href=""><%= item[:id] -%></a></li>
+<%   bags.find(bag[:name]).item.all.each do |item| -%>
+        <li><a href="#"><%= item[:id] %></a></li>
 <%   end -%>
       </ul>
     </div>
