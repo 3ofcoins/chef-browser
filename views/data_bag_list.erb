@@ -1,15 +1,6 @@
 <div class="span10">
   <h3>Data bags</h3>
 
-Data bag, find "certs": <pre><%= data_bag = @chef_server.data_bag.find("certs") %></pre>
-Data bag items for "certs": <pre><%= chef_server.data_bag.find("certs").item.all %></pre>
-
-All data bad item names for "certs":
-<ul>
-<% data_bag.item.all.each do |item| -%>
-  <li><%= item[:id].to_json %></li>
-<% end %>
-
   <ul class="nav nav-pills">
 <% chef_server.data_bag.all.each do |bag| -%>
     <li><a href="#<%= bag[:name] %>" data-toggle="tab"><%= bag[:name] %></a></li>
@@ -17,18 +8,15 @@ All data bad item names for "certs":
   </ul>
 
   <div class="tab-content">
-    <ul>
 <% @chef_server.data_bag.all.each do |bag| -%>
-      <div class="tab-pane" id="<%= bag[:name] %>">
-        <p>Data bag items for <strong><%= bag[:name] %></strong>:</p>
-        <ul>
-<%   @chef_server.data_bag.find(bag[:name]).item.all.each do |item| %>
-          <li><%= item[:id] -%></li>
+    <div class="tab-pane" id="<%= bag[:name] %>">
+      <h3>Data bag items</h3>
+      <ul class="unstyled">
+<%   @chef_server.data_bag.find(bag[:name]).item.all.each do |item| -%>
+        <li><a href=""><%= item[:id] -%></a></li>
 <%   end -%>
-        </ul>
-      </div>
+      </ul>
+    </div>
 <% end -%>
-    </ul>
   </div>
-
 </div>
