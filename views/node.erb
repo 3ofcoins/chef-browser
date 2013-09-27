@@ -20,20 +20,52 @@
   </ul>
 </p>
 
-<ul class="nav nav-pills">
-  <li><a href="#jsonpath" data-toggle="tab">Attributes (JSONpath)</a></li>
-  <li><a href="#jsonraw" data-toggle="tab">Attributes (raw JSON)</a></li>
+<ul class="nav nav-tabs">
+  <li><a href="#merged" data-toggle="tab">Merged</a></li>
+  <li><a href="#default" data-toggle="tab">Default</a></li>
+  <li><a href="#normal" data-toggle="tab">Normal</a></li>
+  <li><a href="#override" data-toggle="tab">Override</a></li>
+  <li><a href="#automatic" data-toggle="tab">Automatic</a></li>
+  <li><a href="#full" data-toggle="tab">Full</a></li>
 </ul>
 
 <div class="tab-content">
-  <div class="tab-pane active" id="jsonpath"><h4>Attributes (JSONpath)</h4>
+  <div class="tab-pane active" id="merged">
     <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(node._attributes_) do |path, value| -%>
     <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
     </table>
   </div>
-  <div class="tab-pane fade in" id="jsonraw"><h4>Attributes (raw JSON)</h4>
-    <pre><%= node._attributes_ %></pre>
+  <div class="tab-pane fade in" id="default">
+    <table class="table table-condensed table-striped table-hover">
+<% with_jsonpath(node[:default]) do |path, value| -%>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<% end -%>
+    </table>
+  </div>
+  <div class="tab-pane fade in" id="normal">
+    <table class="table table-condensed table-striped table-hover">
+<% with_jsonpath(node[:normal]) do |path, value| -%>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<% end -%>
+    </table>
+  </div>
+  <div class="tab-pane fade in" id="override">
+    <table class="table table-condensed table-striped table-hover">
+<% with_jsonpath(node[:override]) do |path, value| -%>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<% end -%>
+    </table>
+  </div>
+  <div class="tab-pane fade in" id="automatic">
+    <table class="table table-condensed table-striped table-hover">
+<% with_jsonpath(node[:automatic]) do |path, value| -%>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<% end -%>
+    </table>
+  </div>
+  <div class="tab-pane fade in" id="full">
+      <pre><%= JSON.pretty_generate(node._attributes_) %></pre>
   </div>
 </div>
