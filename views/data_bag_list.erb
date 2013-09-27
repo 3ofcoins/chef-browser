@@ -1,7 +1,7 @@
 <div class="span10">
   <h3>Data bags</h3>
 
-  <ul class="nav nav-pills">
+  <ul class="nav nav-tabs">
 <% bags.all.each do |bag| -%>
     <li><a href="#<%= bag[:name] %>" data-toggle="tab"><%= bag[:name] %></a></li>
 <% end -%>

@@ -1,24 +1,27 @@
 <div class="span10">
   <a class="btn" href="/data_bag_list">Back</a>
   <h3>Data bag item: <%= data_bag_item %></h3>
-  <ul class="nav nav-pills">
-    <li><a href="#jsonpath" data-toggle="tab">JSON attributes</a></li>
-    <li><a href="#jsonraw" data-toggle="tab">JSON raw</a></li>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#attributes" data-toggle="tab">JSON path</a></li>
+    <li><a href="#json" data-toggle="tab">JSON</a></li>
   </ul>
 
   <div class="tab-content">
-    <div class="tab-pane" id="jsonraw">
-      <h3>JSON raw</h3>
-      <pre>
-<%= parent_data_bag.to_json %>
-      </pre>
-    </div>
-    <div class="tab-pane" id="jsonpath">
-      <h3>JSON attributes</h3>
+
+    <div class="tab-pane active" id="attributes">
       <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(parent_data_bag._attributes_) do |path, value| -%>
       <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
       </table>
+    </div>
+
+    <div class="tab-pane" id="json">
+      <pre>
+<%= JSON.pretty_generate(parent_data_bag._attributes_) %>
+      </pre>
+    </div>
+
   </div>
+
 </div>

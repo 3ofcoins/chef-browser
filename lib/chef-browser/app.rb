@@ -99,13 +99,11 @@ module ChefBrowser
 
     get '/data_bag/:data_bag/:data_bag_item' do
       data_bag = chef_server.data_bag.find(params[:data_bag])
-      data_bag_item = params[:data_bag_item]
-      parent_data_bag = data_bag.item.find(data_bag_item)
-
+      parent_data_bag = data_bag.item.find(params[:data_bag_item])
       erb :data_bag_item, locals: {
-      data_bag_item: data_bag_item,
-      data_bag: data_bag,
-      parent_data_bag: parent_data_bag
+        data_bag_item: data_bag_item,
+        data_bag: data_bag,
+        parent_data_bag: parent_data_bag
       }
     end
   end
