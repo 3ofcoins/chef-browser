@@ -1,4 +1,4 @@
-<h3><%= node.name %></h3>
+<h1><%= node.name %></h1>
 
 <p><%= node[:automatic][:fqdn] %> (<%= node[:automatic][:ipaddress] %>)</p>
 
@@ -20,56 +20,60 @@
   </ul>
 </p>
 
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#merged" data-toggle="tab">Merged</a></li>
-  <li><a href="#default" data-toggle="tab">Default</a></li>
-  <li><a href="#normal" data-toggle="tab">Normal</a></li>
-  <li><a href="#override" data-toggle="tab">Override</a></li>
-  <li><a href="#automatic" data-toggle="tab">Automatic</a></li>
-  <li><a href="#full" data-toggle="tab">Full</a></li>
-</ul>
+<h2>Attributes</h2>
 
-<div class="tab-content">
-  <div class="tab-pane active" id="merged">
-    <table class="table table-condensed table-striped table-hover">
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#merged" data-toggle="tab">Merged</a></li>
+    <li><a href="#default" data-toggle="tab">Default</a></li>
+    <li><a href="#normal" data-toggle="tab">Normal</a></li>
+    <li><a href="#override" data-toggle="tab">Override</a></li>
+    <li><a href="#automatic" data-toggle="tab">Automatic</a></li>
+    <li><a href="#full" data-toggle="tab">Full</a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="merged">
+      <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(attributes) do |path, value| -%>
-    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+      <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
-    </table>
-  </div>
-  <div class="tab-pane fade in" id="default">
-    <table class="table table-condensed table-striped table-hover">
+      </table>
+    </div>
+    <div class="tab-pane fade in" id="default">
+      <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(node[:default]) do |path, value| -%>
-    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+      <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
-    </table>
-  </div>
-  <div class="tab-pane fade in" id="normal">
-    <table class="table table-condensed table-striped table-hover">
+      </table>
+    </div>
+    <div class="tab-pane fade in" id="normal">
+      <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(node[:normal]) do |path, value| -%>
-    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+      <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
-    </table>
-  </div>
-  <div class="tab-pane fade in" id="override">
-    <table class="table table-condensed table-striped table-hover">
+      </table>
+    </div>
+    <div class="tab-pane fade in" id="override">
+      <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(node[:override]) do |path, value| -%>
-    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+      <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
-    </table>
-  </div>
-  <div class="tab-pane fade in" id="automatic">
-    <table class="table table-condensed table-striped table-hover">
+      </table>
+    </div>
+    <div class="tab-pane fade in" id="automatic">
+      <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(node[:automatic]) do |path, value| -%>
-    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+      <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
-    </table>
-  </div>
-  <div class="tab-pane fade in" id="full">
-    <table class="table table-condensed table-striped table-hover">
+      </table>
+    </div>
+    <div class="tab-pane fade in" id="full">
+      <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(node._attributes_) do |path, value| -%>
-    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+      <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
-    </table>
+      </table>
+    </div>
   </div>
 </div>
