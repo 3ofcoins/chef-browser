@@ -99,5 +99,12 @@ module ChefBrowser
         active_tab: 'merged'
       }
     end
+
+    get '/environments' do
+      erb :environment, locals: {
+        nodes: chef_server.node.all,
+        environments: chef_server.environment.all
+      }
+    end
   end
 end
