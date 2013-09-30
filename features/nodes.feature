@@ -27,16 +27,8 @@ Scenario: List of node names
   Then I can see "some-node-name"
   And I can see "another-node-name"
 
-Scenario: selecting a node
+Scenario: Selecting a node
   When I visit "/nodes"
   And I click on "some-node-name"
   Then I am at "/node/some-node-name"
-  And I can see "1.2.3.4"
-  And I can see "some-node-name.example.com"
-  
-Scenario: List of node attributes
-  When I visit "/nodes"
-  And I click on "some-node-name"
-  Then I am at "/node/some-node-name"
-  And I can see "$.automatic.records[0]"
-  And I can see ""Manufacturer""
+  And I can see "some-node-name.example.com (1.2.3.4)"

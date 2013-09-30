@@ -1,7 +1,9 @@
 chef-browser
 ============
 
-Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list nodes and data bags for your server as well as view their details: basic information plus pre-formatted JSON data.
+Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list nodes and data bags as well as view their details: basic information plus pre-formatted JSON data.
+
+Chef-browser uses Ridley (http://github.com/RiotGames/ridley) to communicate with the Chef server & Twitter Bootstrap for css & Javascript.
 
 ## Usage ##
 
@@ -15,19 +17,24 @@ module ChefBrowser
     option :server_url, 'https://127.0.0.1'
     option :client_name, 'chef-webui'
     option :client_key, '/etc/chef-server/chef-webui.pem'
+    option :connection, {}
   end
 end
 ```
 
+You can add additional connection options, but that's not necessary to run chef-browser properly.
+
 3. Run `$ rackup config.ru`.
 4. Go to https://127.0.0.1.
 
-## Accessible information ##
+## Accessible data ##
 
-Right now chef-browser allows you to access the following data in a user-friendly format:
-- a list of nodes available on your server,
-- details of each node: name, ip address, fqdn, environment, tags, run list and JSON attributes,
-- a list of environments.
+Right now chef-browser allows you to browse the following:
+- nodes available on your server,
+- details of each node:
+  -- name, ip address, fqdn, environment, tags, run list,
+  -- its JSON attributes: raw JSON & a searchable table form,
+- environments.
 
 ## Ruby versions ##
 
