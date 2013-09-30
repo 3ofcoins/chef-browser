@@ -32,3 +32,7 @@ Then(/^I see an? (\w+) attribute "([^\"]+)" with value (.*)$/) do |kind, path, v
   assert { values.length == 1 }    # there should be only one such row, no more and no less
   assert { values.first == value } # and its value should be as specified
 end
+
+Then(/^I see an attribute "(.*?)" with value "(.*?)"$/) do |path, value|
+  pending
+end
