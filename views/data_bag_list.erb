@@ -1,5 +1,5 @@
 <div class="span10">
-  <h3>Data bags</h3>
+  <h1>Data bags</h1>
 
   <ul class="nav nav-tabs">
 <% bags.all.each do |bag| -%>
@@ -8,7 +8,7 @@
   </ul>
 
   <div class="tab-content">
-      <h3>Data bag items</h3>
+      <h1>Data bag items</h1>
 <% bags.all.each do |bag| -%>
     <div class="tab-pane" id="<%= bag[:name] %>">
 
