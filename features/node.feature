@@ -27,12 +27,13 @@ Scenario: List of node attributes
   Then I can see "$.automatic.records[0]"
   And I can see ""Manufacturer""
 
-Scenario: Browsing through node attributes
+Scenario: Table of node attributes and their JSONPath selectors
+  When I visit "/node/some-node-name"
+  And I click on "Automatic"
+  Then I see an automatic attribute "$.ipaddress" with value "1.2.3.4"
+  And I see an automatic attribute "$.records[0]" with value "Manufacturer"
+
+Scenario: No attributes of some class
   When I visit "/node/some-node-name"
   And I click on "Override"
   Then I can see "This node has no override attributes."
-
-Scenario: Browsing through node attributes #2
-  When I visit "/node/some-node-name"
-  And I click on "Automatic"
-  Then I can see "records[0]"
