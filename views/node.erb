@@ -36,7 +36,7 @@
     <div class="tab-pane active" id="merged">
       <table class="table table-condensed table-striped table-hover">
 <%   if attributes.empty? -%>
-       <p>No attributes available for this view.</p>
+       <div class="alert alert-info">This node has no <em>Merged</em> attributes.</div>
 <%   else -%>
 <%     with_jsonpath(attributes) do |path, value| -%>
       <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
@@ -47,7 +47,7 @@
     <div class="tab-pane fade in" id="default">
       <table class="table table-condensed table-striped table-hover">
 <%   if node[:default].empty? -%>
-       <p>No attributes available for this view.</p>
+       <div class="alert alert-info">This node has no <em>Default</em> attributes.</div>
 <%   else -%>
 <%     with_jsonpath(node[:default]) do |path, value| -%>
       <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
@@ -58,7 +58,7 @@
     <div class="tab-pane fade in" id="normal">
       <table class="table table-condensed table-striped table-hover">
 <%   if node[:normal].empty? -%>
-       <p>No attributes available for this view.</p>
+       <div class="alert alert-info">This node has no <em>Normal</em> attributes.</div>
 <%   else -%>
 <%     with_jsonpath(node[:normal]) do |path, value| -%>
       <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
@@ -69,7 +69,7 @@
     <div class="tab-pane fade in" id="override">
       <table class="table table-condensed table-striped table-hover">
 <%   if node[:override].empty? -%>
-       <p>No attributes available for this view.</p>
+       <div class="alert alert-info">This node has no <em>Override</em> attributes.</div>
 <%   else -%>
 <%     with_jsonpath(node[:override]) do |path, value| -%>
       <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
@@ -80,7 +80,7 @@
     <div class="tab-pane fade in" id="automatic">
       <table class="table table-condensed table-striped table-hover">
 <%   if node[:automatic].empty? -%>
-       <p>No attributes available for this view.</p>
+       <div class="alert alert-info">This node has no <em>Automatic</em> attributes.</div>
 <%   else -%>
 <%     with_jsonpath(node[:automatic]) do |path, value| -%>
       <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
@@ -89,7 +89,7 @@
     <div class="tab-pane fade in" id="full">
       <table class="table table-condensed table-striped table-hover">
 <%   if node._attributes_.empty? -%>
-       <p>No attributes available for this view.</p>
+       <div class="alert alert-info">This node has no <em>>Full</em> attributes.</div>
 <%   else -%>
 <%     with_jsonpath(node._attributes_) do |path, value| -%>
       <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>

@@ -41,7 +41,7 @@ Scenario: List of node attributes
 Scenario: Browsing through node attributes
   When I visit "/node/some-node-name"
   And I click on "Override"
-  Then I can see "No attributes available for this view."
+  Then I can see "This node has no Override attributes."
 
 Scenario: Browsing through node attributes #2
   When I visit "/node/some-node-name"
