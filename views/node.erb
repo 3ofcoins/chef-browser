@@ -1,4 +1,4 @@
-<h3><%= node.name %></h3>
+<h1><%= node.name %></h1>
 
 <p><%= node[:automatic][:fqdn] %> (<%= node[:automatic][:ipaddress] %>)</p>
 
@@ -20,9 +20,27 @@
   </ul>
 </p>
 
-<h4>Attributes (JSON)</h4>
-<table class="table table-condensed table-striped table-hover">
-<% with_jsonpath(node._attributes_) do |path, value| -%>
-  <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<h2>Attributes</h2>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+<% tabs.keys.each do |tab_name| -%>
+    <li<%== tab_name == active_tab ? ' class="active"' : '' %>><a href="#attributes-<%= tab_name %>" data-toggle="tab"><%= tab_name.capitalize %></a></li>
 <% end -%>
-</table>
+  </ul>
+  
+  <div class="tab-content">
+<% tabs.each do |tab_name, tab_data| -%>
+    <div class="tab-pane <%= tab_name == active_tab ? 'active' : 'fade in'  %>" id="attributes-<%= tab_name %>">
+      <table class="table table-condensed table-striped table-hover">
+<%   if tab_data.empty? -%>
+       <div class="alert alert-info">This node has no <em><%= tab_name %></em> attributes.</div>
+<%   else -%>
+<%     with_jsonpath(tab_data) do |path, value| -%>
+      <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<%     end -%>
+<%   end -%>
+      </table>
+    </div>
+<% end -%>
+</div>

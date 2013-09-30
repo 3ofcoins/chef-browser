@@ -84,9 +84,19 @@ module ChefBrowser
 
     get '/node/:node_name' do
       node = chef_server.node.find(params[:node_name])
+      merged_attributes = node.chef_attributes
       erb :node, locals: {
         node: node,
-        attributes: node.chef_attributes
+        attributes: merged_attributes,
+        tabs: {
+          'merged' => merged_attributes,
+          'default' => node[:default],
+          'normal' => node[:normal],
+          'override' => node[:override],
+          'automatic' => node[:automatic],
+          'full' => node._attributes_
+        },
+        active_tab: 'merged'
       }
     end
   end
