@@ -40,3 +40,8 @@ Scenario: List of data bag item attributes
   And I can see "first-data-bag-item"
   And I see an attribute "$.name" with value "first-data-bag-item"
   And I see an attribute "$.actions[0]" with value "add"
+
+Scenario: Clicking the "Back" button
+  When I visit "/data_bag/some-data-bag/first-data-bag-item"
+  And I click on "Back"
+  Then I am at "/data_bags"
