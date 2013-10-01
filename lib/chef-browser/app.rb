@@ -100,7 +100,7 @@ module ChefBrowser
       }
     end
 
-    get '/data_bag_list' do
+    get '/data_bags' do
       bags = chef_server.data_bag
       erb :data_bag_list, locals: {
         bags: bags
