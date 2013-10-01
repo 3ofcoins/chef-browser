@@ -33,6 +33,11 @@ Then(/^I see an? (\w+) attribute "([^\"]+)" with value (.*)$/) do |kind, path, v
   assert { values.first == value } # and its value should be as specified
 end
 
-Then(/^I see an attribute "(.*?)" with value "(.*?)"$/) do |path, value|
-  pending
+Then(/^I see an attribute "(.*?)" with value (.*?)$/) do |path, value|
+  values = all("table.table tr").                    # all table rows inside table with class="table"
+    select { |row| row.find('td[1]').text == path }. # select rows where first cell's text is `path`
+    map { |row| row.find('td[2]').text }             # make an array of such rows' second cell texts
+
+  assert { values.length == 2 }
+  assert { values.first == value }
 end
