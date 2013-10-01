@@ -1,8 +1,8 @@
 <div class="span10">
   <a class="btn" href="/data_bags">Back</a>
-  <h1><%= data_bag_item %></h1>
+  <h1><%= data_bag[:name] %>::<%= data_bag_item[:id] %></h1>
   <table class="table table-condensed table-striped table-hover">
-<% with_jsonpath(parent_data_bag._attributes_) do |path, value| -%>
+<% with_jsonpath(data_bag_item._attributes_) do |path, value| -%>
     <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
   </table>
