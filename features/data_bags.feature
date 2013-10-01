@@ -38,5 +38,5 @@ Scenario: List of data bag item attributes
   And I click on "first-data-bag-item"
   Then I am at "/data_bag/some-data-bag/first-data-bag-item"
   And I can see "first-data-bag-item"
-  And I can see "$.name"
-  And I can see "$.actions[0]"
+  And I see an attribute "$.name" with value "first-data-bag-item"
+  And I see an attribute "$.actions[0]" with value "add"
