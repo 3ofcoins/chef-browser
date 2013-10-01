@@ -26,7 +26,7 @@ Background:
     """
 
 Scenario: List of data bags & items
-  When I visit "/data_bag_list"
+  When I visit "/data_bags"
   Then I can see "Data bag items"
   And I can see "some-data-bag"
   And I can see "another-data-bag"
@@ -34,7 +34,7 @@ Scenario: List of data bags & items
   And I can see "second-data-bag-item"
 
 Scenario: List of data bag item attributes
-  When I visit "/data_bag_list"
+  When I visit "/data_bags"
   And I click on "first-data-bag-item"
   Then I am at "/data_bag/some-data-bag/first-data-bag-item"
   And I can see "first-data-bag-item"
