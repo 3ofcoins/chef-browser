@@ -1,0 +1,11 @@
+<ul class="breadcrumb">
+  <li><a href="/data_bags">Data Bags</a> <span class="divider">|</span></li>
+  <li><a href="/data_bag/<%= data_bag %>"><%= data_bag %></a> <span class="divider">|</span></li>
+  <li class="active"><%= data_bag_item[:id] %></a> </li>
+</ul>
+<h1><%= data_bag %>::<%= data_bag_item[:id] %></h1>
+<table class="table table-condensed table-striped table-hover">
+<% with_jsonpath(data_bag_item._attributes_) do |path, value| -%>
+  <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<% end -%>
+</table>
