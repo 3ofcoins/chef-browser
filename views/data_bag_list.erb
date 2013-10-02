@@ -1,6 +1,5 @@
-<div class="span10">
-  <h1>Data bags</h1>
-
+<h1>Data bags</h1>
+<div class="tabbable">
   <ul class="nav nav-tabs">
 <% bags.all.each do |bag| -%>
     <li><a href="#<%= bag[:name] %>" data-toggle="tab"><%= bag[:name] %></a></li>
@@ -8,10 +7,9 @@
   </ul>
 
   <div class="tab-content">
-      <h1>Data bag items</h1>
+    <h1>Data bag items</h1>
 <% bags.all.each do |bag| -%>
     <div class="tab-pane" id="<%= bag[:name] %>">
-
       <ul class="unstyled">
 <%   bags.find(bag[:name]).item.all.each do |item| -%>
         <li><a href="/data_bags/<%= bag[:name] %>/<%= item[:id] %>"><%= item[:id] %></a></li>

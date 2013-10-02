@@ -1,19 +1,6 @@
-<div class="row-fluid">
-  <div class="span4 offset2">
-    <h3>Nodes</h3>
-    <ul class="unstyled">
+<h1>Nodes</h1>
+<ul class="unstyled">
 <% nodes.each do |node| -%>
-      <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
+  <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
 <% end -%>
-    </ul>
-  </div>
-  
-  <div class="span4">
-    <h3>Environments</h3>
-    <ul class="unstyled">
-<% environments.each do |env| -%>
-      <li><%= env[:name] %></li>
-<% end -%>
-    </ul>
-  </div>
-</div>
+</ul>
