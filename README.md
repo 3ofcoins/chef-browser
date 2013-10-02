@@ -33,8 +33,7 @@ Right now chef-browser allows you to browse the following:
 - nodes available on your server,
 - details of each node:
   -- name, ip address, fqdn, environment, tags, run list,
-  -- its JSON attributes: raw JSON & a searchable table form,
-- environments.
+  -- its JSON attributes: raw JSON & a searchable table form.
 
 ## Ruby versions ##
 
