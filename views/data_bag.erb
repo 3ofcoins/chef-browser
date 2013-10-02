@@ -1,0 +1,15 @@
+<ul class="breadcrumb">
+  <li><a href="/data_bags">Data Bags</a> <span class="divider">|</span></li>
+  <li class="active"><%= data_bag %> </a></li>
+</ul>
+<div class="tabbable">
+  <div class="tab-content">
+      <h1><%= data_bag %></h1>
+      <ul class="unstyled">
+<%   bags.find(data_bag).item.all.each do |item| -%>
+        <li><a href="/data_bag/<%= data_bag %>/<%= item[:id] %>"><%= item[:id] %></a></li>
+<%   end -%>
+      </ul>
+    </div>
+  </div>
+</div>

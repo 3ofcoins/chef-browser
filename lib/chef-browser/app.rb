@@ -107,9 +107,18 @@ module ChefBrowser
       }
     end
 
-    get '/data_bags/:data_bag_id/:data_bag_item_id' do
-      data_bag = chef_server.data_bag.find(params[:data_bag_id])
-      data_bag_item = data_bag.item.find(params[:data_bag_item_id])
+    get '/data_bag/:data_bag_id' do
+    data_bag = params[:data_bag_id]
+    bags = chef_server.data_bag
+    erb :data_bag, locals: {
+    data_bag: data_bag,
+    bags: bags
+    }
+    end
+    get '/data_bag/:data_bag_id/:data_bag_item_id' do
+      data_bag = params[:data_bag_id]
+      bags = chef_server.data_bag
+      data_bag_item = bags.find(data_bag).item.find(params[:data_bag_item_id])
       erb :data_bag_item, locals: {
         data_bag: data_bag,
         data_bag_item: data_bag_item
