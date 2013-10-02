@@ -1,23 +1,20 @@
-<div class="row-fluid">
-  <h1>Environments</h1>
+<h1>Environments</h1>
 
-  <div class="tabbable">
-    <ul class="nav nav-tabs">
+<div class="tabbable">
+  <ul class="nav nav-tabs">
 <% chef_server.environment.all.each do |env| -%>
-      <li><a href="#<%= env[:name] %>" data-toggle="tab"><%= env[:name] %></a></li>
+    <li><a href="#<%= env[:name] %>" data-toggle="tab"><%= env[:name] %></a></li>
 <% end -%>
-    </ul>
-
-    <div class="tab-content">
+  </ul>
+  <div class="tab-content">
 <% chef_server.environment.all.each do |env| -%>
-      <div class="tab-pane" id="<%= env[:name] %>">
-        <table class="table table-condensed table-striped table-hover">
+    <div class="tab-pane" id="<%= env[:name] %>">
+      <table class="table table-condensed table-striped table-hover">
 <%   with_jsonpath(chef_server.environment.find(env[:name])._attributes_) do |path, value| -%>
-          <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+        <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <%   end -%>
-        </table>
-      </div>
-<% end -%>
+      </table>
     </div>
+<% end -%>
   </div>
 </div>
