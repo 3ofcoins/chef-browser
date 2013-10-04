@@ -1,0 +1,15 @@
+<ul class="breadcrumb">
+  <li><a href="/nodes">Nodes</a> <span class="divider">|</span></li>
+  <li class="active">Search</a> </li>
+</ul>
+
+<% if search_results.blank? -%>
+<p>No mathing results found.</p>
+<% else -%>
+<p1>Search results for "<%= search_query %>"</p1>
+<ul class="unstyled">
+  <% search_results.each do |node| -%>
+  <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
+<% end %>
+</ul>
+<% end -%>

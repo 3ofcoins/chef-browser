@@ -1,6 +1,17 @@
-<h1>Nodes</h1>
-<ul class="unstyled">
+<div class="row-fluid">
+  <div class="span4">
+    <h1>Nodes</h1>
+    <ul class="unstyled">
 <% nodes.each do |node| -%>
-  <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
+      <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
 <% end -%>
-</ul>
+    </ul>
+  </div>
+  <div class="span4">
+  <h1>Node search</h1>
+  <p>Type your search query here and press Enter. You need to specify which node attribute will be searched through and type the search after a colon, for example: "name:foobar".</p>
+  <form type="text" action="/nodes" method="post">
+    <input id="search" name="node_search" type="text" data-provide="typeahead"/>
+  </form>
+  </div>
+</div>

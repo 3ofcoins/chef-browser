@@ -82,6 +82,15 @@ module ChefBrowser
       }
     end
 
+    post '/nodes' do
+      search_query = params["node_search"]
+      search_results = chef_server.search(:node, search_query, :sort => 'name DESC')
+      erb :node_search, locals: {
+      search_query: search_query,
+      search_results: search_results
+      }
+    end
+
     get '/node/:node_name' do
       node = chef_server.node.find(params[:node_name])
       merged_attributes = node.chef_attributes
@@ -115,6 +124,7 @@ module ChefBrowser
     bags: bags
     }
     end
+
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
       data_bag = params[:data_bag_id]
       bags = chef_server.data_bag
