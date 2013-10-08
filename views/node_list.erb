@@ -10,7 +10,7 @@
   <div class="span4">
   <h1>Node search</h1>
   <p>Type your search query here and press Enter. You need to specify which node attribute will be searched through and type the search after a colon, for example: "name:foobar".</p>
-  <form type="text" action="/nodes" method="post">
+  <form type="text" method="post" action="/nodes?q=<%= search_query %>">
     <input id="search" name="node_search" type="text" data-provide="typeahead"/>
   </form>
   </div>
