@@ -85,7 +85,7 @@ module ChefBrowser
     end
 
     post '/nodes' do # Redirects & uses the node_search view, but the url after redirect
-                     # is broken: after redirect the query (params["node_search"]) is empty.
+                     # is broken: the query (params["node_search"]) is empty.
                      # On the other hand, `redirect to('/nodes?q=' + params["node_search"])`
                      # changes url, but uses erb :node_list and doesn't show the search results
       search_query = params["node_search"]

@@ -8,10 +8,16 @@
     </ul>
   </div>
   <div class="span4">
-  <h1>Node search</h1>
-  <p>Type your search query here and press Enter. You need to specify which node attribute will be searched through and type the search after a colon, for example: "name:foobar".</p>
-  <form type="text" method="post" action="/nodes?q=<%= search_query %>">
-    <input id="search" name="node_search" type="text" data-provide="typeahead"/>
-  </form>
+    <form class="form-search" type="text" method="post" action="/nodes?q=<%= search_query %>">
+      <fieldset>
+        <legend>Node search</legend>
+        <span class="help-block">You need to specify which node attribute will be searched through and type the search after a colon.</span>
+          <div class="input-append">
+            <input class="input-xlarge" id="appendedInputButton" type="text" name="node_search" placeholder="name:foobar"/>
+            <button class="btn" id="submit" type="submit">Search</button>
+          </div>
+        </form>
+       </fieldset>
+    </form>
   </div>
 </div>
