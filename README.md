@@ -32,8 +32,10 @@ You can add additional connection options, but that's not necessary to run chef-
 Right now chef-browser allows you to browse the following:
 - nodes available on your server,
 - details of each node:
-  -- name, ip address, fqdn, environment, tags, run list,
-  -- its JSON attributes: raw JSON & a searchable table form.
+    - name, ip address, fqdn, environment, tags, run list,
+    - its attributes presented using JSONpath in a handy table,
+- data bags,
+- data bag items with their attributes presented using JSONpath.
 
 ## Ruby versions ##
 
