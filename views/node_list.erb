@@ -8,15 +8,14 @@
     </ul>
   </div>
   <div class="span4">
-    <form class="form-search" type="text" method="get" action="/nodes?q=<%= search_query %>">
+    <form class="form-search" type="text" method="get" action="/nodes">
       <fieldset>
         <legend>Node search</legend>
         <span class="help-block">You need to specify which node attribute will be searched through and type the search query after a colon.</span>
-          <div class="input-append">
-            <input class="input-xlarge" id="appendedInputButton" type="text" name="node_search" placeholder="name:foobar"/>
-            <button class="btn" id="submit" type="submit">Search</button>
-          </div>
-        </form>
+        <div class="input-append">
+          <input class="input-xlarge" id="appendedInputButton" type="text" name="node_search" placeholder="name:foobar"/>
+          <button class="btn" id="submit" type="submit">Search</button>
+        </div>
        </fieldset>
     </form>
   </div>

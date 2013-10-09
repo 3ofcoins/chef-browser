@@ -81,7 +81,7 @@ module ChefBrowser
         erb :node_list, locals: {
           nodes: chef_server.node.all,
           environments: chef_server.environment.all,
-          search_query: params["node_search"]
+          search_query: search_query
         }
       else
         search_results = chef_server.search(:node, search_query, :sort => 'name ASC')
