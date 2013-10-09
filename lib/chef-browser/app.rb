@@ -77,23 +77,19 @@ module ChefBrowser
 
     get '/nodes' do
       search_query = params["node_search"]
-      erb :node_list, locals: {
-        nodes: chef_server.node.all,
-        environments: chef_server.environment.all,
-        search_query: search_query
-      }
-    end
-
-    post '/nodes' do # Redirects & uses the node_search view, but the url after redirect
-                     # is broken: the query (params["node_search"]) is empty.
-                     # On the other hand, `redirect to('/nodes?q=' + params["node_search"])`
-                     # changes url, but uses erb :node_list and doesn't show the search results
-      search_query = params["node_search"]
-      search_results = chef_server.search(:node, search_query, :sort => 'name DESC')
-      erb :node_search, locals: {
-      search_query: search_query,
-      search_results: search_results
-      }
+      if search_query.blank?
+        erb :node_list, locals: {
+          nodes: chef_server.node.all,
+          environments: chef_server.environment.all,
+          search_query: params["node_search"]
+        }
+      else
+        search_results = chef_server.search(:node, search_query, :sort => 'name ASC')
+        erb :node_search, locals: {
+          search_query: search_query,
+          search_results: search_results
+        }
+      end
     end
 
     get '/node/:node_name' do
