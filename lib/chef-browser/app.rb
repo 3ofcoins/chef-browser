@@ -76,7 +76,7 @@ module ChefBrowser
     end
 
     get '/nodes' do
-      search_query = params["node_search"]
+      search_query = params["search"]
       if search_query.blank?
         erb :node_list, locals: {
           nodes: chef_server.node.all,

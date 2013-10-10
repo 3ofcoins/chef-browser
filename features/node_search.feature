@@ -28,3 +28,10 @@ Scenario: Search results
   And I press "Search"
   Then I am at "/nodes"
   And I can see "Search results for "name:some""
+
+Scenario: No search results found
+  When I visit "/nodes"
+  And I search for "ipaddress:5.6.7.8"
+  And I press "Search"
+  Then I am at "/nodes"
+  And I can see "No matching results found."
