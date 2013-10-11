@@ -27,7 +27,8 @@ Scenario: Search results
   And I search for "name:some"
   And I press "Search"
   Then I am at "/nodes"
-  And I can see "Search results for "name:some""
+  And I can see "Query: name:some"
+  And I can see "1 node found"
 
 Scenario: No search results found
   When I visit "/nodes"
