@@ -76,10 +76,20 @@ module ChefBrowser
     end
 
     get '/nodes' do
-      erb :node_list, locals: {
-        nodes: chef_server.node.all,
-        environments: chef_server.environment.all
-      }
+      search_query = params["q"]
+      if search_query.blank?
+        erb :node_list, locals: {
+          nodes: chef_server.node.all,
+          environments: chef_server.environment.all,
+          search_query: search_query
+        }
+      else
+        search_results = chef_server.search(:node, search_query, :sort => 'name ASC')
+        erb :node_search, locals: {
+          search_query: search_query,
+          search_results: search_results
+        }
+      end
     end
 
     get '/node/:node_name' do
@@ -115,6 +125,7 @@ module ChefBrowser
     bags: bags
     }
     end
+
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
       data_bag = params[:data_bag_id]
       bags = chef_server.data_bag
