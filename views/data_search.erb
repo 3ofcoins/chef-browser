@@ -1,0 +1,24 @@
+<ul class="breadcrumb">
+  <li><a href="/data_bags">Data Bags</a> <span class="divider">|</span></li>
+  <li class="active">Search</a> </li>
+</ul>
+
+<%  chef_server.search_indexes.each do |data_bag| -%>
+<%    if data_bag == "node" || "environment" || "role" -%>
+<p>No search results found.</p>
+<%      break -%>
+<%    else -%>
+<%=     search_results << chef_server.search(data_bag.prepend(":").to_sym, search_query) %>
+<%    end -%>
+<%  end %>
+
+<% if search_results.blank? -%>
+<p></p>
+<% else -%>
+<p1>Search results for "<%= search_query %>"</p1>
+<ul class="unstyled">
+  <% search_results.each do |node| -%>
+  <li><a href="/data_bag/<%= data_bag[:name] %>"><%= data_bag[:name] %></a></li>
+<% end %>
+</ul>
+<% end -%>

@@ -112,9 +112,18 @@ module ChefBrowser
 
     get '/data_bags' do
       bags = chef_server.data_bag
-      erb :data_bag_list, locals: {
-        bags: bags
-      }
+      search_query = params["q"]
+      if search_query.blank?
+        erb :data_bag_list, locals: {
+          bags: bags
+        }
+      else
+        search_results = []
+        erb :data_search, locals: {
+          search_query: search_query,
+          search_results: search_results
+        }
+      end
     end
 
     get '/data_bag/:data_bag_id' do
