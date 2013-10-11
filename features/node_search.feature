@@ -35,4 +35,4 @@ Scenario: No search results found
   And I search for "ipaddress:5.6.7.8"
   And I press "Search"
   Then I am at "/nodes"
-  And I can see "No matching results found."
+  And I can see "No matching results found"
