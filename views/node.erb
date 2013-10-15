@@ -7,12 +7,12 @@
 
 <p><%= node[:automatic][:fqdn] %> (<%= node[:automatic][:ipaddress] %>)</p>
 
-<p><strong>Environment:</strong> <%= node.chef_environment %></p>
+<p><strong>Environment:</strong> <a href="/nodes?q=chef_environment:<%= node.chef_environment %>"><%= node.chef_environment %></a></p>
 
 <p><strong>Tags:</strong>
   <ul class="inline">
 <% (attributes[:tags] || []).each do |tag| -%>
-    <li><%= tag %></li>
+    <li><a href="/nodes?q=tags:<%= tag %>"><%= tag %></a></li>
 <% end -%>
   </ul>
 </p>
