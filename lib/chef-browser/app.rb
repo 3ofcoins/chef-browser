@@ -79,12 +79,11 @@ module ChefBrowser
       search_query = params["q"]
       if search_query.blank?
         erb :node_list, locals: {
-          nodes: chef_server.node.all,
-          environments: chef_server.environment.all,
+          nodes: chef_server.node.all.sort,
           search_query: search_query
         }
       else
-        search_results = chef_server.search(:node, search_query, :sort => 'name ASC')
+        search_results = chef_server.search(:node, search_query, :sort => 'name ASC').sort
         erb :node_search, locals: {
           search_query: search_query,
           search_results: search_results

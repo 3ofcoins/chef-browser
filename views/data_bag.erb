@@ -6,7 +6,7 @@
   <div class="tab-content">
       <h1><%= data_bag %></h1>
       <ul class="unstyled">
-<%   bags.find(data_bag).item.all.each do |item| -%>
+<%   bags.find(data_bag).item.all.sort.each do |item| -%>
         <li><a href="/data_bag/<%= data_bag %>/<%= item[:id] %>"><%= item[:id] %></a></li>
 <%   end -%>
       </ul>
