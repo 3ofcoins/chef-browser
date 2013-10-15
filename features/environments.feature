@@ -27,5 +27,5 @@ Scenario: List of environments
 Scenario: Table of environment attributes
   When I visit "/environments"
   And I click on "some-environment"
-  Then I see an attribute "$.chef_type" with value "environment"
-  And I see an attribute "$.name" with value "_default"
+  Then I am at "/environment/some-environment"
+  And I see an attribute "$.name" with value "some-environment"

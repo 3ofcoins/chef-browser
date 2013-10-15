@@ -38,6 +38,6 @@ Then(/^I see an attribute "(.*?)" with value (.*?)$/) do |path, value|
     select { |row| row.find('td[1]').text == path }. # select rows where first cell's text is `path`
     map { |row| row.find('td[2]').text }             # make an array of such rows' second cell texts
 
-  assert { values.length == 2 }
+  assert { values.length == 1 }
   assert { values.first == value }
 end

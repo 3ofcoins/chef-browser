@@ -101,9 +101,16 @@ module ChefBrowser
     end
 
     get '/environments' do
+      environments = chef_server.environment.all
+      erb :environment_list, locals: {
+        environments: environments
+      }
+    end
+
+    get '/environment/:env_name' do
+      environment = chef_server.environment.find(params[:env_name])
       erb :environment, locals: {
-        nodes: chef_server.node.all,
-        environments: chef_server.environment.all
+      environment: environment
       }
     end
   end
