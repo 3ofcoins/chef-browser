@@ -4,9 +4,15 @@
 </ul>
 
 <% if search_results.blank? -%>
-<p>No matching results found.</p>
+<h1>No matching results found</h1>
+<p class="lead">Query: <em><%= search_query %></em></p>
 <% else -%>
-<p1>Search results for "<%= search_query %>"</p1>
+<%   if search_results.length == 1 -%>
+<h1><%= search_results.length %> node found</h1>
+<%   else -%>
+<h1><%= search_results.length %> nodes found</h1>
+<%   end -%>
+<p class="lead">Query: <em><%= search_query %></em></p>
 <ul class="unstyled">
   <% search_results.each do |node| -%>
   <li><a href="/node/<%= node[:name] %>"><%= node[:name] %></a></li>
