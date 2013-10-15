@@ -9,13 +9,16 @@ Background:
             "automatic": {
               "fqdn": "some-node-name.example.com",
               "ipaddress": "1.2.3.4",
-              "records": ["Manufacturer", "Version"]
+              "tags": ["test", "db"],
+              "environment": "production"
             }
           },
           "another-node-name": {
             "automatic": {
               "fqdn": "another-node-name.example.com",
-              "ipaddress": "1.2.3.5"
+              "ipaddress": "1.2.3.5",
+              "tags": ["test"],
+              "environment": "production"
             }
           }
         }
@@ -36,3 +39,11 @@ Scenario: No search results found
   And I press "Search"
   Then I am at "/nodes"
   And I can see "No matching results found"
+
+Scenario: Search similar nodes
+  When I visit "/node/some-node-name"
+  And I click on "db"
+  Then I am at "/nodes"
+  And I can see "Query: tags:db"
+  And I can see "1 node found"
+  And I can see "some-node-name"
