@@ -111,8 +111,8 @@ module ChefBrowser
     end
 
     get '/data_bags' do
-      bags = chef_server.data_bag
       search_query = params["q"]
+      bags = chef_server.data_bag
       if search_query.blank?
         erb :data_bag_list, locals: {
           bags: bags
@@ -137,7 +137,6 @@ module ChefBrowser
 
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
       data_bag = params[:data_bag_id]
-      bags = chef_server.data_bag
       data_bag_item = bags.find(data_bag).item.find(params[:data_bag_item_id])
       erb :data_bag_item, locals: {
         data_bag: data_bag,
