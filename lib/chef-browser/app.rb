@@ -111,39 +111,34 @@ module ChefBrowser
     end
 
     get '/data_bags' do
+      bags = chef_server.data_bag
+      erb :data_bag_list, locals: {
+        bags: bags
+      }
+    end
+
+    get '/data_bag/:data_bag_id' do
       search_query = params["q"]
+      data_bag = params[:data_bag_id]
       bags = chef_server.data_bag
       if search_query.blank?
-        erb :data_bag_list, locals: {
+        erb :data_bag, locals: {
+          data_bag: data_bag,
           bags: bags
         }
       else
-        search_by = chef_server.search_indexes.delete_if { |index| index == "environment" or index == "node" or index == "role" }
-        search_results = []
-        search_by.each do |data_bag|
-          result = chef_server.search(data_bag.to_sym, search_query)
-          search_results << result unless result.empty?
-        end
+        search_results = chef_server.search(data_bag, search_query, :sort => 'name ASC')
         erb :data_search, locals: {
           search_query: search_query,
           search_results: search_results,
-          search_by: search_by
+          data_bag: data_bag
         }
       end
     end
 
-    get '/data_bag/:data_bag_id' do
-    data_bag = params[:data_bag_id]
-    bags = chef_server.data_bag
-    erb :data_bag, locals: {
-    data_bag: data_bag,
-    bags: bags
-    }
-    end
-
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
       data_bag = params[:data_bag_id]
-      data_bag_item = bags.find(data_bag).item.find(params[:data_bag_item_id])
+      data_bag_item = chef_server.data_bag.find(data_bag).item.find(params[:data_bag_item_id])
       erb :data_bag_item, locals: {
         data_bag: data_bag,
         data_bag_item: data_bag_item
