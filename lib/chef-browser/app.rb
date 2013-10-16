@@ -118,10 +118,16 @@ module ChefBrowser
           bags: bags
         }
       else
+        search_by = chef_server.search_indexes.delete_if { |index| index == "environment" or index == "node" or index == "role" }
         search_results = []
+        search_by.each do |data_bag|
+          result = chef_server.search(data_bag.to_sym, search_query)
+          search_results << result unless result.empty?
+        end
         erb :data_search, locals: {
           search_query: search_query,
-          search_results: search_results
+          search_results: search_results,
+          search_by: search_by
         }
       end
     end
