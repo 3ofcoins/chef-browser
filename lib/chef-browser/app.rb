@@ -135,5 +135,20 @@ module ChefBrowser
         data_bag_item: data_bag_item
       }
     end
+
+    get '/roles' do
+      search_query = params["q"]
+      roles = chef_server.role.all
+      erb :role_list, locals: {
+        roles: roles
+      }
+    end
+
+    get '/role/:role_id' do
+      role = chef_server.role.find(params[:role_id])
+      erb :role, locals: {
+        role: role,
+      }
+    end
   end
 end
