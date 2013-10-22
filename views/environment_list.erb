@@ -1,0 +1,6 @@
+<h1>Environments</h1>
+<ul class="unstyled">
+<% environments.each do |env| -%>
+  <li><a href="/environment/<%= env[:name] %>"><%= env[:name] %></a></li>
+<% end -%>
+</ul>
