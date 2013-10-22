@@ -3,39 +3,48 @@ chef-browser
 
 Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list nodes and data bags as well as view their details: basic information plus pre-formatted JSON data.
 
-Chef-browser uses Ridley (http://github.com/RiotGames/ridley) to communicate with the Chef server & Twitter Bootstrap for css & Javascript.
+## Installation
 
-## Usage ##
+To install chef-browser, run:
 
-1. Run `$ bundle install`.
-2. Configure your server settings. Open `lib/chef-browser/settings.rb` and edit the following lines, providing your server url, client name and the client key:
-
-```ruby
-module ChefBrowser
-  class Settings < TinyConfig
-    #use option method to define known options
-    option :server_url, 'https://127.0.0.1'
-    option :client_name, 'chef-webui'
-    option :client_key, '/etc/chef-server/chef-webui.pem'
-    option :connection, {}
-  end
-end
+```
+$ bundle install
 ```
 
-You can add additional connection options, but that's not necessary to run chef-browser properly.
+## Usage
 
-3. Run `$ rackup config.ru`.
-4. Go to https://127.0.0.1.
+Create a settings.rb file. Provide your server url, client name and the path to the client key. You can add additional connection options, but that's not necessary to run chef-browser properly. A full list of available options can be found in Ridley's [yard documentation](http://rubydoc.info/gems/ridley/Ridley/Client:initialize).
 
-## Accessible data ##
+Run:
 
-Right now chef-browser allows you to browse the following:
-* nodes available on your server,
-* details of each node:
-    * name, ip address, fqdn, environment, tags, run list,
-    * its JSON attributes: raw JSON & a searchable table form,
-* environments with their attributes presented in JSONpath.
+```
+$ rackup config.ru
+Puma 1.6.3 starting...
+* Min threads: 0, max threads: 16
+* Environment: development
+* Listening on tcp://0.0.0.0:9292
+```
 
-## Ruby versions ##
+Go to http://0.0.0.0:9292.
 
-Chef-browser works with Ruby 2.0.0.
+## Accessible data
+
+Right now chef-browser allows you to access the following:
+- nodes available on your server,
+- details of each node:
+    - name, ip address, fqdn, environment, tags, run list,
+    - attributes presented using JSONpath in a handy table,
+- data bags,
+- data bag items with their attributes presented using JSONpath.
+
+## Third party
+
+Chef-browser is a Sinatra-based app. It uses [Ridley](http://github.com/RiotGames/ridley) to communicate with the Chef server. Handling configuration settings is done using the [Tinyconfig](http://github.com/3ofcoins/tinyconfig/) library. CSS & Javascript are provided by Twitter's Bootstrap.
+
+## Safety
+
+Any safety precautions are left on the side of the user. Chef browser is a minimal app that does not provide additional safety-enhancing features apart from what's built in Ridley.
+
+## Ruby versions
+
+Chef-browser works with Ruby 1.9.3, Ruby 2.0.0, JRuby and RBX.
