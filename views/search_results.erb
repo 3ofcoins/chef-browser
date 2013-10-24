@@ -1,0 +1,25 @@
+<ul class="breadcrumb">
+<% if resource_name == "data bag" -%>
+  <li><a href="/data_bags">Data Bags</a> <span class="divider">|</span></li>
+  <li><a href="/data_bag/<%= data_bag %>"><%= data_bag %></a> <span class="divider">|</span></li>
+<% elsif resource_name == "node" -%>
+  <li><a href="/nodes">Nodes</a> <span class="divider">|</span></li>
+<% end -%>
+  <li class="active">Search</a> </li>
+</ul>
+
+<% if search_results.blank? -%>
+<h1>No matching results found</h1>
+<p class="lead">Query: <em><%= search_query %></em></p>
+<% else -%>
+<%   if search_results.length == 1 -%>
+<h1><%= search_results.length %> <%= resource_name %> item found</h1>
+<%   else -%>
+<h1><%= search_results.length %> <%= resource_name %> items found</h1>
+<%   end -%>
+<p class="lead">Query: <em><%= search_query %></em></p>
+<% end -%>
+
+<ul>
+<%= display_search_results(resource_name) %>
+</ul>
