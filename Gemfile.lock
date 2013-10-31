@@ -181,6 +181,7 @@ DEPENDENCIES
   erubis (~> 2.7.0)
   haml
   pry
+  puma
   rack-test
   ridley
   sinatra
