@@ -79,8 +79,7 @@ module ChefBrowser
       search_query = params["q"]
       if search_query.blank?
         erb :node_list, locals: {
-          nodes: chef_server.node.all,
-          environments: chef_server.environment.all,
+          nodes: chef_server.node.all.sort,
           search_query: search_query
         }
       else
