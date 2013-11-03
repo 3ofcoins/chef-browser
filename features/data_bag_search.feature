@@ -6,7 +6,6 @@ Background:
       {
         "data": {
           "some-data-bag": {
-              "name": "some-data-bag",
               "first-data-bag-item": {
                 "name": "first-data-bag-item",
                 "actions": ["add", "remove"]
@@ -16,7 +15,6 @@ Background:
               }
           },
           "another-data-bag": {
-            "name": "another-data-bag",
             "another-data-bag-item": {
               "name": "another-data-bag-item"
             }
