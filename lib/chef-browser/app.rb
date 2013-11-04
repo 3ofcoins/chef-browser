@@ -140,7 +140,7 @@ module ChefBrowser
           bags: bags
         }
       else
-        search_results = chef_server.search(data_bag, search_query, :sort => 'name ASC')
+        search_results = chef_server.search(data_bag, search_query).sort_by {|k, v| v}
         erb :data_search, locals: {
           search_query: search_query,
           search_results: search_results,
