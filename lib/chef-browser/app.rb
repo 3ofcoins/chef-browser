@@ -83,7 +83,7 @@ module ChefBrowser
           search_query: search_query
         }
       else
-        search_results = chef_server.search(:node, search_query, :sort => 'name ASC')
+        search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
         erb :node_search, locals: {
           search_query: search_query,
           search_results: search_results
@@ -131,18 +131,27 @@ module ChefBrowser
     end
 
     get '/data_bag/:data_bag_id' do
+      search_query = params["q"]
       data_bag = params[:data_bag_id]
       bags = chef_server.data_bag
-      erb :data_bag, locals: {
-        data_bag: data_bag,
-        bags: bags
-      }
+      if search_query.blank?
+        erb :data_bag, locals: {
+          data_bag: data_bag,
+          bags: bags
+        }
+      else
+        search_results = chef_server.search(data_bag, search_query).sort_by {|k| k[:name]}
+        erb :data_search, locals: {
+          search_query: search_query,
+          search_results: search_results,
+          data_bag: data_bag
+        }
+      end
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
       data_bag = params[:data_bag_id]
-      bags = chef_server.data_bag
-      data_bag_item = bags.find(data_bag).item.find(params[:data_bag_item_id])
+      data_bag_item = chef_server.data_bag.find(data_bag).item.find(params[:data_bag_item_id])
       erb :data_bag_item, locals: {
         data_bag: data_bag,
         data_bag_item: data_bag_item
