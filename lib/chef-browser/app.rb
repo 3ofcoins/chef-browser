@@ -79,8 +79,7 @@ module ChefBrowser
       search_query = params["q"]
       if search_query.blank?
         erb :node_list, locals: {
-          nodes: chef_server.node.all,
-          environments: chef_server.environment.all,
+          nodes: chef_server.node.all.sort,
           search_query: search_query
         }
       else
@@ -110,6 +109,20 @@ module ChefBrowser
       }
     end
 
+    get '/environments' do
+      environments = chef_server.environment.all
+      erb :environment_list, locals: {
+        environments: environments
+      }
+    end
+
+    get '/environment/:env_name' do
+      environment = chef_server.environment.find(params[:env_name])
+      erb :environment, locals: {
+        environment: environment
+      }
+    end
+
     get '/data_bags' do
       bags = chef_server.data_bag
       erb :data_bag_list, locals: {
@@ -118,12 +131,12 @@ module ChefBrowser
     end
 
     get '/data_bag/:data_bag_id' do
-    data_bag = params[:data_bag_id]
-    bags = chef_server.data_bag
-    erb :data_bag, locals: {
-    data_bag: data_bag,
-    bags: bags
-    }
+      data_bag = params[:data_bag_id]
+      bags = chef_server.data_bag
+      erb :data_bag, locals: {
+        data_bag: data_bag,
+        bags: bags
+      }
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
