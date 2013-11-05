@@ -83,7 +83,7 @@ module ChefBrowser
           search_query: search_query
         }
       else
-        search_results = chef_server.search(:node, search_query, :sort => 'name ASC')
+        search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
         erb :node_search, locals: {
           search_query: search_query,
           search_results: search_results
