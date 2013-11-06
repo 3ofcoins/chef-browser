@@ -77,13 +77,11 @@ module ChefBrowser
       if resource_name == "data bag"
         @search_results.each do |data_item|
           "<li><a href='/data_bag/#{@data_bag}/#{data_item[:raw_data][:id]}'>#{data_item[:raw_data][:id]}</a></li>"
-          "<%= data_item[:raw_data][:id] %>"
           p data_item[:raw_data][:id] # temporary, for debugging
         end
       elsif resource_name == "node"
         @search_results.each do |node|
           "<li><a href='/node/#{node[:name]}'>#{node[:name]}</a></li>"
-          "<%= node[:name] %>"
           p node[:name] # temporary, for debugging
         end
       end
