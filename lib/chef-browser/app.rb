@@ -71,24 +71,18 @@ module ChefBrowser
       end
     end
 
-    def display_search_results(resource_name) # PROBLEM: doesn't execute the lines with html, 
-                                              # but prints Ridley::NodeObject or Hashie::Mash
-                                              # and the names in the console
-      temp = []
+    def display_search_results(resource_name)
+      name_container = String.new
       if resource_name == "data bag"
         @search_results.each do |data_item|
-          temp << "<li><a href='/data_bag/#{@data_bag}/#{data_item[:raw_data][:id]}'>#{data_item[:raw_data][:id]}</a></li>"
-          p data_item[:raw_data][:id] # temporary, for debugging
+          name_container << "<li><a href='/data_bag/#{@data_bag}/#{data_item[:raw_data][:id]}'>#{data_item[:raw_data][:id]}</a></li>"
         end
       elsif resource_name == "node"
         @search_results.each do |node|
-          temp << "<li><a href='/node/#{node[:name]}'>#{node[:name]}</a></li>"
-          p node[:name] # temporary, for debugging
+          name_container << "<li><a href='/node/#{node[:name]}'>#{node[:name]}</a></li>"
         end
       end
-      temp.each do |t|
-        "<p>#{t}</p>"
-      end
+      name_container
     end
 
     get '/' do
