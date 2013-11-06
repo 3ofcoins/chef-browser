@@ -30,8 +30,8 @@ Scenario: Search results
   And I search for "name:some"
   And I press "Search"
   Then I am at "/nodes"
-  And I can see "Query: name:some"
-  And I can see "1 node found"
+  And I can see "name:some"
+  And I can see "1 node item found"
 
 Scenario: No search results found
   When I visit "/nodes"
@@ -44,6 +44,6 @@ Scenario: Search similar nodes
   When I visit "/node/some-node-name"
   And I click on "db"
   Then I am at "/nodes"
-  And I can see "Query: tags:db"
-  And I can see "1 node found"
+  And I can see "tags:db"
+  And I can see "1 node item found"
   And I can see "some-node-name"

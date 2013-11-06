@@ -71,6 +71,20 @@ module ChefBrowser
       end
     end
 
+    def display_search_results(resource_name)
+      name_container = String.new
+      if resource_name == "data bag"
+        @search_results.each do |data_item|
+          name_container << "<li><a href='/data_bag/#{@data_bag}/#{data_item[:raw_data][:id]}'>#{data_item[:raw_data][:id]}</a></li>"
+        end
+      elsif resource_name == "node"
+        @search_results.each do |node|
+          name_container << "<li><a href='/node/#{node[:name]}'>#{node[:name]}</a></li>"
+        end
+      end
+      name_container
+    end
+
     get '/' do
       redirect '/nodes'
     end
@@ -83,10 +97,11 @@ module ChefBrowser
           search_query: search_query
         }
       else
-        search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
-        erb :node_search, locals: {
+        @search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
+        erb :search_results, locals: {
+          resource_name: "node",
           search_query: search_query,
-          search_results: search_results
+          search_results: @search_results
         }
       end
     end
@@ -132,19 +147,20 @@ module ChefBrowser
 
     get '/data_bag/:data_bag_id' do
       search_query = params["q"]
-      data_bag = params[:data_bag_id]
+      @data_bag = params[:data_bag_id]
       bags = chef_server.data_bag
       if search_query.blank?
         erb :data_bag, locals: {
-          data_bag: data_bag,
+          data_bag: @data_bag,
           bags: bags
         }
       else
-        search_results = chef_server.search(data_bag, search_query).sort_by {|k| k[:name]}
-        erb :data_search, locals: {
+        @search_results = chef_server.search(@data_bag, search_query).sort_by {|k| k[:name]}
+        erb :search_results, locals: {
+          resource_name: "data bag",
           search_query: search_query,
-          search_results: search_results,
-          data_bag: data_bag
+          search_results: @search_results,
+          data_bag: @data_bag
         }
       end
     end
