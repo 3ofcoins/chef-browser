@@ -1,18 +1,16 @@
 <ul class="breadcrumb">
   <li><a href="/data_bags">Data Bags</a> <span class="divider">|</span></li>
   <li><a href="/data_bag/<%= data_bag %>"><%= data_bag %></a> <span class="divider">|</span></li>
-  <li class="active">Search</a> </li>
+  <li class="active"><i class="icon-search"></i> <%= search_query %></li>
 </ul>
 <% if search_results.blank? -%>
 <h1>No matching results found</h1>
-<p class="lead">Query: <em><%= search_query %></em></p>
 <% else -%>
 <%   if search_results.length == 1 -%>
 <h1><%= search_results.length %> data bag item found</h1>
 <%   else -%>
 <h1><%= search_results.length %> data bag items found</h1>
 <%   end -%>
-<p class="lead">Query: <em><%= search_query %></em></p>
 <ul class="unstyled">
 <% search_results.each do |data_item| -%>
     <li><a href="/data_bag/<%= data_bag %>/<%= data_item[:raw_data][:id] %>"><%= data_item[:raw_data][:id] %></a></li>

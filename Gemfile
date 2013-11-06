@@ -7,6 +7,7 @@ gem "erubis", "~> 2.7.0"
 gem "bootstrap-sass"
 gem "ridley"
 gem "tinyconfig", git: "https://github.com/3ofcoins/tinyconfig.git", branch: "develop"
+gem "puma"
 
 group :development do
   gem "capybara"

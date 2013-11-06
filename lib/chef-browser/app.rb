@@ -71,14 +71,20 @@ module ChefBrowser
       end
     end
 
-    def display_search_results(resource_name)
+    def display_search_results(resource_name) # PROBLEM: doesn't execute the lines with html, 
+                                              # but prints Ridley::NodeObject or Hashie::Mash
+                                              # and the names in the console
       if resource_name == "data bag"
         @search_results.each do |data_item|
-          '<li><a href="/data_bag/#{@data_bag}/#{data_item[:raw_data][:id]}">#{data_item[:raw_data][:id]}</a></li>'
+          "<li><a href='/data_bag/#{@data_bag}/#{data_item[:raw_data][:id]}'>#{data_item[:raw_data][:id]}</a></li>"
+          "<%= data_item[:raw_data][:id] %>"
+          p data_item[:raw_data][:id] # temporary, for debugging
         end
       elsif resource_name == "node"
         @search_results.each do |node|
-          '<li><a href="/node/#{node[:name]}">#{node[:name]}</a></li>'
+          "<li><a href='/node/#{node[:name]}'>#{node[:name]}</a></li>"
+          "<%= node[:name] %>"
+          p node[:name] # temporary, for debugging
         end
       end
     end
@@ -91,12 +97,11 @@ module ChefBrowser
       search_query = params["q"]
       if search_query.blank?
         erb :node_list, locals: {
-          nodes: chef_server.node.all,
-          environments: chef_server.environment.all,
+          nodes: chef_server.node.all.sort,
           search_query: search_query
         }
       else
-        @search_results = chef_server.search(:node, search_query, :sort => 'name ASC')
+        @search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
         erb :search_results, locals: {
           resource_name: "node",
           search_query: search_query,
@@ -154,7 +159,7 @@ module ChefBrowser
           bags: bags
         }
       else
-        @search_results = chef_server.search(@data_bag, search_query, :sort => 'name ASC')
+        @search_results = chef_server.search(@data_bag, search_query).sort_by {|k| k[:name]}
         erb :search_results, locals: {
           resource_name: "data bag",
           search_query: search_query,
