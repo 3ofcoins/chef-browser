@@ -71,6 +71,16 @@ module ChefBrowser
       end
     end
 
+    def saved_searches
+      searches = String.new
+      settings.rb.node_search.each do |entry|
+        entry.each_pair do |link_name, search|
+          searches << "<li><a href='/nodes?q=#{search}'>#{link_name}</a></li>"
+        end
+      end
+      searches
+    end
+
     get '/' do
       redirect '/nodes'
     end
