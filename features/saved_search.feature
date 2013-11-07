@@ -1,4 +1,4 @@
-Feature: Node search
+Feature: Saved search
 
 Background:
   Given a Chef server populated with following data:
@@ -25,25 +25,9 @@ Background:
       }
     """
 
-Scenario: Search results
+Scenario: Using a node saved search
   When I visit "/nodes"
-  And I search for "name:some"
-  And I press "Search"
-  Then I am at "/nodes"
-  And I can see "name:some"
-  And I can see "1 node found"
-
-Scenario: No search results found
-  When I visit "/nodes"
-  And I search for "ipaddress:5.6.7.8"
-  And I press "Search"
-  Then I am at "/nodes"
-  And I can see "No matching results found"
-
-Scenario: Search similar nodes
-  When I visit "/node/some-node-name"
-  And I click on "db"
+  And I click on "Database tag"
   Then I am at "/nodes"
   And I can see "tags:db"
   And I can see "1 node found"
-  And I can see "some-node-name"
