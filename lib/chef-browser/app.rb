@@ -73,10 +73,8 @@ module ChefBrowser
 
     def saved_searches
       searches = String.new
-      settings.rb.node_search.each do |entry|
-        entry.each_pair do |link_name, search|
-          searches << "<li><a href='/nodes?q=#{search}'>#{link_name}</a></li>"
-        end
+      settings.rb.node_search.each do |link_name, query|
+        searches << "<li><a href='/nodes?q=#{query}'>#{link_name}</a></li>"
       end
       searches
     end
