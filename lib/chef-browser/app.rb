@@ -76,7 +76,11 @@ module ChefBrowser
       settings.rb.node_search.each do |link_name, query|
         searches << "<li><a href='/nodes?q=#{query}'>#{link_name}</a></li>"
       end
-      searches
+      if searches.empty?
+        "<em class='text-muted'>No saved searches defined</em>"
+      else
+        "<ul class='unstyled'>#{searches}</ul>"
+      end
     end
 
     get '/' do
