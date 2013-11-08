@@ -27,7 +27,7 @@ Puma 1.6.3 starting...
 
 Go to http://0.0.0.0:9292.
 
-You can define saved searches. To do that, open your settings.rb file and foll this syntax:
+You can define saved searches. To do that, open your settings.rb file and follow this syntax:
 
 ```ruby
 node_search['MySQL Servers'] = 'mysql_server_root_password:*'
