@@ -161,9 +161,18 @@ module ChefBrowser
     get '/roles' do
       search_query = params["q"]
       roles = chef_server.role.all
-      erb :role_list, locals: {
-        roles: roles
-      }
+      if search_query.blank?
+        erb :role_list, locals: {
+          roles: roles,
+          search_query: search_query
+        }
+      else
+        search_results = chef_server.search(:role, search_query, :sort => 'name ASC')
+        erb :role_search, locals: {
+          search_query: search_query,
+          search_results: search_results
+        }
+      end
     end
 
     get '/role/:role_id' do
