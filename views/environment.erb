@@ -5,8 +5,10 @@
 
 <h1><%= environment[:name] %></h1>
 
-<table class="table table-condensed table-striped table-hover">
+<div class="filterable">
+  <table class="table table-condensed table-striped table-hover">
 <%   with_jsonpath(chef_server.environment.find(environment)._attributes_) do |path, value| -%>
-  <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <%   end -%>
-</table>
+  </table>
+</div>

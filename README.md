@@ -39,7 +39,7 @@ Right now chef-browser allows you to access the following:
 
 ## Third party
 
-Chef-browser is a Sinatra-based app. It uses [Ridley](http://github.com/RiotGames/ridley) to communicate with the Chef server. Handling configuration settings is done using the [Tinyconfig](http://github.com/3ofcoins/tinyconfig/) library. CSS & Javascript are provided by Twitter's Bootstrap.
+Chef-browser is a Sinatra-based app. It uses [Ridley](http://github.com/RiotGames/ridley) to communicate with the Chef server. Handling configuration settings is done using the [Tinyconfig](http://github.com/3ofcoins/tinyconfig/) library. CSS & Javascript are provided by Twitter's Bootstrap. [jQuery.FilterTable](http://github.com/sunnywalker/jQuery.FilterTable) was used to help present data.
 
 ## Safety
 
