@@ -111,10 +111,19 @@ module ChefBrowser
     end
 
     get '/environments' do
+      search_query = params["q"]
       environments = chef_server.environment.all
-      erb :environment_list, locals: {
+      if search_query.blank?
+        erb :environment_list, locals: {
         environments: environments
-      }
+        }
+      else
+        search_results = chef_server.search(:environment, search_query, :sort => 'name ASC')
+        erb :env_search, locals: {
+          search_query: search_query,
+          search_results: search_results
+        }
+      end
     end
 
     get '/environment/:env_name' do

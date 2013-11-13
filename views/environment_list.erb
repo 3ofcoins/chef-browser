@@ -1,6 +1,19 @@
-<h1>Environments</h1>
-<ul class="unstyled">
+<div class="row-fluid">
+  <div class="span4">
+    <h1>Environments</h1>
+    <ul class="unstyled">
 <% environments.each do |env| -%>
-  <li><a href="/environment/<%= env[:name] %>"><%= env[:name] %></a></li>
+      <li><a href="/environment/<%= env[:name] %>"><%= env[:name] %></a></li>
 <% end -%>
-</ul>
+    </ul>
+  </div>
+  <div class="span4">
+    <form class="form-search" type="text" method="get" action="/environments">
+        <legend>Environment search</legend>
+        <div class="input-append">
+          <input class="input-block-level search-query" id="appendedInputButton" type="text" name="q"/>
+          <button class="btn" id="submit" type="submit">Search</button>
+        </div>
+    </form>
+  </div>
+</div>
