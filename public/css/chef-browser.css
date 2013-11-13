@@ -1,0 +1,12 @@
+.tabbable {
+    position: relative;
+}
+.filterable {
+    position: relative;
+    padding-top: 3em;
+}
+.filter-table {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

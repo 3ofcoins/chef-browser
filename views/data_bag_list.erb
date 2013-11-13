@@ -1,6 +1,6 @@
 <h1>Data Bags</h1>
 <ul class="unstyled">
-<% bags.all.each do |bag| -%>
+<% bags.all.sort.each do |bag| -%>
   <li><a href="/data_bag/<%= bag[:name] %>"><%= bag[:name] %></a></li>
 <% end -%>
 </ul>
