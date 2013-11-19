@@ -15,5 +15,13 @@
           <button class="btn" id="submit" type="submit">Search</button>
         </div>
     </form>
+<% if settings.rb.node_search.length > 0 -%>
+    <h2>Saved searches</h2>
+    <ul class="unstyled">
+<%   settings.rb.node_search.each do |link_name, query| -%>
+      <li><a href='/nodes?q=<%= query %>'><%= link_name %></a></li>
+<%   end -%>
+    </ul>
+<% end -%>
   </div>
 </div>

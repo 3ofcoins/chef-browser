@@ -8,6 +8,9 @@ module ChefBrowser
     option :client_name, 'chef-webui'
     option :client_key, '/etc/chef-server/chef-webui.pem'
     option :connection, {}
+    # Provide the desired saved searches in the following format:
+    # {"displayed link name" => "query"}
+    option :node_search, {}
 
     # Returns a new Ridley connection, as configured by user
     def ridley

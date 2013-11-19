@@ -1,7 +1,7 @@
 chef-browser
 ============
 
-Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list nodes and data bags as well as view their details: basic information plus pre-formatted JSON data.
+Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list (and search through) nodes and data bags as well as view their details: basic information plus pre-formatted JSON data.
 
 ## Installation
 
@@ -26,6 +26,15 @@ Puma 1.6.3 starting...
 ```
 
 Go to http://0.0.0.0:9292.
+
+You can define saved searches. To do that, open your settings.rb file and follow this syntax:
+
+```ruby
+node_search['MySQL Servers'] = 'mysql_server_root_password:*'
+node_search['Staging'] = 'chef_environment:staging'
+```
+
+You can define as many saved searches as you like. Right now this option works only for nodes.
 
 ## Accessible data
 
