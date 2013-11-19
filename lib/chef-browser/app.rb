@@ -110,10 +110,19 @@ module ChefBrowser
     end
 
     get '/environments' do
+      search_query = params["q"]
       environments = chef_server.environment.all
-      erb :environment_list, locals: {
+      if search_query.blank?
+        erb :environment_list, locals: {
         environments: environments
-      }
+        }
+      else
+        search_results = chef_server.search(:environment, search_query, :sort => 'name ASC')
+        erb :env_search, locals: {
+          search_query: search_query,
+          search_results: search_results
+        }
+      end
     end
 
     get '/environment/:env_name' do
@@ -155,6 +164,30 @@ module ChefBrowser
       erb :data_bag_item, locals: {
         data_bag: data_bag,
         data_bag_item: data_bag_item
+      }
+    end
+
+    get '/roles' do
+      search_query = params["q"]
+      roles = chef_server.role.all
+      if search_query.blank?
+        erb :role_list, locals: {
+          roles: roles,
+          search_query: search_query
+        }
+      else
+        search_results = chef_server.search(:role, search_query, :sort => 'name ASC')
+        erb :role_search, locals: {
+          search_query: search_query,
+          search_results: search_results
+        }
+      end
+    end
+
+    get '/role/:role_id' do
+      role = chef_server.role.find(params[:role_id])
+      erb :role, locals: {
+        role: role
       }
     end
   end
