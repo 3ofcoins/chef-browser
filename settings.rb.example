@@ -1,3 +1,14 @@
+# -*- ruby -*-
+
 server_url "http://127.0.0.1:4000"
 client_name "marta"
 client_key ::File.join(::File.dirname(__FILE__), 'features/fixtures/stub.pem')
+
+# If the Chef server has a self-signed https certificate, SSL certificate
+# checks need to be disabled.
+#
+# connection[:ssl] = { verify: false }
+
+# Save defined shortcuts to common node search queries like this:
+#
+# node_search['MySQL'] = 'mysql_server_root_password:*'
