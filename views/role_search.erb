@@ -1,0 +1,19 @@
+<ul class="breadcrumb">
+  <li><a href="/roles">Roles</a> <span class="divider">|</span></li>
+  <li class="active"><i class="icon-search"></i> <%= search_query %></li>
+</ul>
+
+<% if search_results.blank? -%>
+<h1>No matching results found</h1>
+<% else -%>
+<%   if search_results.length == 1 -%>
+<h1><%= search_results.length %> role found</h1>
+<%   else -%>
+<h1><%= search_results.length %> roles found</h1>
+<%   end -%>
+<ul class="unstyled">
+  <% search_results.each do |role| -%>
+  <li><a href="/role/<%= role[:name] %>"><%= role[:name] %></a></li>
+<% end %>
+</ul>
+<% end -%>
