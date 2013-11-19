@@ -10,9 +10,7 @@ module ChefBrowser
     option :connection, {}
     # Provide the desired saved searches in the following format:
     # {"displayed link name" => "query"}
-    option :node_search, {'MySQL Servers' => 'mysql_server_root_password:*',
-                          'Staging' => 'chef_environment:staging'
-                         }
+    option :node_search, {}
 
     # Returns a new Ridley connection, as configured by user
     def ridley
