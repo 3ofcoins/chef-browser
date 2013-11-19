@@ -1,0 +1,19 @@
+<ul class="breadcrumb">
+  <li><a href="/nodes">Environments</a> <span class="divider">|</span></li>
+  <li class="active"><%= search_query %></a> </li>
+</ul>
+
+<% if search_results.blank? -%>
+<h1>No matching results found</h1>
+<% else -%>
+<%   if search_results.length == 1 -%>
+<h1><%= search_results.length %> environment found</h1>
+<%   else -%>
+<h1><%= search_results.length %> environments found</h1>
+<%   end -%>
+<ul class="unstyled">
+  <% search_results.each do |env| -%>
+  <li><a href="/environment/<%= env[:name] %>"><%= env[:name] %></a></li>
+<% end %>
+</ul>
+<% end -%>
