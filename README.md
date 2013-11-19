@@ -1,7 +1,7 @@
 chef-browser
 ============
 
-Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list(and search through) nodes and data bags as well as view their details: basic information plus pre-formatted JSON data.
+Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list (and search through) nodes and data bags as well as view their details: basic information plus pre-formatted JSON data.
 
 ## Installation
 
