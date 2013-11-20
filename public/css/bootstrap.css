@@ -2320,6 +2320,9 @@ table th[class*="span"],
 
 .icon-search {
   background-position: -48px 0;
+  position: absolute;
+  top: 7px;
+  left: 11px;
 }
 
 .icon-envelope {
@@ -4519,6 +4522,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-search .search-query {
   padding: 4px 14px;
+  padding-left: 32px !important;
   margin-bottom: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -4877,8 +4881,8 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inverse .navbar-search .search-query {
-  color: #ffffff;
-  background-color: #515151;
+  color: #333333;
+  background-color: rgb(255, 255, 255);
   border-color: #111111;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 0 rgba(255, 255, 255, 0.15);
      -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -4890,15 +4894,15 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inverse .navbar-search .search-query:-moz-placeholder {
-  color: #cccccc;
+  color: #333333;
 }
 
 .navbar-inverse .navbar-search .search-query:-ms-input-placeholder {
-  color: #cccccc;
+  color: #333333;
 }
 
 .navbar-inverse .navbar-search .search-query::-webkit-input-placeholder {
-  color: #cccccc;
+  color: #333333;
 }
 
 .navbar-inverse .navbar-search .search-query:focus,
