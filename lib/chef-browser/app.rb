@@ -95,6 +95,7 @@ module ChefBrowser
     end
 
     get '/node/:node_name' do
+      search_query = params["q"]
       resource_name = "node"
       node = chef_server.node.find(params[:node_name])
       merged_attributes = node.chef_attributes
@@ -110,7 +111,8 @@ module ChefBrowser
           'full' => node._attributes_
         },
         active_tab: 'merged',
-        resource_name: resource_name
+        resource_name: resource_name,
+        search_query: search_query
       }
     end
 
@@ -121,7 +123,8 @@ module ChefBrowser
       if search_query.blank?
         erb :resource_list, locals: {
           resources: resources,
-          resource_name: resource_name
+          resource_name: resource_name,
+          search_query: search_query
         }
       else
         search_results = chef_server.search(:environment, search_query, :sort => 'name ASC')
@@ -136,18 +139,22 @@ module ChefBrowser
     get '/environment/:env_name' do
       resource_name = "environment"
       environment = chef_server.environment.find(params[:env_name])
+      search_query = params["q"]
       erb :environment, locals: {
         environment: environment,
-        resource_name: resource_name
+        resource_name: resource_name,
+        search_query: search_query
       }
     end
 
     get '/data_bags' do
       resource_name = "data bag"
       resources = chef_server.data_bag.all.sort
+      search_query = params["q"]
       erb :resource_list, locals: {
         resources: resources,
-        resource_name: resource_name
+        resource_name: resource_name,
+        search_query: search_query
       }
     end
 
@@ -160,7 +167,8 @@ module ChefBrowser
         erb :data_bag, locals: {
           data_bag: data_bag,
           bags: bags,
-          resource_name: resource_name
+          resource_name: resource_name,
+          search_query: search_query
         }
       else
         search_results = chef_server.search(data_bag, search_query).sort_by {|k| k[:name]}
@@ -176,11 +184,13 @@ module ChefBrowser
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
       resource_name = "data bag"
       data_bag = params[:data_bag_id]
+      search_query = params["q"]
       data_bag_item = chef_server.data_bag.find(data_bag).item.find(params[:data_bag_item_id])
       erb :data_bag_item, locals: {
         data_bag: data_bag,
         data_bag_item: data_bag_item,
-        resource_name: resource_name
+        resource_name: resource_name,
+        search_query: search_query
       }
     end
 
@@ -191,7 +201,8 @@ module ChefBrowser
       if search_query.blank?
         erb :resource_list, locals: {
           resources: resources,
-          resource_name: resource_name
+          resource_name: resource_name,
+          search_query: search_query
         }
       else
         search_results = chef_server.search(:role, search_query, :sort => 'name ASC')
@@ -204,11 +215,13 @@ module ChefBrowser
     end
 
     get '/role/:role_id' do
+      search_query = params["q"]
       resource_name = "role"
       role = chef_server.role.find(params[:role_id])
       erb :role, locals: {
         role: role,
-        resource_name: resource_name
+        resource_name: resource_name,
+        search_query: search_query
       }
     end
   end
