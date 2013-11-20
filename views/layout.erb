@@ -19,15 +19,27 @@
           <div class="container-fluid">
             <a class="brand" href="/">Chef browser</a>
             <ul class="nav">
-            <% nav = ['node', 'data bag', 'environment', 'role']-%>
-            <% nav.each do |element| -%>
+<% nav = ['node', 'data bag', 'environment', 'role']-%>
+<% nav.each do |element| -%>
               <li<%== element == resource_name ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
-            <% end -%>
+<% end -%>
+<% if settings.rb.node_search.length > 0 -%>
             </ul>
-            <form class="navbar-search pull-right" type="text" method="get" action="/<%= resource_name.gsub(' ', '_') %>">
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Saved searches<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+<%   settings.rb.node_search.each do |link_name, query| -%>
+                  <li><a href='/nodes?q=<%= query %>'><%= link_name %></a></li>
+<%   end -%>
+                </ul>
+              </li>
+<% end -%>
+              <form class="navbar-search pull-right" type="text" method="get" action="/<%= resource_name.gsub(' ', '_') %>s">
                 <input type="text" class="input-block-level search-query" id="appendedInputButton" name="q" placeholder="search"/>
                 <div class="icon-search"></div>
-            </form>
+              </form>
+            </ul>
           </div>
         </div>
       </nav>
