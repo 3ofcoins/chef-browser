@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Chef browser >> <%= resource_name.capitalize %>s</title>
+    <title>Chef browser >> <%= resource_name.capitalize %>s<%== search_query == nil ? '' : " >> #{search_query}" %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap.css" rel="stylesheet" media="screen">
@@ -36,7 +36,7 @@
               </li>
 <% end -%>
               <form class="navbar-search pull-right" type="text" method="get" action="/<%= resource_name.gsub(' ', '_') %>s">
-                <input type="text" class="input-block-level search-query" id="appendedInputButton" name="q" placeholder=<%== search_query == nil ? '"search" ' : search_query %>>
+                <input type="text" class="input-block-level search-query" id="appendedInputButton" name="q" placeholder=<%== search_query == nil ? '"search"' : search_query %>>
                 <div class="icon-search"></div>
               </form>
             </ul>
