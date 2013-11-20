@@ -76,26 +76,26 @@ module ChefBrowser
     end
 
     get '/nodes' do
-      active_nav = "nodes"
+      resource_name = "node"
       search_query = params["q"]
       if search_query.blank?
-        erb :node_list, locals: {
-          nodes: chef_server.node.all.sort,
+        erb :resource_list, locals: {
+          resources: chef_server.node.all.sort,
           search_query: search_query,
-          active_nav: active_nav
+          resource_name: resource_name
         }
       else
         search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
         erb :node_search, locals: {
           search_query: search_query,
           search_results: search_results,
-          active_nav: active_nav
+          resource_name: resource_name
         }
       end
     end
 
     get '/node/:node_name' do
-      active_nav = "nodes"
+      resource_name = "node"
       node = chef_server.node.find(params[:node_name])
       merged_attributes = node.chef_attributes
       erb :node, locals: {
@@ -110,49 +110,49 @@ module ChefBrowser
           'full' => node._attributes_
         },
         active_tab: 'merged',
-        active_nav: active_nav
+        resource_name: resource_name
       }
     end
 
     get '/environments' do
-      active_nav = "environments"
+      resource_name = "environment"
       search_query = params["q"]
-      environments = chef_server.environment.all
+      resources = chef_server.environment.all
       if search_query.blank?
-        erb :environment_list, locals: {
-          environments: environments,
-          active_nav: active_nav
+        erb :resource_list, locals: {
+          resources: resources,
+          resource_name: resource_name
         }
       else
         search_results = chef_server.search(:environment, search_query, :sort => 'name ASC')
         erb :env_search, locals: {
           search_query: search_query,
           search_results: search_results,
-          active_nav: active_nav
+          resource_name: resource_name
         }
       end
     end
 
     get '/environment/:env_name' do
-      active_nav = "environments"
+      resource_name = "environment"
       environment = chef_server.environment.find(params[:env_name])
       erb :environment, locals: {
         environment: environment,
-        active_nav: active_nav
+        resource_name: resource_name
       }
     end
 
     get '/data_bags' do
-      active_nav = "data_bags"
-      bags = chef_server.data_bag
-      erb :data_bag_list, locals: {
-        bags: bags,
-        active_nav: active_nav
+      resource_name = "data bag"
+      resources = chef_server.data_bag.all.sort
+      erb :resource_list, locals: {
+        resources: resources,
+        resource_name: resource_name
       }
     end
 
     get '/data_bag/:data_bag_id' do
-      active_nav = "data bags"
+      resource_name = "data bag"
       search_query = params["q"]
       data_bag = params[:data_bag_id]
       bags = chef_server.data_bag
@@ -160,7 +160,7 @@ module ChefBrowser
         erb :data_bag, locals: {
           data_bag: data_bag,
           bags: bags,
-          active_nav: active_nav
+          resource_name: resource_name
         }
       else
         search_results = chef_server.search(data_bag, search_query).sort_by {|k| k[:name]}
@@ -168,48 +168,47 @@ module ChefBrowser
           search_query: search_query,
           search_results: search_results,
           data_bag: data_bag,
-          active_nav: active_nav
+          resource_name: resource_name
         }
       end
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
-      active_nav = "data bags"
+      resource_name = "data bag"
       data_bag = params[:data_bag_id]
       data_bag_item = chef_server.data_bag.find(data_bag).item.find(params[:data_bag_item_id])
       erb :data_bag_item, locals: {
         data_bag: data_bag,
         data_bag_item: data_bag_item,
-        active_nav: active_nav
+        resource_name: resource_name
       }
     end
 
     get '/roles' do
-      active_nav = "roles"
+      resource_name = "role"
       search_query = params["q"]
-      roles = chef_server.role.all
+      resources = chef_server.role.all
       if search_query.blank?
-        erb :role_list, locals: {
-          roles: roles,
-          search_query: search_query,
-          active_nav: active_nav
+        erb :resource_list, locals: {
+          resources: resources,
+          resource_name: resource_name
         }
       else
         search_results = chef_server.search(:role, search_query, :sort => 'name ASC')
         erb :role_search, locals: {
           search_query: search_query,
           search_results: search_results,
-          active_nav: active_nav
+          resource_name: resource_name
         }
       end
     end
 
     get '/role/:role_id' do
-      active_nav = "roles"
+      resource_name = "role"
       role = chef_server.role.find(params[:role_id])
       erb :role, locals: {
         role: role,
-        active_nav: active_nav
+        resource_name: resource_name
       }
     end
   end

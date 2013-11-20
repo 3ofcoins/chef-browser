@@ -1,0 +1,18 @@
+<div class="span4">
+  <h1><%= resource_name.capitalize %></h1>
+  <ul class="unstyled">
+<% resources.each do |resource| -%>
+    <li><a href="/<%= resource_name.gsub(' ', '_') %>/<%= resource[:name] %>"><%= resource[:name] %></a></li>
+<% end -%>
+  </ul>
+</div>
+<div class="span4 offset4">
+<% if settings.rb.node_search.length > 0 -%>
+  <h2>Saved node searches</h2>
+  <ul class="unstyled">
+<%   settings.rb.node_search.each do |link_name, query| -%>
+    <li><a href='/nodes?q=<%= query %>'><%= link_name %></a></li>
+<%   end -%>
+  </ul>
+<% end -%>
+</div>

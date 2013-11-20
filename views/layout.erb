@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Chef browser >> <%= active_nav.capitalize.gsub(' ', '_') %></title>
+    <title>Chef browser >> <%= resource_name.capitalize %>s</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap.css" rel="stylesheet" media="screen">
@@ -19,12 +19,12 @@
           <div class="container-fluid">
             <a class="brand" href="/">Chef browser</a>
             <ul class="nav">
-            <% nav = ['nodes', 'data bags', 'environments', 'roles']-%>
+            <% nav = ['node', 'data bag', 'environment', 'role']-%>
             <% nav.each do |element| -%>
-              <li<%== element == active_nav ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>"><%=  element.capitalize %></a></li>
+              <li<%== element == resource_name ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
             <% end -%>
             </ul>
-            <form class="navbar-search pull-right" type="text" method="get" action="/<%= active_nav.gsub(' ', '_') %>">
+            <form class="navbar-search pull-right" type="text" method="get" action="/<%= resource_name.gsub(' ', '_') %>">
                 <input type="text" class="input-block-level search-query" id="appendedInputButton" name="q" placeholder="search"/>
                 <div class="icon-search"></div>
             </form>
