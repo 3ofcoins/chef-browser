@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Chef browser >> <%= resource_name.capitalize %>s<%== search_query == nil ? '' : " >> #{search_query}" %></title>
+    <title>Chef browser
+      <%== resource_name == "data bag item" ? "" : " >> #{resource_name.capitalize}s" %>
+      <%== resource_name == "data bag item" ? " >> Data bags >> #{data_bag}" : "" %>
+      <%== resource_id == nil ? '' : " >> #{resource_id}" %>
+      <%== search_query == nil ? '' : " >> Search results for #{search_query}" %>
+    </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap.css" rel="stylesheet" media="screen">
@@ -21,7 +26,7 @@
             <ul class="nav">
 <% nav = ['node', 'data bag', 'environment', 'role']-%>
 <% nav.each do |element| -%>
-              <li<%== element == resource_name ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
+              <li<%== element == resource_name || "#{element} item" == resource_name ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
 <% end -%>
 <% if settings.rb.node_search.length > 0 -%>
             </ul>

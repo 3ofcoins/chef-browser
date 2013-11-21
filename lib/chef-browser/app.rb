@@ -82,14 +82,16 @@ module ChefBrowser
         erb :resource_list, locals: {
           resources: chef_server.node.all.sort,
           search_query: search_query,
-          resource_name: resource_name
+          resource_name: resource_name,
+          resource_id: nil
         }
       else
         search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
         erb :node_search, locals: {
           search_query: search_query,
           search_results: search_results,
-          resource_name: resource_name
+          resource_name: resource_name,
+          resource_id: nil
         }
       end
     end
@@ -112,6 +114,7 @@ module ChefBrowser
         },
         active_tab: 'merged',
         resource_name: resource_name,
+        resource_id: params[:node_name],
         search_query: search_query
       }
     end
@@ -124,14 +127,16 @@ module ChefBrowser
         erb :resource_list, locals: {
           resources: resources,
           resource_name: resource_name,
-          search_query: search_query
+          search_query: search_query,
+          resource_id: nil
         }
       else
         search_results = chef_server.search(:environment, search_query, :sort => 'name ASC')
         erb :env_search, locals: {
           search_query: search_query,
           search_results: search_results,
-          resource_name: resource_name
+          resource_name: resource_name,
+          resource_id: nil
         }
       end
     end
@@ -143,6 +148,7 @@ module ChefBrowser
       erb :environment, locals: {
         environment: environment,
         resource_name: resource_name,
+        resource_id: params[:env_name],
         search_query: search_query
       }
     end
@@ -154,7 +160,8 @@ module ChefBrowser
       erb :resource_list, locals: {
         resources: resources,
         resource_name: resource_name,
-        search_query: search_query
+        resource_id: nil,
+        search_query: search_query,
       }
     end
 
@@ -162,12 +169,13 @@ module ChefBrowser
       resource_name = "data bag"
       search_query = params["q"]
       data_bag = params[:data_bag_id]
-      bags = chef_server.data_bag
+      bags = chef_server.data_bag.find(data_bag).item.all.sort
       if search_query.blank?
         erb :data_bag, locals: {
           data_bag: data_bag,
           bags: bags,
           resource_name: resource_name,
+          resource_id: params[:data_bag_id],
           search_query: search_query
         }
       else
@@ -176,13 +184,14 @@ module ChefBrowser
           search_query: search_query,
           search_results: search_results,
           data_bag: data_bag,
-          resource_name: resource_name
+          resource_name: resource_name,
+          resource_id: nil
         }
       end
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
-      resource_name = "data bag"
+      resource_name = "data bag item"
       data_bag = params[:data_bag_id]
       search_query = params["q"]
       data_bag_item = chef_server.data_bag.find(data_bag).item.find(params[:data_bag_item_id])
@@ -190,6 +199,7 @@ module ChefBrowser
         data_bag: data_bag,
         data_bag_item: data_bag_item,
         resource_name: resource_name,
+        resource_id: params[:data_bag_item_id],
         search_query: search_query
       }
     end
@@ -202,6 +212,7 @@ module ChefBrowser
         erb :resource_list, locals: {
           resources: resources,
           resource_name: resource_name,
+          resource_id: nil,
           search_query: search_query
         }
       else
@@ -209,7 +220,8 @@ module ChefBrowser
         erb :role_search, locals: {
           search_query: search_query,
           search_results: search_results,
-          resource_name: resource_name
+          resource_name: resource_name,
+          resource_id: nil
         }
       end
     end
@@ -221,6 +233,7 @@ module ChefBrowser
       erb :role, locals: {
         role: role,
         resource_name: resource_name,
+        resource_id: params[:role_id],
         search_query: search_query
       }
     end
