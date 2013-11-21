@@ -1,19 +1,17 @@
-<div class="row-fluid">
-  <div class="span4">
-    <h1><%= data_bag %></h1>
-    <ul class="unstyled">
+<div class="span4">
+  <h1><%= data_bag %></h1>
+  <ul class="unstyled">
 <% bags.find(data_bag).item.all.sort.each do |item| -%>
-      <li><a href="/data_bag/<%= data_bag %>/<%= item[:id] %>"><%= item[:id] %></a></li>
+    <li><a href="/data_bag/<%= data_bag %>/<%= item[:id] %>"><%= item[:id] %></a></li>
 <% end -%>
-    </ul>
-  </div>
-  <div class="span4">
-    <form class="form-search" type="text" method="get" action="/data_bag/<%= data_bag %>">
-      <legend>Data Bag search</legend>
-      <div class="input-append">
-        <input class="input-block-level search-query" id="appendedInputButton" type="text" name="q"/>
-        <button class="btn" id="submit" type="submit">Search</button>
-      </div>
-    </form>
-  </div>
+  </ul>
+</div>
+<div class="span4">
+  <form class="form-search" type="text" method="get" action="/data_bag/<%= data_bag %>">
+    <legend>Data Bag search</legend>
+    <div class="input-append">
+      <input class="input-block-level search-query" id="appendedInputButton" type="text" name="q"/>
+      <button class="btn" id="submit" type="submit">Search</button>
+    </div>
+  </form>
 </div>

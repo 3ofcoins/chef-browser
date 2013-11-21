@@ -1,14 +1,10 @@
 <% if search_results.blank? -%>
 <h1>No matching results found</h1>
 <% else -%>
-<%   if search_results.length == 1 -%>
-<h1><%= search_results.length %> data bag item found</h1>
-<%   else -%>
-<h1><%= search_results.length %> data bag items found</h1>
-<%   end -%>
+<h1>Search results (<%= search_results.length %>)</h1>
+<% end -%>
 <ul class="unstyled">
 <% search_results.each do |data_item| -%>
     <li><a href="/data_bag/<%= data_bag %>/<%= data_item[:raw_data][:id] %>"><%= data_item[:raw_data][:id] %></a></li>
-<% end -%>
 <% end -%>
 </ul>
