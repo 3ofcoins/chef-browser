@@ -29,5 +29,5 @@ Scenario: Using a node saved search
   When I visit "/nodes"
   And I click on "Database tag"
   Then I am at "/nodes"
-  And I can see "tags:db"
-  And I can see "1 node found"
+  And I can see "Search results (1)"
+  And I can see "some-node-name"
