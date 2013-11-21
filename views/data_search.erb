@@ -1,3 +1,12 @@
+              <form class="navbar-search pull-right" type="text" method="get" action="/data_bag/<%= data_bag %>">
+                <input type="text" class="input-block-level search-query" id="appendedInputButton" name="q" placeholder=<%== search_query == nil ? '"search"' : search_query %>>
+                <div class="icon-search"></div>
+              </form>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="row-fluid">
 <% if search_results.blank? -%>
 <h1>No matching results found</h1>
 <% else -%>
