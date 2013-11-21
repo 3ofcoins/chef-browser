@@ -1,5 +1,5 @@
 <% if resource_name != "data bags" -%>
-              <form class="navbar-search pull-right" type="text" method="get" action="/<%= resource_name == "data bag items" ? "data_bag/#{data_bag}" : resource_name.gsub(' ', '_') %>s">
+              <form class="navbar-search pull-right" type="text" method="get" action="/<%= resource_name == "data bag items" ? "data_bag/#{data_bag}" : "#{resource_name.gsub(' ', '_')}s" %>">
                 <input type="text" class="input-block-level search-query" id="appendedInputButton" name="q" placeholder=<%== search_query == nil ? '"search"' : search_query %>>
                 <div class="icon-search"></div>
               </form>
@@ -18,7 +18,7 @@
 <%   end -%>
 </ul>
 <% else -%>
-<h1><%= resource_name.capitalize %>s</h1>
+<h1><%= resource_name == "data bags" ? resource_name.capitalize : "#{resource_name.capitalize}s" %></h1>
 <ul class="unstyled">
 <%   resources.each do |resource| -%>
     <li><a href="/<%= resource_name == "data bags" ? "data_bag" : resource_name.gsub(' ', '_') %>/<%= resource[:name] == nil ? resource[:id] : resource[:name] %>"><%= resource[:name] == nil ? resource[:id] : resource[:name] %></a></li>
