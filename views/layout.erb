@@ -27,7 +27,7 @@
                 <ul class="nav">
 <% nav = ['node', 'environment', 'role', 'data bag']-%>
 <% nav.each do |element| -%>
-                  <li<%== element == resource_name || "#{element} item" == resource_name ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
+                  <li<%== element == resource_name || "#{element} item" == resource_name || "#{element} items" == resource_name ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
 <% end -%>
 <% if settings.rb.node_search.length > 0 -%>
             </ul>

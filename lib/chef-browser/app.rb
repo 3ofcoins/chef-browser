@@ -154,7 +154,7 @@ module ChefBrowser
     end
 
     get '/data_bags' do
-      resource_name = "data bag"
+      resource_name = "data bags"
       resources = chef_server.data_bag.all.sort
       search_query = params["q"]
       erb :resource_list, locals: {
@@ -166,14 +166,14 @@ module ChefBrowser
     end
 
     get '/data_bag/:data_bag_id' do
-      resource_name = "data bag"
+      resource_name = "data bag items"
       search_query = params["q"]
       data_bag = params[:data_bag_id]
-      bags = chef_server.data_bag.find(data_bag).item.all.sort
+      resources = chef_server.data_bag.find(data_bag).item.all.sort
       if search_query.blank?
-        erb :data_bag, locals: {
+        erb :resource_list, locals: {
           data_bag: data_bag,
-          bags: bags,
+          resources: resources,
           resource_name: resource_name,
           resource_id: params[:data_bag_id],
           search_query: search_query
