@@ -43,9 +43,5 @@ Then(/^I see an attribute "(.*?)" with value (.*?)$/) do |path, value|
 end
 
 When(/^I search for "(.*?)"$/) do |search_query|
-  page.fill_in 'q', with: search_query
-end
-
-When /^(?:|I )press "([^"]*)"$/ do |button|
-  click_button(button)
+  page.fill_in 'q', with: "#{search_query}\n"
 end

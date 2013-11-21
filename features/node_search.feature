@@ -28,15 +28,13 @@ Background:
 Scenario: Search results
   When I visit "/nodes"
   And I search for "name:some"
-  And I press "Search"
   Then I am at "/nodes"
   And I can see "name:some"
-  And I can see "1 node found"
+  And I can see "Search results (1)"
 
 Scenario: No search results found
   When I visit "/nodes"
   And I search for "ipaddress:5.6.7.8"
-  And I press "Search"
   Then I am at "/nodes"
   And I can see "No matching results found"
 
@@ -45,5 +43,5 @@ Scenario: Search similar nodes
   And I click on "db"
   Then I am at "/nodes"
   And I can see "tags:db"
-  And I can see "1 node found"
+  And I can see "Search results (1)"
   And I can see "some-node-name"

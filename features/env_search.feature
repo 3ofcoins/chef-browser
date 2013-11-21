@@ -21,15 +21,13 @@ Background:
 
 Scenario: Search results
   When I visit "/environments"
-  And I search for "name:_default"
-  And I press "Search"
+  And I search for "name:_default\n"
   Then I am at "/environments"
   And I can see "name:_default"
-  And I can see "1 environment found"
+  And I can see "Search results (1)"
 
 Scenario: No search results found
   When I visit "/environments"
-  And I search for "name:special"
-  And I press "Search"
+  And I search for "name:special\n"
   Then I am at "/environments"
   And I can see "No matching results found"

@@ -26,13 +26,11 @@ Background:
 Scenario: Search results
   When I visit "/data_bag/some-data-bag"
   And I search for "name:first*"
-  And I press "Search"
   Then I am at "/data_bag/some-data-bag"
-  And I can see "1 data bag item found"
+  And I can see "Search results (1)"
 
 Scenario: No search results found
   When I visit "/data_bag/some-data-bag"
   And I search for "name:third*"
-  And I press "Search"
   Then I am at "/data_bag/some-data-bag"
   And I can see "No matching results found"
