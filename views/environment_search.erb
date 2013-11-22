@@ -1,8 +1,8 @@
-              <form class="navbar-search pull-right" type="text" method="get" action="/<%= resource_name.gsub(' ', '_') %>s">
-                <input type="text" class="input-block-level search-query" id="appendedInputButton" name="q" placeholder=<%== search_query == nil ? '"search"' : search_query %>>
-                <div class="icon-search"></div>
-              </form>
             </ul>
+            <form class="navbar-search pull-right" method="get" action="/<%= resource_name.gsub(' ', '_') %>s">
+              <input type="text" class="input-block-level search-query" id="appendedInputButton" name="q" placeholder=<%== search_query == nil ? '"search"' : search_query %>>
+              <div class="icon-search"></div>
+            </form>
         </div>
       </nav>
     </div></div>
