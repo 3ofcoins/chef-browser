@@ -24,19 +24,22 @@ def validate_html(html_str)
     html_str.lines.each_with_index do |line, i|
       lines << "#{i+1}\t#{line}"
     end
-    raise "Invalid HTML:\n\n#{lines.join}\n\n#{resp.body}"
+    $stderr.puts "Invalid HTML:\n\n#{lines.join}\n\n#{resp.body}"
+    raise "Invalid HTML"
   end
 end
 
 if ENV['VALIDATE_HTML']
   Capybara.app = lambda do |env|
     resp = ChefBrowser::App.call(env)
-    validate_html(resp[2].join) if resp[1]['Content-Type'] =~ /^text\/html\s*(;.*)?$/
+    resp[2] = [ resp[2].join ]
+    validate_html(resp[2].first) if resp[0] == 200 && resp[1]['Content-Type'] =~ /^text\/html\s*(;.*)?$/
     resp
   end
 else
   Capybara.app = ChefBrowser::App
 end
+
 Capybara.javascript_driver = :webkit
 
 require 'wrong'
