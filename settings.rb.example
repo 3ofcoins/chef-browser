@@ -12,3 +12,7 @@ client_key ::File.join(::File.dirname(__FILE__), 'features/fixtures/stub.pem')
 # Save defined shortcuts to common node search queries like this:
 #
 # node_search['MySQL'] = 'mysql_server_root_password:*'
+
+# Define the application's title like this:
+#
+# title "Chef browser"
