@@ -75,7 +75,8 @@ module ChefBrowser
       redirect '/nodes'
     end
 
-    ['/nodes', '/roles', '/environments'].each do |path|
+    ['/nodes', '/roles', '/environments'].each do |path| # data bags & data bag items are a special case,
+                                                         # so they're treated separately
       get path do
         resource_name = path[1...-1]
         search_query = params["q"]

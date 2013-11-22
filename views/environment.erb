@@ -3,10 +3,10 @@
       </nav>
     </div></div>
       <div class="row-fluid">
-<h1><%= environment[:name] %></h1>
+<h1><%= environment.name %></h1>
 <div class="filterable">
   <table class="table table-condensed table-striped table-hover">
-<% with_jsonpath(chef_server.environment.find(environment)._attributes_) do |path, value| -%>
+<% with_jsonpath(environment._attributes_) do |path, value| -%>
     <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
   </table>
