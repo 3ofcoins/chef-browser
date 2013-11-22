@@ -16,7 +16,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="brand" href="/">Chef browser</a>
+          <a class="brand" href="/"><%= settings.rb.title.length == 0 ? "Chef browser" : settings.rb.title %></a>
           <ul class="nav">
             <li><a href="/nodes">Nodes</a></li>
             <li><a href="/data_bags">Data bags</a></li>
