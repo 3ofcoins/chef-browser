@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <title>Chef browser
-      <%== resource_name == "data bags" || resource_name == "data bag items" ? " >> Data bags" : "" %>
-      <%== resource_name == "data bag item" ? " >> Data bags >> #{data_bag}" : "" %>
-      <%== ["role", "node", "environment"].include?(resource_name) ? " >> #{resource_name.capitalize}s" : "" %>
-      <%== resource_id == nil ? "" : " >> #{resource_id}" %>
-      <%== search_query == nil ? "" : " >> Search results for #{search_query}" %>
+      <%== resource_name == "data bags" || resource_name == "data bag items" ? " » Data bags" : "" %>
+      <%== resource_name == "data bag item" ? " » Data bags » #{data_bag}" : "" %>
+      <%== ["role", "node", "environment"].include?(resource_name) ? " » #{resource_name.capitalize}s" : "" %>
+      <%== resource_id == nil ? "" : " » #{resource_id}" %>
+      <%== search_query == nil ? "" : " » Search results for #{search_query}" %>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
