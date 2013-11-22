@@ -2,12 +2,11 @@
 <html lang="en">
   <head>
     <title>Chef browser
-      <%== resource_name == "data bags" ? " >> Data bags" : "" %>
-      <%== resource_name == "data bag items" ? " >> Data bags" : "" %>
+      <%== resource_name == "data bags" || resource_name == "data bag items" ? " >> Data bags" : "" %>
       <%== resource_name == "data bag item" ? " >> Data bags >> #{data_bag}" : "" %>
       <%== resource_name == "role" || resource_name == "node" || resource_name == "environment" ? " >> #{resource_name.capitalize}s" : "" %>
-      <%== resource_id == nil ? '' : " >> #{resource_id}" %>
-      <%== search_query == nil ? '' : " >> Search results for #{search_query}" %>
+      <%== resource_id == nil ? "" : " >> #{resource_id}" %>
+      <%== search_query == nil ? "" : " >> Search results for #{search_query}" %>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
@@ -29,7 +28,7 @@
                 <ul class="nav">
 <% nav = ['node', 'environment', 'role', 'data bag']-%>
 <% nav.each do |element| -%>
-                  <li<%== element == resource_name || "#{element}s" == resource_name || "#{element} item" == resource_name || "#{element} items" == resource_name ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
+                  <li<%== resource_name == element  || resource_name == "#{element}s" || resource_name == "#{element} item" || resource_name == "#{element} items" ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
 <% end -%>
 <% if settings.rb.node_search.length > 0 -%>
             </ul>
