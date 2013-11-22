@@ -1,3 +1,4 @@
+@javascript @search
 Feature: Environment search
 
 Background:
@@ -21,13 +22,12 @@ Background:
 
 Scenario: Search results
   When I visit "/environments"
-  And I search for "name:_default\n"
+  And I search for "name:_default"
   Then I am at "/environments"
-  And I can see "name:_default"
   And I can see "Search results (1)"
 
 Scenario: No search results found
   When I visit "/environments"
-  And I search for "name:special\n"
+  And I search for "name:special"
   Then I am at "/environments"
   And I can see "No matching results found"

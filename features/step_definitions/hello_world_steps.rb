@@ -44,4 +44,5 @@ end
 
 When(/^I search for "(.*?)"$/) do |search_query|
   page.fill_in 'q', with: "#{search_query}\n"
+  page.execute_script("$('q').submit();")
 end

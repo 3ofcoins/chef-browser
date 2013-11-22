@@ -1,3 +1,4 @@
+@javascript @search
 Feature: Data bag search
 
 Background:

@@ -1,3 +1,4 @@
+@javascript @search
 Feature: Node search
 
 Background:
@@ -29,7 +30,6 @@ Scenario: Search results
   When I visit "/nodes"
   And I search for "name:some"
   Then I am at "/nodes"
-  And I can see "name:some"
   And I can see "Search results (1)"
 
 Scenario: No search results found
@@ -42,6 +42,5 @@ Scenario: Search similar nodes
   When I visit "/node/some-node-name"
   And I click on "db"
   Then I am at "/nodes"
-  And I can see "tags:db"
   And I can see "Search results (1)"
   And I can see "some-node-name"

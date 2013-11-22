@@ -8,7 +8,9 @@ ENV['CHEF_ZERO_PORT'] ||= '4001'
 require 'chef-browser'
 
 require 'capybara/cucumber'
+require 'capybara/webkit'
 Capybara.app = ChefBrowser::App
+Capybara.javascript_driver = :webkit
 
 require 'wrong'
 World(Wrong)
