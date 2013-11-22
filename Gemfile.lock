@@ -37,6 +37,9 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 1.0.0)
+    capybara-webkit (1.0.0)
+      capybara (~> 2.0, >= 2.0.2)
+      json
     celluloid (0.14.1)
       timers (>= 1.0.0)
     celluloid-io (0.14.1)
@@ -176,6 +179,7 @@ DEPENDENCIES
   app
   bootstrap-sass
   capybara
+  capybara-webkit
   chef-zero
   cucumber
   erubis (~> 2.7.0)
