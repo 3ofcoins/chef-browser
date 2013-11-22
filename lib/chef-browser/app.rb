@@ -75,24 +75,33 @@ module ChefBrowser
       redirect '/nodes'
     end
 
-    get '/nodes' do
-      resource_name = "node"
-      search_query = params["q"]
-      if search_query.blank?
-        erb :resource_list, locals: {
-          resources: chef_server.node.all.sort,
-          search_query: search_query,
-          resource_name: resource_name,
-          resource_id: nil
-        }
-      else
-        search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
-        erb :node_search, locals: {
-          search_query: search_query,
-          search_results: search_results,
-          resource_name: resource_name,
-          resource_id: nil
-        }
+    ['/nodes', '/roles', '/environments'].each do |path|
+      get path do
+        resource_name = path[1...-1]
+        search_query = params["q"]
+        if search_query.blank?
+          if resource_name == "node"
+            resources = chef_server.node.all
+          elsif resource_name == "role"
+            resources = chef_server.role.all
+          elsif resource_name == "environment"
+            resources = chef_server.environment.all
+          end
+          erb :resource_list, locals: {
+            resources: resources,
+            search_query: search_query,
+            resource_name: resource_name,
+            resource_id: nil
+          }
+        else
+          search_results = chef_server.search(resource_name.to_sym, search_query).sort_by {|k| k[:name]}
+          erb "#{resource_name}_search".to_sym, locals: {
+            search_query: search_query,
+            search_results: search_results,
+            resource_name: resource_name,
+            resource_id: nil
+          }
+        end
       end
     end
 
@@ -117,28 +126,6 @@ module ChefBrowser
         resource_id: params[:node_name],
         search_query: search_query
       }
-    end
-
-    get '/environments' do
-      resource_name = "environment"
-      search_query = params["q"]
-      resources = chef_server.environment.all
-      if search_query.blank?
-        erb :resource_list, locals: {
-          resources: resources,
-          resource_name: resource_name,
-          search_query: search_query,
-          resource_id: nil
-        }
-      else
-        search_results = chef_server.search(:environment, search_query, :sort => 'name ASC')
-        erb :env_search, locals: {
-          search_query: search_query,
-          search_results: search_results,
-          resource_name: resource_name,
-          resource_id: nil
-        }
-      end
     end
 
     get '/environment/:env_name' do
@@ -202,28 +189,6 @@ module ChefBrowser
         resource_id: params[:data_bag_item_id],
         search_query: search_query
       }
-    end
-
-    get '/roles' do
-      resource_name = "role"
-      search_query = params["q"]
-      resources = chef_server.role.all
-      if search_query.blank?
-        erb :resource_list, locals: {
-          resources: resources,
-          resource_name: resource_name,
-          resource_id: nil,
-          search_query: search_query
-        }
-      else
-        search_results = chef_server.search(:role, search_query, :sort => 'name ASC')
-        erb :role_search, locals: {
-          search_query: search_query,
-          search_results: search_results,
-          resource_name: resource_name,
-          resource_id: nil
-        }
-      end
     end
 
     get '/role/:role_id' do
