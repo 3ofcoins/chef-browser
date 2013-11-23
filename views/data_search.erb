@@ -1,7 +1,4 @@
-          </div>
-        </div>
-      </nav>
-      <div class="row-fluid">
+<div class="row-fluid">
 <% if search_results.blank? -%>
 <h1>No matching results found</h1>
 <% else -%>
@@ -12,3 +9,4 @@
     <li><a href="/data_bag/<%= data_bag %>/<%= data_item[:raw_data][:id] %>"><%= data_item[:raw_data][:id] %></a></li>
 <% end -%>
 </ul>
+</div>

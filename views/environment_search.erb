@@ -1,7 +1,4 @@
-        </div>
-      </nav>
-    </div></div>
-      <div class="row-fluid">
+<div class="row-fluid">
 <% if search_results.blank? -%>
 <h1>No matching results found</h1>
 <% else -%>
@@ -12,3 +9,4 @@
   <li><a href="/environment/<%= env[:name] %>"><%= env[:name] %></a></li>
 <% end %>
 </ul>
+</div>
