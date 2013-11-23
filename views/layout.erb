@@ -6,17 +6,9 @@
     <link href="/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/css/chef-browser.css" rel="stylesheet" media="screen">
-    <style>
-      body {
-        padding-top: 80px;
-      }
-    </style>
   </head>
   <body>
-    <div class="container-fluid" style="padding: 0 15px;">
-        <div class="row-fluid">
-          <div class="span12">
-            <nav class="navbar navbar-fixed-top" role="navigation">
+            <nav class="navbar" role="navigation">
               <div class="navbar-inner">
                 <a class="brand" href="/">Chef Browser</a>
                 <ul class="nav">
@@ -47,9 +39,9 @@
 <% end -%>
         </div>
       </nav>
-    </div></div>
+    <div class="container-fluid">
         <%== yield %>
-    </div>
+      </div>
     <script src="/js/jquery-2.0.3.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/jquery.filtertable.js"></script>
