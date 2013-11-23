@@ -5,6 +5,6 @@
 <% end -%>
 <ul class="unstyled">
 <% search_results.each do |data_item| -%>
-    <li><a href="/data_bag/<%= data_bag %>/<%= data_item[:raw_data][:id] %>"><%= data_item[:raw_data][:id] %></a></li>
+  <li><a href="/data_bag/<%= data_bag %>/<%= data_item[:raw_data][:id] %>"><%= data_item[:raw_data][:id] %></a></li>
 <% end -%>
 </ul>

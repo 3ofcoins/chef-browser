@@ -8,45 +8,47 @@
     <link href="/css/chef-browser.css" rel="stylesheet" media="screen">
   </head>
   <body>
-            <nav class="navbar" role="navigation">
-              <div class="navbar-inner">
-                <a class="brand" href="/">Chef Browser</a>
-                <ul class="nav">
+    <nav class="navbar" role="navigation">
+      <div class="navbar-inner">
+        <a class="brand" href="/">Chef Browser</a>
+
+        <ul class="nav">
 <% SECTIONS.each do |section, link, _| -%>
-                  <li<%== ' class="active"' if section == @section %>><a href="<%= link %>"><%= section %></a></li>
+          <li<%== ' class="active"' if section == @section %>><a href="<%= link %>"><%= section %></a></li>
 <% end -%>
-            </ul>
+        </ul>
+
 <% if settings.rb.node_search.length > 0 -%>
-            <ul class="nav pull-right">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Saved searches<b class="caret"></b></a>
-                <ul class="dropdown-menu">
+        <ul class="nav pull-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Saved searches<b class="caret"></b></a>
+            <ul class="dropdown-menu">
 <%   settings.rb.node_search.each do |link_name, query| -%>
-                  <li><a href='/nodes?q=<%= query %>'><%= link_name %></a></li>
+              <li><a href='/nodes?q=<%= query %>'><%= link_name %></a></li>
 <%   end -%>
-                </ul>
-              </li>
             </ul>
+          </li>
+        </ul>
 <% end -%>
 
 <% if @search_url -%>
-            <form class="navbar-search form-search pull-right" method="get" action="<%= @search_url %>">
-              <div class="input-append">
-                <input type="text" class="search-query input-small" name="q" placeholder="Search <%= @search_for %>"<% if params['q'] %> value="<%= params['q'] %>"<% end %>>
-                <button type="submit" class="btn" id="search-submit"><i class="icon-search" title="search"></i></button>
-              </div>
-            </form>
+        <form class="navbar-search form-search pull-right" method="get" action="<%= @search_url %>">
+          <div class="input-append">
+            <input type="text" class="search-query input-small" name="q" placeholder="Search <%= @search_for %>"<% if params['q'] %> value="<%= params['q'] %>"<% end %>>
+            <button type="submit" class="btn" id="search-submit"><i class="icon-search" title="search"></i></button>
+          </div>
+        </form>
 <% end -%>
-        </div>
-      </nav>
-    <div class="container-fluid">
-        <%== yield %>
       </div>
+    </nav>
+
+    <div class="container-fluid"><%== yield %></div>
+
     <script src="/js/jquery-2.0.3.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/jquery.filtertable.js"></script>
     <script>
-    $('table').filterTable({label: "", placeholder: "filter attributes", inputClass: "search-query"});
+      $('table').filterTable({label: "", placeholder: "filter attributes", inputClass: "search-query"});
     </script>
   </body>
 </html>
