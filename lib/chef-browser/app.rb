@@ -71,6 +71,20 @@ module ChefBrowser
       end
     end
 
+    { '/node*' => 'Nodes',
+      '/role*' => 'Roles',
+      '/environment*' => 'Environments' }.each do |route, tab|
+      before route do
+        @search_url = route.sub('*', 's')
+        @search_for = tab
+      end
+    end
+
+    before "/data_bag/:data_bag_id*" do
+      @search_url = "/data_bag/#{params[:data_bag_id]}"
+      @search_for = params[:data_bag_id]
+    end
+
     get '/' do
       redirect '/nodes'
     end

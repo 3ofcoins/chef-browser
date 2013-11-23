@@ -44,6 +44,15 @@
             </ul>
 <% end -%>
 
+<% if @search_url -%>
+            <form class="navbar-search form-search pull-right" method="get" action="<%= @search_url %>">
+              <div class="input-append">
+                <input type="text" class="search-query input-small" name="q" placeholder="Search <%= @search_for %>"<% if params['q'] %> value="<%= params['q'] %>"<% end %>>
+                <button type="submit" class="btn" id="search-submit"><i class="icon-search" title="search"></i></button>
+              </div>
+            </form>
+<% end -%>
+
         <%== yield %>
       </div>
     </div>
