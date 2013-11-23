@@ -1,14 +1,11 @@
-<% if resource_name == "data bag items" -%>
-<h1><%= data_bag %></h1>
+<% if data_bag_id -%>
+<h1><%= data_bag_id %></h1>
+<% end -%>
+<% if @search_query -%>
+<p class="lead"><%= resources.length %> found:</p>
+<% end -%>
 <ul class="unstyled">
-<%   resources.each do |item| -%>
-  <li><a href="/data_bag/<%= data_bag %>/<%= item[:id] %>"><%= item[:id] %></a></li>
-<%   end -%>
-<% else -%>
-<h1><%= resource_name == "data bags" ? resource_name.capitalize : "#{resource_name.capitalize}s" %></h1>
-<ul class="unstyled">
-<%   resources.each do |resource| -%>
-  <li><a href="/<%= resource_name == "data bags" ? "data_bag" : resource_name.gsub(' ', '_') %>/<%= resource[:name] == nil ? resource[:id] : resource[:name] %>"><%= resource[:name] == nil ? resource[:id] : resource[:name] %></a></li>
-<%   end -%>
+<% resources.each do |resource| -%>
+  <li><a href="<%= resource.url %>"><%= resource.chef_id %></a></li>
 <% end -%>
 </ul>

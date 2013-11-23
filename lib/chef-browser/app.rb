@@ -2,18 +2,19 @@ require 'erubis'
 require 'sinatra'
 require 'ridley'
 
+require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
 
 module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
 
-    # Triples of [ title, main URL, URL pattern ]
+    # Triples of [ title, list URL, item URL ]
     SECTIONS = [
-      [ 'Nodes',        '/nodes',        '/node*' ],
-      [ 'Environments', '/environments', '/environment*' ],
-      [ 'Roles',        '/roles',        '/role*' ],
-      [ 'Data Bags',    '/data_bags',    '/data_bag*' ]
+      [ 'Nodes',        '/nodes',        '/node' ],
+      [ 'Environments', '/environments', '/environment' ],
+      [ 'Roles',        '/roles',        '/role' ],
+      [ 'Data Bags',    '/data_bags',    '/data_bag' ]
     ]
 
     ##
@@ -95,9 +96,9 @@ module ChefBrowser
       @title = [ "Chef Browser" ]
     end
 
-    SECTIONS.each do |section, _, route|
-      before route do
-        @search_url = route.sub('*', 's') unless section == 'Data Bags' # Data bags are special.
+    SECTIONS.each do |section, list_route, item_route|
+      before "#{item_route}*" do
+        @search_url = list_route unless section == 'Data Bags' # Data bags are special.
         @search_for = section
         @title << section
         @section = section
@@ -118,36 +119,43 @@ module ChefBrowser
       redirect '/nodes'
     end
 
-    ['/nodes', '/roles', '/environments'].each do |path| # data bags & data bag items are a special case,
-                                                         # so they're treated separately
-      get path do
-        resource_name = path[1...-1]
-        search_query = params["q"]
-        @title << search_query if search_query
-        if search_query.blank?
-          if resource_name == "node"
-            resources = chef_server.node.all
-          elsif resource_name == "role"
-            resources = chef_server.role.all
-          elsif resource_name == "environment"
-            resources = chef_server.environment.all
-          end
-          erb :resource_list, locals: {
-            resources: resources,
-            search_query: search_query,
-            resource_name: resource_name,
-            resource_id: nil
-          }
-        else
-          search_results = chef_server.search(resource_name.to_sym, search_query).sort_by {|k| k[:name]}
-          erb "#{resource_name}_search".to_sym, locals: {
-            search_query: search_query,
-            search_results: search_results,
-            resource_name: resource_name,
-            resource_id: nil
-          }
+    def resource_list(resource, data_bag_id=nil)
+      if params['q'] && resource != :data_bag
+        @title << params['q']
+        @search_query = params['q']
+        if data_bag_id
+          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
+          data_bag = chef_server.data_bag.find(data_bag_id)
+          resources = chef_server.search(data_bag_id, params['q']).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+         else
+          resources = chef_server.search(resource, params['q'])
         end
+      elsif data_bag_id
+        resources = chef_server.data_bag.find(data_bag_id).item.all
+      else
+        resources = chef_server.send(resource).all
       end
+      erb :resource_list, locals: { resources: resources.sort, data_bag_id: data_bag_id }
+    end
+
+    get '/nodes' do
+      resource_list :node
+    end
+
+    get '/roles' do
+      resource_list :role
+    end
+
+    get '/environments' do
+      resource_list :environment
+    end
+
+    get '/data_bags' do
+      resource_list :data_bag
+    end
+
+    get '/data_bag/:data_bag_id' do
+      resource_list :data_bag_item, params[:data_bag_id]
     end
 
     get '/node/:node_name' do
@@ -185,44 +193,6 @@ module ChefBrowser
         resource_id: params[:env_name],
         search_query: search_query
       }
-    end
-
-    get '/data_bags' do
-      resource_name = "data bags"
-      resources = chef_server.data_bag.all.sort
-      search_query = params["q"]
-      erb :resource_list, locals: {
-        resources: resources,
-        resource_name: resource_name,
-        resource_id: nil,
-        search_query: search_query,
-      }
-    end
-
-    get '/data_bag/:data_bag_id' do
-      resource_name = "data bag items"
-      search_query = params["q"]
-      data_bag = params[:data_bag_id]
-      resources = chef_server.data_bag.find(data_bag).item.all.sort
-      if search_query.blank?
-        erb :resource_list, locals: {
-          data_bag: data_bag,
-          resources: resources,
-          resource_name: resource_name,
-          resource_id: params[:data_bag_id],
-          search_query: search_query
-        }
-      else
-        @title << search_query
-        search_results = chef_server.search(data_bag, search_query).sort_by {|k| k[:name]}
-        erb :data_search, locals: {
-          search_query: search_query,
-          search_results: search_results,
-          data_bag: data_bag,
-          resource_name: resource_name,
-          resource_id: nil
-        }
-      end
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
