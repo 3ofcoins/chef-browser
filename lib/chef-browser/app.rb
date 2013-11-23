@@ -8,6 +8,14 @@ module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
 
+    # Triples of [ title, main URL, URL pattern ]
+    SECTIONS = [
+      [ 'Nodes',        '/nodes',        '/node*' ],
+      [ 'Environments', '/environments', '/environment*' ],
+      [ 'Roles',        '/roles',        '/role*' ],
+      [ 'Data Bags',    '/data_bags',    '/data_bag*' ]
+    ]
+
     ##
     ## Settings
     ## --------
@@ -87,14 +95,12 @@ module ChefBrowser
       @title = [ "Chef Browser" ]
     end
 
-    { '/node*' => 'Nodes',
-      '/role*' => 'Roles',
-      '/environment*' => 'Environments',
-      '/data_bag*' => 'Data Bags' }.each do |route, tab|
+    SECTIONS.each do |section, _, route|
       before route do
-        @search_url = route.sub('*', 's') unless tab == 'Data Bags' # Data bags are special.
-        @search_for = tab
-        @title << tab
+        @search_url = route.sub('*', 's') unless section == 'Data Bags' # Data bags are special.
+        @search_for = section
+        @title << section
+        @section = section
       end
     end
 

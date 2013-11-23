@@ -18,11 +18,10 @@
           <div class="span12">
             <nav class="navbar navbar-fixed-top" role="navigation">
               <div class="navbar-inner">
-                <a class="brand" href="/">Chef browser</a>
+                <a class="brand" href="/">Chef Browser</a>
                 <ul class="nav">
-<% nav = ['node', 'environment', 'role', 'data bag']-%>
-<% nav.each do |element| -%>
-                  <li<%== [element, "#{element}s", "#{element} item", "#{element} items"].include?(resource_name) ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
+<% SECTIONS.each do |section, link, _| -%>
+                  <li<%== ' class="active"' if section == @section %>><a href="<%= link %>"><%= section %></a></li>
 <% end -%>
             </ul>
 <% if settings.rb.node_search.length > 0 -%>
