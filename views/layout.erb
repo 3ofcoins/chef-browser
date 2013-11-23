@@ -30,8 +30,8 @@
 <% nav.each do |element| -%>
                   <li<%== [element, "#{element}s", "#{element} item", "#{element} items"].include?(resource_name) ? ' class="active"' : '' %>><a href="/<%= element.gsub(' ', '_') %>s"><%=  element.capitalize %>s</a></li>
 <% end -%>
-<% if settings.rb.node_search.length > 0 -%>
             </ul>
+<% if settings.rb.node_search.length > 0 -%>
             <ul class="nav pull-right">
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Saved searches<b class="caret"></b></a>
@@ -41,6 +41,7 @@
 <%   end -%>
                 </ul>
               </li>
+            </ul>
 <% end -%>
 
         <%== yield %>

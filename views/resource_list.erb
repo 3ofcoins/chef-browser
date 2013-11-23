@@ -1,4 +1,3 @@
-            </ul>
 <% if resource_name != "data bags" -%>
             <form class="navbar-search form-search pull-right" method="get" action="/<%= resource_name == "data bag items" ? "data_bag/#{data_bag}" : "#{resource_name.gsub(' ', '_')}s" %>">
               <div class="input-append">
