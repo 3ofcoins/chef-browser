@@ -8,7 +8,6 @@ ENV['CHEF_ZERO_PORT'] ||= '4001'
 require 'chef-browser'
 
 require 'capybara/cucumber'
-require 'capybara/webkit'
 
 require 'net/http'
 
@@ -39,8 +38,6 @@ if ENV['VALIDATE_HTML']
 else
   Capybara.app = ChefBrowser::App
 end
-
-Capybara.javascript_driver = :webkit
 
 require 'wrong'
 World(Wrong)

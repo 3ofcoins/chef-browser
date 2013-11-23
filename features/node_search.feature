@@ -1,4 +1,3 @@
-@javascript @search
 Feature: Node search
 
 Background:

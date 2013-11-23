@@ -1,4 +1,3 @@
-@javascript @search
 Feature: Role search
 
 Background:

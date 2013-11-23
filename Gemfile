@@ -11,9 +11,6 @@ gem "puma"
 
 group :development do
   gem "capybara"
-  gem "capybara-webkit" # if `bundle install` throws a Gem::Installer::ExtensionBuildError
-                        # when installing 'capybara-webkit', follow these instructions:
-                        # https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit
   gem "chef-zero"
   gem "cucumber"
   gem "rack-test"

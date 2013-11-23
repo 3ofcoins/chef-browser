@@ -1,4 +1,3 @@
-@javascript @search
 Feature: Environment search
 
 Background:
