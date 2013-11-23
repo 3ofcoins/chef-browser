@@ -159,8 +159,6 @@ module ChefBrowser
     end
 
     get '/node/:node_name' do
-      search_query = params["q"]
-      resource_name = "node"
       node = chef_server.node.find(params[:node_name])
       @title << params[:node_name]
       merged_attributes = node.chef_attributes
@@ -175,52 +173,26 @@ module ChefBrowser
           'automatic' => node[:automatic],
           'full' => node._attributes_
         },
-        active_tab: 'merged',
-        resource_name: resource_name,
-        resource_id: params[:node_name],
-        search_query: search_query
+        active_tab: 'merged'
       }
     end
 
     get '/environment/:env_name' do
-      resource_name = "environment"
       environment = chef_server.environment.find(params[:env_name])
       @title << params[:env_name]
-      search_query = params["q"]
-      erb :environment, locals: {
-        environment: environment,
-        resource_name: resource_name,
-        resource_id: params[:env_name],
-        search_query: search_query
-      }
+      erb :environment, locals: { environment: environment }
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
-      resource_name = "data bag item"
       @title << params[:data_bag_item_id]
-      data_bag = params[:data_bag_id]
-      search_query = params["q"]
-      data_bag_item = chef_server.data_bag.find(data_bag).item.find(params[:data_bag_item_id])
-      erb :data_bag_item, locals: {
-        data_bag: data_bag,
-        data_bag_item: data_bag_item,
-        resource_name: resource_name,
-        resource_id: params[:data_bag_item_id],
-        search_query: search_query
-      }
+      data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
+      erb :data_bag_item, locals: { data_bag_item: data_bag_item }
     end
 
     get '/role/:role_id' do
       @title << params[:role_id]
-      search_query = params["q"]
-      resource_name = "role"
       role = chef_server.role.find(params[:role_id])
-      erb :role, locals: {
-        role: role,
-        resource_name: resource_name,
-        resource_id: params[:role_id],
-        search_query: search_query
-      }
+      erb :role, locals: { role: role }
     end
   end
 end
