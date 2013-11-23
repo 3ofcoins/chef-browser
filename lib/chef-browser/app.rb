@@ -88,6 +88,25 @@ module ChefBrowser
       end
     end
 
+    def resource_list(resource, data_bag_id=nil)
+      if params['q'] && resource != :data_bag
+        @title << params['q']
+        @search_query = params['q']
+        if data_bag_id
+          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
+          data_bag = chef_server.data_bag.find(data_bag_id)
+          resources = chef_server.search(data_bag_id, params['q']).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+         else
+          resources = chef_server.search(resource, params['q'])
+        end
+      elsif data_bag_id
+        resources = chef_server.data_bag.find(data_bag_id).item.all
+      else
+        resources = chef_server.send(resource).all
+      end
+      erb :resource_list, locals: { resources: resources.sort, data_bag_id: data_bag_id }
+    end
+
     ##
     ## Filters
     ## -------
@@ -117,25 +136,6 @@ module ChefBrowser
 
     get '/' do
       redirect '/nodes'
-    end
-
-    def resource_list(resource, data_bag_id=nil)
-      if params['q'] && resource != :data_bag
-        @title << params['q']
-        @search_query = params['q']
-        if data_bag_id
-          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
-          data_bag = chef_server.data_bag.find(data_bag_id)
-          resources = chef_server.search(data_bag_id, params['q']).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
-         else
-          resources = chef_server.search(resource, params['q'])
-        end
-      elsif data_bag_id
-        resources = chef_server.data_bag.find(data_bag_id).item.all
-      else
-        resources = chef_server.send(resource).all
-      end
-      erb :resource_list, locals: { resources: resources.sort, data_bag_id: data_bag_id }
     end
 
     get '/nodes' do
