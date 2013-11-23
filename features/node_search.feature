@@ -43,3 +43,10 @@ Scenario: Search similar nodes
   Then I am at "/nodes"
   And I can see "Search results (1)"
   And I can see "some-node-name"
+
+Scenario: make sure search box quotes properly
+  When I visit "/nodes"
+  And I search for "name:so"></html>""
+  Then I am at "/nodes"
+  And I can see "No matching results found"
+  # This means that we have failed to inject the closing tag.
