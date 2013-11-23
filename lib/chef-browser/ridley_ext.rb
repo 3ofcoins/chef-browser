@@ -11,7 +11,7 @@ module Ridley
 
   class DataBagObject
     def url_prefix
-      'data_bag'
+      '/data_bag'
     end
   end
 

@@ -2,7 +2,11 @@
 <h1><%= data_bag_id %></h1>
 <% end -%>
 <% if @search_query -%>
-<p class="lead"><%= resources.length %> found:</p>
+<%   if resources.empty? -%>
+<p class="lead">No matching results found.</p>
+<%   else -%>
+<p class="lead">Search results (<%= resources.length %>)</p>
+<%   end -%>
 <% end -%>
 <ul class="unstyled">
 <% resources.each do |resource| -%>

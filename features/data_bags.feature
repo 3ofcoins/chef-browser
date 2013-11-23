@@ -25,8 +25,7 @@ Background:
 
 Scenario: List of data bags & items
   When I visit "/data_bags"
-  Then I can see "Data bags"
-  And I can see "some-data-bag"
+  Then I can see "some-data-bag"
   And I can see "another-data-bag"
 
 Scenario: List of data bag items
