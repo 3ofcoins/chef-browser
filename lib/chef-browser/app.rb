@@ -83,18 +83,25 @@ module ChefBrowser
     ## Filters
     ## -------
 
+    before do
+      @title = [ "Chef Browser" ]
+    end
+
     { '/node*' => 'Nodes',
       '/role*' => 'Roles',
-      '/environment*' => 'Environments' }.each do |route, tab|
+      '/environment*' => 'Environments',
+      '/data_bag*' => 'Data Bags' }.each do |route, tab|
       before route do
-        @search_url = route.sub('*', 's')
+        @search_url = route.sub('*', 's') unless tab == 'Data Bags' # Data bags are special.
         @search_for = tab
+        @title << tab
       end
     end
 
     before "/data_bag/:data_bag_id*" do
       @search_url = "/data_bag/#{params[:data_bag_id]}"
       @search_for = params[:data_bag_id]
+      @title << params[:data_bag_id]
     end
 
     ##
@@ -110,6 +117,7 @@ module ChefBrowser
       get path do
         resource_name = path[1...-1]
         search_query = params["q"]
+        @title << search_query if search_query
         if search_query.blank?
           if resource_name == "node"
             resources = chef_server.node.all
@@ -140,6 +148,7 @@ module ChefBrowser
       search_query = params["q"]
       resource_name = "node"
       node = chef_server.node.find(params[:node_name])
+      @title << params[:node_name]
       merged_attributes = node.chef_attributes
       erb :node, locals: {
         node: node,
@@ -162,6 +171,7 @@ module ChefBrowser
     get '/environment/:env_name' do
       resource_name = "environment"
       environment = chef_server.environment.find(params[:env_name])
+      @title << params[:env_name]
       search_query = params["q"]
       erb :environment, locals: {
         environment: environment,
@@ -197,6 +207,7 @@ module ChefBrowser
           search_query: search_query
         }
       else
+        @title << search_query
         search_results = chef_server.search(data_bag, search_query).sort_by {|k| k[:name]}
         erb :data_search, locals: {
           search_query: search_query,
@@ -210,6 +221,7 @@ module ChefBrowser
 
     get '/data_bag/:data_bag_id/:data_bag_item_id' do
       resource_name = "data bag item"
+      @title << params[:data_bag_item_id]
       data_bag = params[:data_bag_id]
       search_query = params["q"]
       data_bag_item = chef_server.data_bag.find(data_bag).item.find(params[:data_bag_item_id])
@@ -223,6 +235,7 @@ module ChefBrowser
     end
 
     get '/role/:role_id' do
+      @title << params[:role_id]
       search_query = params["q"]
       resource_name = "role"
       role = chef_server.role.find(params[:role_id])
