@@ -8,6 +8,10 @@ module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
 
+    ##
+    ## Settings
+    ## --------
+
     set :erb, :escape_html => true
     set :root, File.expand_path(File.join(File.dirname(__FILE__), '../..'))
 
@@ -21,6 +25,10 @@ module ChefBrowser
                settings_rb.load(settings_path)
                settings_rb
              end
+
+    ##
+    ## Helpers
+    ## -------
 
     def chef_server
       @chef_server ||= settings.rb.ridley
@@ -71,6 +79,10 @@ module ChefBrowser
       end
     end
 
+    ##
+    ## Filters
+    ## -------
+
     { '/node*' => 'Nodes',
       '/role*' => 'Roles',
       '/environment*' => 'Environments' }.each do |route, tab|
@@ -84,6 +96,10 @@ module ChefBrowser
       @search_url = "/data_bag/#{params[:data_bag_id]}"
       @search_for = params[:data_bag_id]
     end
+
+    ##
+    ## Views
+    ## -----
 
     get '/' do
       redirect '/nodes'
