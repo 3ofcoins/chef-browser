@@ -23,7 +23,7 @@ def validate_html(html_str)
     html_str.lines.each_with_index do |line, i|
       lines << "#{i+1}\t#{line}"
     end
-    $stderr.puts "Invalid HTML:\n\n#{lines.join}\n\n#{resp.body}"
+    $stderr.puts "Invalid HTML:\n\n#{lines.join}\n\n#{resp.body.force_encoding('utf-8')}"
     raise "Invalid HTML"
   end
 end
