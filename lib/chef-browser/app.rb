@@ -138,27 +138,27 @@ module ChefBrowser
       redirect '/nodes'
     end
 
-    get '/nodes' do
+    get '/nodes/?' do
       resource_list :node
     end
 
-    get '/roles' do
+    get '/roles/?' do
       resource_list :role
     end
 
-    get '/environments' do
+    get '/environments/?' do
       resource_list :environment
     end
 
-    get '/data_bags' do
+    get '/data_bags/?' do
       resource_list :data_bag
     end
 
-    get '/data_bag/:data_bag_id' do
+    get '/data_bag/:data_bag_id/?' do
       resource_list :data_bag_item, params[:data_bag_id]
     end
 
-    get '/node/:node_name' do
+    get '/node/:node_name/?' do
       node = chef_server.node.find(params[:node_name])
       @title << params[:node_name]
       merged_attributes = node.chef_attributes
@@ -177,19 +177,19 @@ module ChefBrowser
       }
     end
 
-    get '/environment/:env_name' do
+    get '/environment/:env_name/?' do
       environment = chef_server.environment.find(params[:env_name])
       @title << params[:env_name]
       erb :environment, locals: { environment: environment }
     end
 
-    get '/data_bag/:data_bag_id/:data_bag_item_id' do
+    get '/data_bag/:data_bag_id/:data_bag_item_id/?' do
       @title << params[:data_bag_item_id]
       data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
       erb :data_bag_item, locals: { data_bag_item: data_bag_item }
     end
 
-    get '/role/:role_id' do
+    get '/role/:role_id/?' do
       @title << params[:role_id]
       role = chef_server.role.find(params[:role_id])
       erb :role, locals: { role: role }
