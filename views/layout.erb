@@ -1,39 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= settings.rb.title.length == 0 ? "Chef browser" : settings.rb.title %></title>
+    <title><%= @title.join(' » ') %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/css/chef-browser.css" rel="stylesheet" media="screen">
-    <style>
-      body {
-        padding-top: 80px;
-      }
-    </style>
   </head>
   <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar" role="navigation">
       <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="brand" href="/"><%= settings.rb.title.length == 0 ? "Chef browser" : settings.rb.title %></a>
-          <ul class="nav">
-            <li><a href="/nodes">Nodes</a></li>
-            <li><a href="/data_bags">Data bags</a></li>
-            <li><a href="/environments">Environments</a></li>
-            <li><a href="/roles">Roles</a></li>
-          </ul>
-        </div>
+        <a class="brand" href="/">Chef Browser</a>
+
+        <ul class="nav">
+<% SECTIONS.each do |section, link, _| -%>
+          <li<%== ' class="active"' if section == @section %>><a href="<%= link %>"><%= section %></a></li>
+<% end -%>
+        </ul>
+
+<% if @search_url -%>
+        <form class="navbar-search form-search pull-right" method="get" action="<%= @search_url %>">
+          <div class="input-append">
+            <input type="text" class="search-query" name="q" placeholder="Search <%= @search_for %>"<% if params['q'] %> value="<%= params['q'] %>"<% end %>>
+<%   if @section == 'Nodes' and not settings.rb.node_search.empty? -%>
+            <div class="btn-group dropdown">
+              <button class="btn" type="submit"><i class="icon-search" title="search"></i></button>
+              <button class="btn btn-last dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+            <ul class="dropdown-menu pull-right">
+<%   settings.rb.node_search.each do |link_name, query| -%>
+              <li><a href='/nodes?q=<%= query %>'><%= link_name %></a></li>
+<%   end -%>
+            </ul>
+            </div>
+<%   else -%>
+            <button type="submit" class="btn" id="search-submit"><i class="icon-search" title="search"></i></button>
+<%   end -%>
+          </div>
+        </form>
+<% end -%>
       </div>
-    </div>
-    <div class="container-fluid">
-      <%== yield %>
-    </div>
+    </nav>
+
+    <div class="container-fluid"><%== yield %></div>
+
     <script src="/js/jquery-2.0.3.js"></script>
     <script src="/js/bootstrap.js"></script>
     <script src="/js/jquery.filtertable.js"></script>
     <script>
-    $('table').filterTable({label: "", placeholder: "filter attributes", inputClass: "search-query"});
+      $('table').filterTable({label: "", placeholder: "filter attributes", inputClass: "search-query"});
     </script>
   </body>
 </html>

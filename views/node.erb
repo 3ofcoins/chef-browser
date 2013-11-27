@@ -1,29 +1,26 @@
-<ul class="breadcrumb">
-  <li><a href="/nodes">Nodes</a> <span class="divider">|</span></li>
-  <li class="active"><%= node.name %></a> </li>
-</ul>
-
 <h1><%= node.name %></h1>
 
 <p><%= node[:automatic][:fqdn] %> (<%= node[:automatic][:ipaddress] %>)</p>
 
 <p><strong>Environment:</strong> <a href="/nodes?q=chef_environment:<%= node.chef_environment %>"><%= node.chef_environment %></a></p>
 
-<p><strong>Tags:</strong>
-  <ul class="inline">
-<% (attributes[:tags] || []).each do |tag| -%>
-    <li><a href="/nodes?q=tags:<%= tag %>"><%= tag %></a></li>
+<% if attributes[:tags] and not attributes[:tags].empty? -%>
+<p><strong>Tags:</strong></p>
+<ul class="inline">
+<%   attributes[:tags].each do |tag| -%>
+  <li><a href="/nodes?q=tags:<%= tag %>"><%= tag %></a></li>
+<%   end -%>
+</ul>
 <% end -%>
-  </ul>
-</p>
 
-<p><strong>Run list:</strong>
-  <ul class="inline">
-<% node[:run_list].each do |run_list_item| -%>
-    <li><%= run_list_item %></li>
+<% unless node[:run_list].empty? -%>
+<p><strong>Run list:</strong></p>
+<ul class="inline">
+<%   node[:run_list].each do |run_list_item| -%>
+  <li><%= run_list_item %></li>
+<%   end -%>
+</ul>
 <% end -%>
-  </ul>
-</p>
 
 <h2>Attributes</h2>
 
@@ -48,4 +45,5 @@
 <%   end -%>
     </div>
 <% end -%>
+  </div>
 </div>
