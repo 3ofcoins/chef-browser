@@ -1,14 +1,8 @@
-<ul class="breadcrumb">
-  <li><a href="/environments">Environments</a> <span class="divider">|</span></li>
-  <li class="active"><%= environment[:name] %> </a></li>
-</ul>
-
-<h1><%= environment[:name] %></h1>
-
+<h1><%= environment.name %></h1>
 <div class="filterable">
   <table class="table table-condensed table-striped table-hover">
-<%   with_jsonpath(chef_server.environment.find(environment)._attributes_) do |path, value| -%>
+<% with_jsonpath(environment._attributes_) do |path, value| -%>
     <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
-<%   end -%>
+<% end -%>
   </table>
 </div>

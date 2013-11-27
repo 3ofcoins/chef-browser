@@ -2,11 +2,24 @@ require 'erubis'
 require 'sinatra'
 require 'ridley'
 
+require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
 
 module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
+
+    # Triples of [ title, list URL, item URL ]
+    SECTIONS = [
+      [ 'Nodes',        '/nodes',        '/node' ],
+      [ 'Environments', '/environments', '/environment' ],
+      [ 'Roles',        '/roles',        '/role' ],
+      [ 'Data Bags',    '/data_bags',    '/data_bag' ]
+    ]
+
+    ##
+    ## Settings
+    ## --------
 
     set :erb, :escape_html => true
     set :root, File.expand_path(File.join(File.dirname(__FILE__), '../..'))
@@ -21,6 +34,10 @@ module ChefBrowser
                settings_rb.load(settings_path)
                settings_rb
              end
+
+    ##
+    ## Helpers
+    ## -------
 
     def chef_server
       @chef_server ||= settings.rb.ridley
@@ -71,28 +88,79 @@ module ChefBrowser
       end
     end
 
+    def resource_list(resource, data_bag_id=nil)
+      if params['q'] && resource != :data_bag
+        @title << params['q']
+        @search_query = params['q']
+        if data_bag_id
+          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
+          data_bag = chef_server.data_bag.find(data_bag_id)
+          resources = chef_server.search(data_bag_id, params['q']).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+         else
+          resources = chef_server.search(resource, params['q'])
+        end
+      elsif data_bag_id
+        resources = chef_server.data_bag.find(data_bag_id).item.all
+      else
+        resources = chef_server.send(resource).all
+      end
+      erb :resource_list, locals: { resources: resources.sort, data_bag_id: data_bag_id }
+    end
+
+    ##
+    ## Filters
+    ## -------
+
+    before do
+      @title = [ "Chef Browser" ]
+    end
+
+    SECTIONS.each do |section, list_route, item_route|
+      before "#{item_route}*" do
+        @search_url = list_route unless section == 'Data Bags' # Data bags are special.
+        @search_for = section
+        @title << section
+        @section = section
+      end
+    end
+
+    before "/data_bag/:data_bag_id*" do
+      @search_url = "/data_bag/#{params[:data_bag_id]}"
+      @search_for = params[:data_bag_id]
+      @title << params[:data_bag_id]
+    end
+
+    ##
+    ## Views
+    ## -----
+
     get '/' do
       redirect '/nodes'
     end
 
-    get '/nodes' do
-      search_query = params["q"]
-      if search_query.blank?
-        erb :node_list, locals: {
-          nodes: chef_server.node.all.sort,
-          search_query: search_query
-        }
-      else
-        search_results = chef_server.search(:node, search_query).sort_by {|k| k[:name]}
-        erb :node_search, locals: {
-          search_query: search_query,
-          search_results: search_results
-        }
-      end
+    get '/nodes/?' do
+      resource_list :node
     end
 
-    get '/node/:node_name' do
+    get '/roles/?' do
+      resource_list :role
+    end
+
+    get '/environments/?' do
+      resource_list :environment
+    end
+
+    get '/data_bags/?' do
+      resource_list :data_bag
+    end
+
+    get '/data_bag/:data_bag_id/?' do
+      resource_list :data_bag_item, params[:data_bag_id]
+    end
+
+    get '/node/:node_name/?' do
       node = chef_server.node.find(params[:node_name])
+      @title << params[:node_name]
       merged_attributes = node.chef_attributes
       erb :node, locals: {
         node: node,
@@ -109,86 +177,22 @@ module ChefBrowser
       }
     end
 
-    get '/environments' do
-      search_query = params["q"]
-      environments = chef_server.environment.all
-      if search_query.blank?
-        erb :environment_list, locals: {
-        environments: environments
-        }
-      else
-        search_results = chef_server.search(:environment, search_query, :sort => 'name ASC')
-        erb :env_search, locals: {
-          search_query: search_query,
-          search_results: search_results
-        }
-      end
-    end
-
-    get '/environment/:env_name' do
+    get '/environment/:env_name/?' do
       environment = chef_server.environment.find(params[:env_name])
-      erb :environment, locals: {
-        environment: environment
-      }
+      @title << params[:env_name]
+      erb :environment, locals: { environment: environment }
     end
 
-    get '/data_bags' do
-      bags = chef_server.data_bag
-      erb :data_bag_list, locals: {
-        bags: bags
-      }
+    get '/data_bag/:data_bag_id/:data_bag_item_id/?' do
+      @title << params[:data_bag_item_id]
+      data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
+      erb :data_bag_item, locals: { data_bag_item: data_bag_item }
     end
 
-    get '/data_bag/:data_bag_id' do
-      search_query = params["q"]
-      data_bag = params[:data_bag_id]
-      bags = chef_server.data_bag
-      if search_query.blank?
-        erb :data_bag, locals: {
-          data_bag: data_bag,
-          bags: bags
-        }
-      else
-        search_results = chef_server.search(data_bag, search_query).sort_by {|k| k[:name]}
-        erb :data_search, locals: {
-          search_query: search_query,
-          search_results: search_results,
-          data_bag: data_bag
-        }
-      end
-    end
-
-    get '/data_bag/:data_bag_id/:data_bag_item_id' do
-      data_bag = params[:data_bag_id]
-      data_bag_item = chef_server.data_bag.find(data_bag).item.find(params[:data_bag_item_id])
-      erb :data_bag_item, locals: {
-        data_bag: data_bag,
-        data_bag_item: data_bag_item
-      }
-    end
-
-    get '/roles' do
-      search_query = params["q"]
-      roles = chef_server.role.all
-      if search_query.blank?
-        erb :role_list, locals: {
-          roles: roles,
-          search_query: search_query
-        }
-      else
-        search_results = chef_server.search(:role, search_query, :sort => 'name ASC')
-        erb :role_search, locals: {
-          search_query: search_query,
-          search_results: search_results
-        }
-      end
-    end
-
-    get '/role/:role_id' do
+    get '/role/:role_id/?' do
+      @title << params[:role_id]
       role = chef_server.role.find(params[:role_id])
-      erb :role, locals: {
-        role: role
-      }
+      erb :role, locals: { role: role }
     end
   end
 end

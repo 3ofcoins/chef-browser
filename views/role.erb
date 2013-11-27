@@ -1,10 +1,4 @@
-<ul class="breadcrumb">
-  <li><a href="/roles">Roles</a> <span class="divider">|</span></li>
-  <li class="active"><%= role.name %></a> </li>
-</ul>
-
 <h1><%= role.name %></h1>
-
 <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(role._attributes_) do |path, value| -%>
   <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>

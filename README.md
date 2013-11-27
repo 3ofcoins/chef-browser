@@ -1,7 +1,7 @@
 chef-browser
 ============
 
-Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list (and search through) nodes and data bags as well as view their details: basic information plus pre-formatted JSON data.
+Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list (and search through) nodes, environments, roles and data bags (and items) as well as view their details: basic information plus pre-formatted JSON data. Shorten the time necessary to access often used information with saved searches.
 
 ## Installation
 
@@ -34,17 +34,16 @@ node_search['MySQL Servers'] = 'mysql_server_root_password:*'
 node_search['Staging'] = 'chef_environment:staging'
 ```
 
-You can define as many saved searches as you like. Right now this option works only for nodes.
+You can define as many saved searches as you like. Your saved searches will appear as a dropdown list next to the search box. Right now this option works only for nodes.
 
 ## Accessible data
 
-Right now chef-browser allows you to access the following:
-- nodes available on your server,
+Chef-browser allows you to access the following:
+- nodes, environments, roles and data bags available on your server,
 - details of each node:
     - name, ip address, fqdn, environment, tags, run list,
-    - attributes presented using JSONpath in a handy table,
-- data bags,
-- data bag items with their attributes presented using JSONpath.
+    - attributes presented using JSONpath in a handy, filterable table,
+- details of each environment, role and data bag item, with their attributes presented using JSONpath.
 
 ## Third party
 
@@ -57,3 +56,13 @@ Any safety precautions are left on the side of the user. Chef browser is a minim
 ## Ruby versions
 
 Chef-browser works with Ruby 1.9.3, Ruby 2.0.0, JRuby and RBX.
+
+## Contributing
+
+* Fork the repo.
+* Create a branch from the develop branch and name it 'feature/name-of-feature': `git checkout -b feature/my-new-feature` (We follow [this branching model] (http://nvie.com/posts/a-successful-git-branching-model/))
+* Make sure you test your new feature.
+* Commit your changes together with specs for them: `git commit -am 'Add some feature'`
+* Push your changes to your feature branch.
+* Submit a pull request to the develop repository. Describe your feature in the pull request. Make sure you commit the specs.
+* A pull request does not necessarily need to represent the final, finished feature. Feel free to treat it as a base for discussion.
