@@ -112,7 +112,7 @@ module ChefBrowser
     ## -------
 
     before do
-      @title = [ "Chef Browser" ]
+      @title = [ settings.rb.title ]
     end
 
     SECTIONS.each do |section, list_route, item_route|
