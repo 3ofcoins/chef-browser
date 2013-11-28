@@ -196,7 +196,7 @@ module ChefBrowser
     end
 
     settings.rb.node_search.each_pair do |search_name, query|
-      search_name = search_name.gsub(" ", "+")
+      search_name = ::URI::encode_www_form_component(search_name)
       get "/#{search_name}" do
         @search_url = '/nodes'
         @section = 'Nodes'
