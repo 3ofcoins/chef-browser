@@ -31,3 +31,8 @@ Scenario: Using a node saved search
   Then I am at "/nodes"
   And I can see "Search results (1)"
   And I can see "some-node-name"
+
+Scenario: User enters a saved search in the URL
+  When I visit "/Database+tag"
+  Then I can see "Search results (1)"
+  And I can see "some-node-name"

@@ -96,7 +96,7 @@ module ChefBrowser
           # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
           data_bag = chef_server.data_bag.find(data_bag_id)
           resources = chef_server.search(data_bag_id, params['q']).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
-         else
+        else
           resources = chef_server.search(resource, params['q'])
         end
       elsif data_bag_id
@@ -193,6 +193,16 @@ module ChefBrowser
       @title << params[:role_id]
       role = chef_server.role.find(params[:role_id])
       erb :role, locals: { role: role }
+    end
+
+    settings.rb.node_search.each_pair do |search_name, query|
+      search_name = search_name.gsub(" ", "+")
+      get "/#{search_name}" do
+        @search_url = '/nodes'
+        @section = 'Nodes'
+        params['q'] = query
+        resource_list :node
+      end
     end
   end
 end
