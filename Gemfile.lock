@@ -64,6 +64,7 @@ GEM
     nio4r (0.5.0)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    oj (2.2.3)
     predicated (0.2.6)
     pry (0.9.12.4)
       coderay (~> 1.0)
@@ -128,6 +129,7 @@ DEPENDENCIES
   chef-zero
   cucumber
   erubis (~> 2.7.0)
+  oj
   pry
   puma
   rack-test
