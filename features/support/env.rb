@@ -5,6 +5,8 @@ ENV['CHEF_BROWSER_SETTINGS'] = File.expand_path(File.join(File.dirname(__FILE__)
     '../fixtures/settings.rb'))
 ENV['CHEF_ZERO_PORT'] ||= '4001'
 
+require 'celluloid/test'        # needs to be required before chef-browser
+
 require 'chef-browser'
 
 require 'capybara/cucumber'
@@ -41,3 +43,5 @@ end
 
 require 'wrong'
 World(Wrong)
+
+Celluloid.boot
