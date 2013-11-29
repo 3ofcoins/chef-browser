@@ -28,7 +28,7 @@
               <button class="btn btn-last dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
             <ul class="dropdown-menu pull-right">
 <%   settings.rb.node_search.each do |link_name, query| -%>
-              <li><a href='/nodes?q=<%= query %>'><%= link_name %></a></li>
+              <li><a href='/nodes/<%= ::URI::encode_www_form_component(link_name) %>'><%= link_name %></a></li>
 <%   end -%>
             </ul>
             </div>

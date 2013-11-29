@@ -195,11 +195,14 @@ module ChefBrowser
       erb :role, locals: { role: role }
     end
 
+    before "/nodes/:search_name" do
+      @search_url = '/nodes'
+      @section = 'Nodes'
+    end
+
     settings.rb.node_search.each_pair do |search_name, query|
       search_name = ::URI::encode_www_form_component(search_name)
-      get "/#{search_name}" do
-        @search_url = '/nodes'
-        @section = 'Nodes'
+      get "/nodes/#{search_name}" do
         params['q'] = query
         resource_list :node
       end
