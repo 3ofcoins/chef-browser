@@ -133,7 +133,7 @@ module ChefBrowser
     settings.rb.node_search.each_pair do |search_name, query|
       before "/nodes/#{search_name}" do
         @search_url = '/nodes'
-        @search_for = query
+        params['q'] = query
         @section = 'Nodes'
       end
     end
@@ -205,7 +205,6 @@ module ChefBrowser
 
     get "/nodes/:search_name" do
       pass unless settings.rb.node_search.include?(::URI::decode_www_form_component(params[:search_name]))
-      params['q'] = @search_for
       resource_list :node
     end
   end
