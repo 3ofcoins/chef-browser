@@ -130,6 +130,14 @@ module ChefBrowser
       @title << params[:data_bag_id]
     end
 
+    settings.rb.node_search.each_pair do |search_name, query|
+      before "/nodes/#{search_name}" do
+        @search_url = '/nodes'
+        @search_for = query
+        @section = 'Nodes'
+      end
+    end
+
     ##
     ## Views
     ## -----
@@ -195,17 +203,9 @@ module ChefBrowser
       erb :role, locals: { role: role }
     end
 
-    before "/nodes/:search_name" do
-      @search_url = '/nodes'
-      @section = 'Nodes'
-    end
-
-    settings.rb.node_search.each_pair do |search_name, query|
-      search_name = ::URI::encode_www_form_component(search_name)
-      get "/nodes/#{search_name}" do
-        params['q'] = query
-        resource_list :node
-      end
+    get "/nodes/:search_name" do
+      params['q'] = @search_for
+      resource_list :node
     end
   end
 end
