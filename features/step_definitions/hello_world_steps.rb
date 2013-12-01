@@ -2,11 +2,12 @@ PAGES = {
   'main page' => '/'
 }
 
-When(/^I visit (?:the )?"(.*?)"$/) do |page|
+When(/^I visit (?:the )?"(.*?)"$/) do |page_url|
   # Find address from dictionary of named pages, unless we actually got
   # an URL path.
-  page = PAGES[page.downcase] unless page =~ /^\//
-  visit(page)
+  page_url = PAGES[page_url.downcase] unless page_url =~ /^\//
+  page_url = "#{$rack_script_path}#{page_url}" if $rack_script_path
+  visit(page_url)
 end
 
 Then(/^I can see "(.*?)"$/) do |text|
@@ -21,6 +22,7 @@ When(/^I click on "(.*?)"$/) do |text|
 end
 
 Then(/^I am at "(.*?)"$/) do |path|
+  path = "#{$rack_script_path}#{path}" if $rack_script_path
   assert { current_path == path }
 end
 
