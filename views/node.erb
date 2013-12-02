@@ -2,13 +2,13 @@
 
 <p><%= node[:automatic][:fqdn] %> (<%= node[:automatic][:ipaddress] %>)</p>
 
-<p><strong>Environment:</strong> <a href="/nodes?q=chef_environment:<%= node.chef_environment %>"><%= node.chef_environment %></a></p>
+<p><strong>Environment:</strong> <a href='<%= url "/nodes?q=chef_environment:#{node.chef_environment}" %>'><%= node.chef_environment %></a></p>
 
 <% if attributes[:tags] and not attributes[:tags].empty? -%>
 <p><strong>Tags:</strong></p>
 <ul class="inline">
 <%   attributes[:tags].each do |tag| -%>
-  <li><a href="/nodes?q=tags:<%= tag %>"><%= tag %></a></li>
+  <li><a href='<%= url "/nodes?q=tags:#{tag}" %>'><%= tag %></a></li>
 <%   end -%>
 </ul>
 <% end -%>

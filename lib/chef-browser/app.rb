@@ -112,7 +112,7 @@ module ChefBrowser
     ## -------
 
     before do
-      @title = [ "Chef Browser" ]
+      @title = [ settings.rb.title ]
     end
 
     SECTIONS.each do |section, list_route, item_route|
@@ -143,7 +143,7 @@ module ChefBrowser
     ## -----
 
     get '/' do
-      redirect '/nodes'
+      redirect url '/nodes'
     end
 
     get '/nodes/?' do
