@@ -10,6 +10,6 @@
 <% end -%>
 <ul class="unstyled">
 <% resources.each do |resource| -%>
-  <li><a href='<%= url "#{resource.url}" %>'><%= resource.chef_id %></a></li>
+  <li><a href='<%= url resource.url %>'><%= resource.chef_id %></a></li>
 <% end -%>
 </ul>

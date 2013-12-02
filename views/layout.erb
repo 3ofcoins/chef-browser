@@ -14,7 +14,7 @@
 
         <ul class="nav">
 <% SECTIONS.each do |section, link, _| -%>
-          <li<%== ' class="active"' if section == @section %>><a href='<%= url "#{link}" %>'><%= section %></a></li>
+          <li<%== ' class="active"' if section == @section %>><a href='<%= url link %>'><%= section %></a></li>
 <% end -%>
         </ul>
 

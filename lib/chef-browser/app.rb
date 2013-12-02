@@ -135,7 +135,7 @@ module ChefBrowser
     ## -----
 
     get '/' do
-      redirect '/nodes'
+      redirect url '/nodes'
     end
 
     get '/nodes/?' do
