@@ -19,7 +19,7 @@
         </ul>
 
 <% if @search_url -%>
-        <form class="navbar-search form-search pull-right" method="get" action="<%= @search_url %>">
+        <form class="navbar-search form-search pull-right" method="get" action='<%= url @search_url %>'>
           <div class="input-append">
             <input type="text" class="search-query" name="q" placeholder="Search <%= @search_for %>"<% if params['q'] %> value="<%= params['q'] %>"<% end %>>
 <%   if @section == 'Nodes' and not settings.rb.node_search.empty? -%>
