@@ -3,18 +3,18 @@
   <head>
     <title><%= @title.join(' » ') %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
-    <link href="/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="/css/chef-browser.css" rel="stylesheet" media="screen">
+    <link href='<%= url "/css/bootstrap-responsive.css" %>' rel="stylesheet" media="screen">
+    <link href='<%= url "/css/bootstrap.css" %>' rel="stylesheet" media="screen">
+    <link href='<%= url "/css/chef-browser.css" %>' rel="stylesheet" media="screen">
   </head>
   <body>
     <nav class="navbar" role="navigation">
       <div class="navbar-inner">
-        <a class="brand" href="/"><%= @title[0] %></a>
+        <a class="brand" href='<%= url "/" %>'><%= @title[0] %></a>
 
         <ul class="nav">
 <% SECTIONS.each do |section, link, _| -%>
-          <li<%== ' class="active"' if section == @section %>><a href="<%= link %>"><%= section %></a></li>
+          <li<%== ' class="active"' if section == @section %>><a href='<%= url "#{link}" %>'><%= section %></a></li>
 <% end -%>
         </ul>
 
@@ -28,7 +28,7 @@
               <button class="btn btn-last dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
             <ul class="dropdown-menu pull-right">
 <%   settings.rb.node_search.each do |link_name, query| -%>
-              <li><a href='/nodes?q=<%= query %>'><%= link_name %></a></li>
+              <li><a href='<%= url "/nodes?q=#{query}" %>'><%= link_name %></a></li>
 <%   end -%>
             </ul>
             </div>
