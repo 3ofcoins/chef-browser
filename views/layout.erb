@@ -21,14 +21,14 @@
 <% if @search_url -%>
         <form class="navbar-search form-search pull-right" method="get" action='<%= url @search_url %>'>
           <div class="input-append">
-            <input type="text" class="search-query" name="q" placeholder="Search <%= @search_for %>"<% if params['q'] %> value="<%= params['q'] %>"<% end %>>
+            <input type="text" class="search-query" name="q" placeholder="Search <%= @search_for %>" value="<%= search_query %>">
 <%   if @section == 'Nodes' and not settings.rb.node_search.empty? -%>
             <div class="btn-group dropdown">
               <button class="btn" type="submit"><i class="icon-search" title="search"></i></button>
               <button class="btn btn-last dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
             <ul class="dropdown-menu pull-right">
 <%   settings.rb.node_search.each do |link_name, query| -%>
-              <li><a href='<%= url "/nodes?q=#{::URI::encode_www_form_component(link_name)}" %>'><%= link_name %></a></li>
+              <li><a href='<%= url "/nodes/#{::URI::encode_www_form_component(link_name)}" %>'><%= link_name %></a></li>
 <%   end -%>
             </ul>
             </div>
