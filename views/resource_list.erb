@@ -1,5 +1,7 @@
 <% if data_bag_id -%>
-<h1><%= data_bag_id %></h1>
+<div class="page-header">
+  <h1><%= data_bag_id %></h1>
+</div>
 <% end -%>
 <% if @search_query -%>
 <%   if resources.empty? -%>
@@ -8,7 +10,7 @@
 <p class="lead">Search results (<%= resources.length %>)</p>
 <%   end -%>
 <% end -%>
-<ul class="unstyled">
+<ul class="list-unstyled">
 <% resources.each do |resource| -%>
   <li><a href='<%= url resource.url %>'><%= resource.chef_id %></a></li>
 <% end -%>

@@ -74,7 +74,7 @@ module ChefBrowser
     def pretty_value(value)
       case value
       when true    then '<span class="label label-success">true</span>'
-      when false   then '<span class="label label-important">false</span>'
+      when false   then '<span class="label label-warning">false</span>'
       when nil     then '<em class="text-muted">nil</em>'
       when Numeric then value.to_s
       when String
