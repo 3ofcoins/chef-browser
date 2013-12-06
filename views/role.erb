@@ -20,7 +20,7 @@
     <div class="tab-pane active" id="run-list-def">
       <ul class="list-unstyled">
 <%     role.run_list.each do |run_list| -%>
-        <li><a href='<%= url "#" %>'><%= run_list %></a></li>
+        <li><a href='#'><%= run_list %></a></li>
 <%     end -%>
       </ul>
     </div>
@@ -58,12 +58,14 @@
   <div class="tab-content">
 <%   tabs.each do |tab_name, tab_data| -%>
     <div class="tab-pane <%= tab_name == active_tab ? 'active' : 'fade in'  %>" id="attributes-<%= tab_name %>">
-      <table class="table table-condensed table-striped table-hover">
+      <div class="filterable">
+        <table class="table table-condensed table-striped table-hover">
 <%     with_jsonpath(tab_data) do |path, value| -%>
-        <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+          <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <%     end -%>
-      </table>
-<%   end -%>
+        </table>
+      </div>
     </div>
+<%   end -%>
   </div>
 </div>

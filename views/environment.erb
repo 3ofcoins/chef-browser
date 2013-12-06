@@ -22,8 +22,7 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
 <%   tabs.each do |tab_name, tab_data| -%>
-<%     if tab_data.empty? -%>
-<%     else -%>
+<%     if tab_data.empty? == false -%>
      <li<%== tab_name == active_tab ? ' class="active"' : '' %>><a href="#attributes-<%= tab_name %>" data-toggle="tab"><%= tab_name.capitalize %></a></li>
 <%     end -%>
 <%   end -%>
@@ -38,7 +37,7 @@
 <%     end -%>
         </table>
       </div>
-<%   end -%>
     </div>
+<%   end -%>
   </div>
 </div>
