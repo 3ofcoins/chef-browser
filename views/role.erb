@@ -9,14 +9,9 @@
 <% if role.run_list.empty? == false && role.env_run_lists.empty? -%>
 <h2>Run List</h2>
 <ul class="list-unstyled">
-<%     role.run_list.each do |run_list| -%>
-  <li><%  if run_list["role"] != nil -%>
-    <a href='<%= url "/role/#{run_list.gsub('role[', '').gsub(']', '')}" %>'><%= run_list %></a>
-<%        else -%>
-<%=         run_list %>
-<%        end -%>
-  </li>
-<%     end -%>
+<%   role.run_list.each do |run_list| -%>
+  <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').gsub(']', '')}") + "'>#{run_list}</a>" : run_list %></li>
+<%   end -%>
 </ul>
 <% end -%>
 <% if role.run_list.empty? == false && role.env_run_lists.empty? == false -%>
@@ -31,14 +26,9 @@
   <div class="tab-content">
     <div class="tab-pane active" id="default">
       <ul class="list-unstyled">
-<%     role.run_list.each do |run_list| -%>
-        <li><%  if run_list["role"] != nil -%>
-            <a href='<%= url "/role/#{run_list.gsub('role[', '').gsub(']', '')}" %>'><%= run_list %></a>
-            <%  else -%>
-            <%=   run_list %>
-            <%  end %>
-        </li>
-<%     end -%>
+<%   role.run_list.each do |run_list| -%>
+        <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').gsub(']', '')}") + "'>#{run_list}</a>" : run_list %></li>
+<%   end -%>
       </ul>
     </div>
 <%   role.env_run_lists.each do |env, run_list| -%>
@@ -58,9 +48,9 @@
 <h2>Attributes</h2>
 <div class="tabbable">
   <ul class="nav nav-tabs">
-<% tabs.each do |tab_name, tab_data| -%>
+<%   tabs.each do |tab_name, tab_data| -%>
     <li<%== tab_name == active_tab ? ' class="active"' : '' %>><a href="#attributes-<%= tab_name %>" data-toggle="tab"><%= tab_name.capitalize %></a></li>
-<% end -%>
+<%   end -%>
   </ul>
   <div class="tab-content">
 <%   tabs.each do |tab_name, tab_data| -%>
@@ -78,11 +68,11 @@
 </div>
 <% elsif tabs["default"].empty? == false || tabs["override"].empty == false -%>
 <h2>Attributes</h2>
-      <div class="filterable">
-        <table class="table table-condensed table-striped table-hover">
-<%     with_jsonpath(tabs.values) do |path, value| -%>
-          <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
-<%     end -%>
-        </table>
-      </div>
+<div class="filterable">
+  <table class="table table-condensed table-striped table-hover">
+<%   with_jsonpath(tabs.values) do |path, value| -%>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<%   end -%>
+  </table>
+</div>
 <% end -%>
