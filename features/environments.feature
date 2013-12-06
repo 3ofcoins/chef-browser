@@ -8,12 +8,22 @@ Background:
           "_default": {
             "chef_type": "environment",
             "name": "_default",
-            "attributes": ["First", "Second"]
+            "default_attributes": {
+              "First": "A",
+              "Second": "B"
+            }
           },
           "some-environment": {
             "chef_type": "environment",
             "name": "some-environment",
-            "attributes": ["Third", "Fourth"]
+            "default_attributes": {
+              "third" : "c", 
+              "fourth": "d"
+            },
+            "override_attributes": {
+              "fifth": "e",
+              "sixth": "f"
+            }
           }
         }
       }
@@ -28,4 +38,9 @@ Scenario: Table of environment attributes
   When I visit "/environments"
   And I click on "some-environment"
   Then I am at "/environment/some-environment"
-  And I see an attribute "$.name" with value "some-environment"
+  And I see an attribute "$.third" with value "c"
+
+Scenario: Tabs visible only when necessary
+  When I visit "/environment/_default"
+  Then I can see "Default"
+  And I can't see "Override"
