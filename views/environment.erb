@@ -16,15 +16,12 @@
 </dl>
 <% end -%>
 
-<% if tabs["default"].empty? == false || tabs["override"].empty? == false -%>
+<% if tabs["default"].empty? == false && tabs["override"].empty? == false -%>
 <h2>Attributes</h2>
-<% end -%>
 <div class="tabbable">
   <ul class="nav nav-tabs">
 <%   tabs.each do |tab_name, tab_data| -%>
-<%     if tab_data.empty? == false -%>
-     <li<%== tab_name == active_tab ? ' class="active"' : '' %>><a href="#attributes-<%= tab_name %>" data-toggle="tab"><%= tab_name.capitalize %></a></li>
-<%     end -%>
+    <li<%== tab_name == active_tab ? ' class="active"' : '' %>><a href="#attributes-<%= tab_name %>" data-toggle="tab"><%= tab_name.capitalize %></a></li>
 <%   end -%>
   </ul>
   <div class="tab-content">
@@ -41,3 +38,22 @@
 <%   end -%>
   </div>
 </div>
+<% elsif tabs["default"].empty? == false || tabs["override"].empty == false -%>
+<h2>Attributes</h2>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href='#<%= tabs["default"].empty? ? "override" : "default" %>' data-toggle="tab"><%= tabs["default"].empty? ? "Override" : "Default" %></a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id='<%= tabs["default"].empty? ? "override" : "default" %>'>
+      <div class="filterable">
+        <table class="table table-condensed table-striped table-hover">
+<%     with_jsonpath((tabs["default"] || tabs["override"]).values) do |path, value| -%>
+          <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<%     end -%>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<% end -%>

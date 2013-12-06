@@ -6,18 +6,30 @@
 
 <%== role.description.empty? ? '' : "<p>#{role.description}</p>" %>
 
-<% if role.run_list.empty? == false -%>
+<% if role.run_list.empty? == false && role.env_run_lists.empty? -%>
 <h2>Run List</h2>
-<%   if role.env_run_lists.empty? == false -%>
+<ul class="list-unstyled">
+<%     role.run_list.each do |run_list| -%>
+  <li><%  if run_list["role"] != nil -%>
+    <a href='<%= url "/role/#{run_list.gsub('role[', '').gsub(']', '')}" %>'><%= run_list %></a>
+<%        else -%>
+<%=         run_list %>
+<%        end -%>
+  </li>
+<%     end -%>
+</ul>
+<% end -%>
+<% if role.run_list.empty? == false && role.env_run_lists.empty? == false -%>
+<h2>Run List</h2>
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#run-list-def" data-toggle="tab">Default</a></li>
-<%     role.env_run_lists.keys.each do |env| -%>
+    <li class="active"><a href="#default" data-toggle="tab">Default</a></li>
+<%   role.env_run_lists.keys.each do |env| -%>
     <li><a href="#<%= env %>" data-toggle="tab"><%= env %></a></li>
-<%     end -%>
+<%   end -%>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane active" id="run-list-def">
+    <div class="tab-pane active" id="default">
       <ul class="list-unstyled">
 <%     role.run_list.each do |run_list| -%>
         <li><%  if run_list["role"] != nil -%>
@@ -29,40 +41,25 @@
 <%     end -%>
       </ul>
     </div>
-<%     role.env_run_lists.each do |env, run_list| -%>
-    <div class="tab-pane active" id="<%= env %>">
+<%   role.env_run_lists.each do |env, run_list| -%>
+    <div class="tab-pane fade in" id="<%= env %>">
       <ul class="list-unstyled">
-<%       run_list.each do |run| -%>
+<%     run_list.each do |run| -%>
         <li><%= run %></li>
-<%       end -%>
+<%     end -%>
       </ul>
     </div>
-<%     end -%>
+<%   end -%>
   </div>
 </div>
-<%   else -%>
-<ul class="list-unstyled">
-<%     role.run_list.each do |run_list| -%>
-  <li><%  if run_list["role"] != nil -%>
-            <a href='<%= url "/role/#{run_list.gsub('role[', '').gsub(']', '')}" %>'><%= run_list %></a>
-            <%  else -%>
-            <%=   run_list %>
-            <%  end %>
-        </li>
-<%     end -%>
-</ul>
-<%   end -%>
 <% end -%>
 
-<% if tabs["default"].empty? == false || tabs["override"].empty? == false -%>
+<% if tabs["default"].empty? == false && tabs["override"].empty? == false -%>
 <h2>Attributes</h2>
 <div class="tabbable">
   <ul class="nav nav-tabs">
-<% end -%>
 <% tabs.each do |tab_name, tab_data| -%>
-<%   if tab_data.empty? == false -%>
     <li<%== tab_name == active_tab ? ' class="active"' : '' %>><a href="#attributes-<%= tab_name %>" data-toggle="tab"><%= tab_name.capitalize %></a></li>
-<%   end -%>
 <% end -%>
   </ul>
   <div class="tab-content">
@@ -79,3 +76,13 @@
 <%   end -%>
   </div>
 </div>
+<% elsif tabs["default"].empty? == false || tabs["override"].empty == false -%>
+<h2>Attributes</h2>
+      <div class="filterable">
+        <table class="table table-condensed table-striped table-hover">
+<%     with_jsonpath(tabs.values) do |path, value| -%>
+          <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<%     end -%>
+        </table>
+      </div>
+<% end -%>
