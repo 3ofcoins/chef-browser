@@ -10,7 +10,7 @@
 <h2>Run List</h2>
 <ul class="list-unstyled">
 <%   role.run_list.each do |run_list| -%>
-  <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').gsub(']', '')}") + "'>#{run_list}</a>" : run_list %></li>
+  <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').chop}") + "'>#{run_list}</a>" : run_list %></li>
 <%   end -%>
 </ul>
 <% end -%>
@@ -27,7 +27,7 @@
     <div class="tab-pane active" id="default">
       <ul class="list-unstyled">
 <%   role.run_list.each do |run_list| -%>
-        <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').gsub(']', '')}") + "'>#{run_list}</a>" : run_list %></li>
+        <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').chop}") + "'>#{run_list}</a>" : run_list %></li>
 <%   end -%>
       </ul>
     </div>
