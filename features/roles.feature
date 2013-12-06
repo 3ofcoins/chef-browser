@@ -8,7 +8,7 @@ Background:
           "one-role": {
             "name": "one-role",
             "description": "A very important role",
-            "run_list": ["recipe[default]", "recipe[mysql]"]
+            "run_list": ["recipe[default]", "recipe[mysql]", "role[another-role]"]
           },
           "another-role": {
             "name": "another-role",
@@ -49,3 +49,9 @@ Scenario: Clickable tabs
   Then I am at "/role/another-role"
   Then I can see "recipe[mmm]"
   And I can see "recipe[uuu]"
+
+Scenario: Linking to other roles
+  When I visit "/role/one-role"
+  And I click on "role[another-role]"
+  Then I am at "/role/another-role"
+  And I can see "recipe[default]"

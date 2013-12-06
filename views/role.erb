@@ -20,7 +20,12 @@
     <div class="tab-pane active" id="run-list-def">
       <ul class="list-unstyled">
 <%     role.run_list.each do |run_list| -%>
-        <li><a href='#'><%= run_list %></a></li>
+        <li><%  if run_list["role"] != nil -%>
+            <a href='<%= url "/role/#{run_list.gsub('role[', '').gsub(']', '')}" %>'><%= run_list %></a>
+            <%  else -%>
+            <%=   run_list %>
+            <%  end %>
+        </li>
 <%     end -%>
       </ul>
     </div>
@@ -28,7 +33,7 @@
     <div class="tab-pane active" id="<%= env %>">
       <ul class="list-unstyled">
 <%       run_list.each do |run| -%>
-        <li><a href='#'><%= run %></a></li>
+        <li><%= run %></li>
 <%       end -%>
       </ul>
     </div>
@@ -38,7 +43,12 @@
 <%   else -%>
 <ul class="list-unstyled">
 <%     role.run_list.each do |run_list| -%>
-  <li><a href='<%= url "#" %>'><%= run_list %></a></li>
+  <li><%  if run_list["role"] != nil -%>
+            <a href='<%= url "/role/#{run_list.gsub('role[', '').gsub(']', '')}" %>'><%= run_list %></a>
+            <%  else -%>
+            <%=   run_list %>
+            <%  end %>
+        </li>
 <%     end -%>
 </ul>
 <%   end -%>
