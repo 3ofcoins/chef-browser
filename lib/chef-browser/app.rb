@@ -177,10 +177,17 @@ module ChefBrowser
       }
     end
 
-    get '/environment/:env_name/?' do
-      environment = chef_server.environment.find(params[:env_name])
-      @title << params[:env_name]
-      erb :environment, locals: { environment: environment }
+    get '/environment/:environment_name/?' do
+      environment = chef_server.environment.find(params[:environment_name])
+      @title << params[:environment_name]
+      erb :environment, locals: {
+        environment: environment,
+        tabs: {
+          'default' => environment.default_attributes,
+          'override' => environment.override_attributes
+        },
+        active_tab: 'default'
+      }
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id/?' do
@@ -192,7 +199,14 @@ module ChefBrowser
     get '/role/:role_id/?' do
       @title << params[:role_id]
       role = chef_server.role.find(params[:role_id])
-      erb :role, locals: { role: role }
+      erb :role, locals: {
+        role: role,
+        tabs: {
+          'default' => role.default_attributes,
+          'override' => role.override_attributes
+        },
+        active_tab: 'default'
+       }
     end
   end
 end

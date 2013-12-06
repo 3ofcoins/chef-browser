@@ -1,10 +1,44 @@
+<a class="btn btn-default btn-bg pull-right" href='<%= url "/nodes?q=chef_environment:#{environment.name}" %>'>Nodes</a>
+
 <div class="page-header">
   <h1><%= environment.name %></h1>
 </div>
-<div class="filterable">
-  <table class="table table-condensed table-striped table-hover">
-<% with_jsonpath(environment._attributes_) do |path, value| -%>
-    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+
+<%== environment.description.empty? ? '' : "<p>#{environment.description}</p>" %>
+
+<% if environment.cookbook_versions.length > 0 -%>
+<h2>Cookbook Versions</h2>
+<dl class="dl-horizontal">
+<%   environment.cookbook_versions.each do |cookbook| -%>
+  <dt><%= cookbook %></dt>
+  <dd></dd>
+<%   end -%>
+</dl>
 <% end -%>
-  </table>
+
+<% if tabs["default"].empty? == false || tabs["override"].empty? == false -%>
+<h2>Attributes</h2>
+<% end -%>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+<%   tabs.each do |tab_name, tab_data| -%>
+<%     if tab_data.empty? -%>
+<%     else -%>
+     <li<%== tab_name == active_tab ? ' class="active"' : '' %>><a href="#attributes-<%= tab_name %>" data-toggle="tab"><%= tab_name.capitalize %></a></li>
+<%     end -%>
+<%   end -%>
+  </ul>
+  <div class="tab-content">
+<%   tabs.each do |tab_name, tab_data| -%>
+    <div class="tab-pane <%= tab_name == active_tab ? 'active' : 'fade in'  %>" id="attributes-<%= tab_name %>">
+      <div class="filterable">
+        <table class="table table-condensed table-striped table-hover">
+<%     with_jsonpath(tab_data) do |path, value| -%>
+          <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<%     end -%>
+        </table>
+      </div>
+<%   end -%>
+    </div>
+  </div>
 </div>
