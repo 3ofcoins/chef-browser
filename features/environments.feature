@@ -29,3 +29,7 @@ Scenario: Table of environment attributes
   And I click on "some-environment"
   Then I am at "/environment/some-environment"
   And I see an attribute "$.name" with value "some-environment"
+
+Scenario: Visiting a non-existing environment returns a 404 error
+  When I visit "/environment/some-environmentt"
+  Then this page doesn't exist

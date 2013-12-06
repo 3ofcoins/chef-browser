@@ -23,3 +23,7 @@ Scenario: List roles
   When I visit "/roles"
   Then I can see "one-role"
   And I can see "another-role"
+
+Scenario: Visiting a non-existing role returns a 404 error
+  When I visit "/role/one-rolee"
+  Then this page doesn't exist

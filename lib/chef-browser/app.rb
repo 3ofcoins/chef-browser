@@ -160,6 +160,7 @@ module ChefBrowser
 
     get '/node/:node_name/?' do
       node = chef_server.node.find(params[:node_name])
+      pass unless node
       @title << params[:node_name]
       merged_attributes = node.chef_attributes
       erb :node, locals: {
@@ -179,19 +180,22 @@ module ChefBrowser
 
     get '/environment/:env_name/?' do
       environment = chef_server.environment.find(params[:env_name])
+      pass unless environment
       @title << params[:env_name]
       erb :environment, locals: { environment: environment }
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id/?' do
-      @title << params[:data_bag_item_id]
       data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
+      pass unless data_bag_item
+      @title << params[:data_bag_item_id]
       erb :data_bag_item, locals: { data_bag_item: data_bag_item }
     end
 
     get '/role/:role_id/?' do
-      @title << params[:role_id]
       role = chef_server.role.find(params[:role_id])
+      pass unless role
+      @title << params[:role_id]
       erb :role, locals: { role: role }
     end
   end

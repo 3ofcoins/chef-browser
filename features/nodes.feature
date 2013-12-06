@@ -32,3 +32,7 @@ Scenario: Selecting a node
   And I click on "some-node-name"
   Then I am at "/node/some-node-name"
   And I can see "some-node-name.example.com (1.2.3.4)"
+
+Scenario: Visiting a non-existing node returns a 404 error
+  When I visit "/node/some-node-namee"
+  Then this page doesn't exist
