@@ -23,6 +23,10 @@ Background:
             "override_attributes": {
               "fifth": "e",
               "sixth": "f"
+            },
+            "cookbook_versions": {
+              "cookbook1": "version1",
+              "cookbook2": "version2"
             }
           }
         }
@@ -44,3 +48,9 @@ Scenario: Tabs visible only when necessary
   When I visit "/environment/_default"
   Then I can see "Default"
   And I can't see "Override"
+
+Scenario: Cookbooks
+  When I visit "/environment/some-environment"
+  Then I can see "Cookbook Versions"
+  And I can see "cookbook1"
+  And I can see "version1"
