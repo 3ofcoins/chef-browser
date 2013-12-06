@@ -155,6 +155,7 @@ module ChefBrowser
     end
 
     get '/data_bag/:data_bag_id/?' do
+      pass unless chef_server.data_bag.find(params[:data_bag_id])
       resource_list :data_bag_item, params[:data_bag_id]
     end
 
