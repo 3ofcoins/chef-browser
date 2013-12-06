@@ -19,6 +19,10 @@ Background:
       }
     """
 
+Scenario: Wrong resource list url returns a 404 error
+  When I visit "/roless"
+  Then this page doesn't exist
+
 Scenario: List roles
   When I visit "/roles"
   Then I can see "one-role"

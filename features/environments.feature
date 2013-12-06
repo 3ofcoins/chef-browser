@@ -19,6 +19,10 @@ Background:
       }
     """
 
+Scenario: Wrong resource list url returns a 404 error
+  When I visit "/environmentss"
+  Then this page doesn't exist
+
 Scenario: List of environments
   When I visit "/environments"
   Then I can see "some-environment"
