@@ -11,24 +11,19 @@
     right: 0;
 }
 
-/* Fix Bootstrap's button group + form-search + dropdown combo */
-.form-search .input-append .btn-group .btn {
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
-}
-
-.form-search .input-append .btn-group:last-child .btn-last {
-    -webkit-border-radius: 0 14px 14px 0;
-       -moz-border-radius: 0 14px 14px 0;
-            border-radius: 0 14px 14px 0;
+/* copy of col-sm-4, without float:left */
+#nav-search {
+    width: 33.33333333333333%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 footer {
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
     padding-top: .75em;
-    margin: 0;
     height: 3em;
     text-align: center;
 }
@@ -36,8 +31,9 @@ footer {
 /* based on http://stackoverflow.com/a/9530687/16390 */
 footer:after { 
     background-color: #f5f5f5;
-    content: "";   
-    margin-top: .75em; /* to offset for footer's padding and avoid overlap */
+    content: "";
+    padding-top: 0;
+    /* margin-top: .75em; /* to offset for footer's padding and avoid overlap */
     width: 100%;
     height: 100%;
     position: fixed;

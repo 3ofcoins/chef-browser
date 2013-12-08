@@ -1,4 +1,6 @@
-<h1><%= environment.name %></h1>
+<div class="page-header">
+  <h1><%= environment.name %></h1>
+</div>
 <div class="filterable">
   <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(environment._attributes_) do |path, value| -%>
