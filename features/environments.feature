@@ -33,6 +33,10 @@ Background:
       }
     """
 
+Scenario: Wrong resource list url returns a 404 error
+  When I visit "/environmentss"
+  Then this page doesn't exist
+
 Scenario: List of environments
   When I visit "/environments"
   Then I can see "some-environment"
@@ -40,5 +44,9 @@ Scenario: List of environments
 
 Scenario: Selecting environments
   When I visit "/environments"
-  And I click on "_default"
-  Then I am at "/environment/_default"
+  And I click on "some-environment"
+  Then I am at "/environment/some-environment"
+
+Scenario: Visiting a non-existing environment returns a 404 error
+  When I visit "/environment/some-environmentt"
+  Then this page doesn't exist

@@ -23,6 +23,10 @@ Background:
       }
     """
 
+Scenario: Wrong resource list url returns a 404 error
+  When I visit "/roless"
+  Then this page doesn't exist
+
 Scenario: List roles
   When I visit "/roles"
   Then I can see "one-role"
@@ -32,3 +36,7 @@ Scenario: Selecting roles
   When I visit "/roles"
   And I click on "one-role"
   Then I am at "/role/one-role"
+
+Scenario: Visiting a non-existing role returns a 404 error
+  When I visit "/role/one-rolee"
+  Then this page doesn't exist

@@ -11,17 +11,13 @@
     right: 0;
 }
 
-/* Fix Bootstrap's button group + form-search + dropdown combo */
-.form-search .input-group .btn-group .btn {
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
-}
-
-.form-search .input-group .btn-group:last-child .btn-last {
-    -webkit-border-radius: 0 14px 14px 0;
-       -moz-border-radius: 0 14px 14px 0;
-            border-radius: 0 14px 14px 0;
+/* copy of col-sm-4, without float:left */
+#nav-search {
+    width: 33%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 footer {

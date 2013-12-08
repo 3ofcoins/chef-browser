@@ -1,9 +1,9 @@
-<% if data_bag_id -%>
+<% if data_bag -%>
 <div class="page-header">
-  <h1><%= data_bag_id %></h1>
+  <h1><%= data_bag.chef_id %></h1>
 </div>
 <% end -%>
-<% if @search_query -%>
+<% if search_query -%>
 <%   if resources.empty? -%>
 <p class="lead">No matching results found.</p>
 <%   else -%>
