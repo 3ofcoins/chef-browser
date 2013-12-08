@@ -4,7 +4,9 @@
   <h1><%= environment.name %></h1>
 </div>
 
-<%== environment.description.empty? ? '' : "<p>#{environment.description}</p>" %>
+<% if environment.description && !environment.description.empty? -%>
+<p><%= environment.description %></p>
+<% end -%>
 
 <% if environment.cookbook_versions.length > 0 -%>
 <h2>Cookbook Versions</h2>
