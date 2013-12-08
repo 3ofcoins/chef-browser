@@ -11,9 +11,9 @@
 <% if environment.cookbook_versions.length > 0 -%>
 <h2>Cookbook Versions</h2>
 <dl class="dl-horizontal">
-<%   environment.cookbook_versions.each do |cookbook| -%>
+<%   environment.cookbook_versions.each do |cookbook, version| -%>
   <dt><%= cookbook %></dt>
-  <dd></dd>
+  <dd><%= version %></dd>
 <%   end -%>
 </dl>
 <% end -%>
