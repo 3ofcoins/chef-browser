@@ -186,13 +186,12 @@ module ChefBrowser
       environment = chef_server.environment.find(params[:environment_name])
       pass unless environment
       @title << params[:environment_name]
+      tabs = {}
+      tabs['default'] = environment.default_attributes unless Array(environment.default_attributes).empty?
+      tabs['override'] = environment.override_attributes unless Array(environment.override_attributes).empty?
       erb :environment, locals: {
         environment: environment,
-        tabs: {
-          'default' => environment.default_attributes,
-          'override' => environment.override_attributes
-        },
-        active_tab: 'default'
+        tabs: tabs
       }
     end
 
