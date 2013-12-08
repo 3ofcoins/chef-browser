@@ -46,7 +46,7 @@ end
 
 When(/^I search for "(.*?)"$/) do |search_query|
   page.fill_in 'q', with: "#{search_query}"
-  page.find('.navbar-search button[type="submit"]').click
+  page.find('.navbar-form button[type="submit"]').click
 end
 
 Then(/^this page doesn't exist$/) do
