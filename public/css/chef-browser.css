@@ -11,19 +11,6 @@
     right: 0;
 }
 
-/* Fix Bootstrap's button group + form-search + dropdown combo */
-.form-search .input-group .btn-group .btn {
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
-}
-
-.form-search .input-group .btn-group:last-child .btn-last {
-    -webkit-border-radius: 0 14px 14px 0;
-       -moz-border-radius: 0 14px 14px 0;
-            border-radius: 0 14px 14px 0;
-}
-
 footer {
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
