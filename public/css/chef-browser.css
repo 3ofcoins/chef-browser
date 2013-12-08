@@ -11,6 +11,15 @@
     right: 0;
 }
 
+/* copy of col-sm-4, without float:left */
+#nav-search {
+    width: 33.33333333333333%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
 footer {
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
