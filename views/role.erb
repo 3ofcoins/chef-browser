@@ -1,6 +1,10 @@
-<h1><%= role.name %></h1>
-<table class="table table-condensed table-striped table-hover">
+<div class="page-header">
+  <h1><%= role.name %></h1>
+</div>
+<div class="filterable">
+  <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(role._attributes_) do |path, value| -%>
-  <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <% end -%>
-</table>
+  </table>
+</div>
