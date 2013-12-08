@@ -15,4 +15,4 @@ client_key ::File.join(::File.dirname(__FILE__), 'features/fixtures/stub.pem')
 
 # Define the application's title like this:
 #
-# title "Chef browser"
+# title "Chef Browser"
