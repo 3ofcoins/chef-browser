@@ -88,22 +88,21 @@ module ChefBrowser
       end
     end
 
-    def resource_list(resource, data_bag_id=nil)
+    def resource_list(resource, data_bag=nil)
       if search_query && resource != :data_bag
         @title << search_query
-        if data_bag_id
+        if data_bag
           # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
-          data_bag = chef_server.data_bag.find(data_bag_id)
-          resources = chef_server.search(data_bag_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+          resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
         else
           resources = chef_server.search(resource, search_query)
         end
-      elsif data_bag_id
-        resources = chef_server.data_bag.find(data_bag_id).item.all
+      elsif data_bag
+        resources = data_bag.item.all
       else
         resources = chef_server.send(resource).all
       end
-      erb :resource_list, locals: { resources: resources.sort, data_bag_id: data_bag_id }
+      erb :resource_list, locals: { resources: resources.sort, data_bag: data_bag }
     end
 
     def search_query
@@ -158,8 +157,9 @@ module ChefBrowser
     end
 
     get '/data_bag/:data_bag_id/?' do
-      pass unless chef_server.data_bag.find(params[:data_bag_id])
-      resource_list :data_bag_item, params[:data_bag_id]
+      data_bag = chef_server.data_bag.find(params[:data_bag_id])
+      pass unless data_bag
+      resource_list :data_bag_item, data_bag
     end
 
     get '/node/:node_name/?' do
