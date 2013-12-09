@@ -206,13 +206,12 @@ module ChefBrowser
       role = chef_server.role.find(params[:role_id])
       pass unless role
       @title << params[:role_id]
+      tabs = {}
+      tabs['default'] = role.default_attributes unless Array(role.default_attributes).empty?
+      tabs['override'] = role.override_attributes unless Array(role.override_attributes).empty?
       erb :role, locals: {
         role: role,
-        tabs: {
-          'default' => role.default_attributes,
-          'override' => role.override_attributes
-        },
-        active_tab: 'default'
+        tabs: tabs
        }
     end
 
