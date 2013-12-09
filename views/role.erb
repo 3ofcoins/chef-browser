@@ -25,6 +25,7 @@
 <%     end -%>
 </ul>
 <%   if !role.env_run_lists.empty? -%>
+    </div>
 <%     role.env_run_lists.sort.each do |env, run_list| -%>
     <div class="tab-pane fade in" id="<%= env %>">
       <ul class="list-unstyled">
@@ -32,7 +33,6 @@
         <li><%= run %></li>
 <%       end -%>
 <%     end -%>
-    </div>
   </div>
 </div>
 <%   end -%>
