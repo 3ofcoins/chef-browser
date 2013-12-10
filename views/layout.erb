@@ -32,7 +32,7 @@
             <div class="input-group">
 <%   if @section == 'Nodes' and not settings.rb.node_search.empty? -%>
               <div class="input-group-btn">
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <span class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></span>
                 <ul class="dropdown-menu">
 <%     settings.rb.node_search.each do |link_name, query| -%>
                   <li><a href='<%= url "/nodes/#{::URI::encode_www_form_component(link_name)}" %>'><%= link_name %></a></li>
