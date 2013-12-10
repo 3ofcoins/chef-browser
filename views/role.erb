@@ -1,6 +1,5 @@
-<a class="btn btn-default btn-bg pull-right" href='<%= url "/nodes?q=role:#{role.name}" %>'>Nodes</a>
-
 <div class="page-header">
+<a class="btn btn-default btn-bg pull-right" href='<%= url "/nodes?q=roles:#{role.name}" %>'>Nodes</a>
   <h1><%= role.name %></h1>
 <% if role.description && !role.description.empty? -%>
   <p><%= role.description %></p>
