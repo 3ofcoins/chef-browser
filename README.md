@@ -43,7 +43,15 @@ Chef-browser allows you to access the following:
 - details of each node:
     - name, ip address, fqdn, environment, tags, run list,
     - attributes presented using JSONpath in a handy, filterable table,
-- details of each environment, role and data bag item, with their attributes presented using JSONpath.
+- details of each environment:
+    - cookbooks and their versions,
+    - default and override attributes,
+- details of each role:
+    - run lists and env_run_lists (if present),
+    - default and override attributes,
+- details of bags and data bag items.
+
+Where possible, tags, environment names and role views link to appropriate nodes, while run list elements link to other roles.
 
 ## Third party
 

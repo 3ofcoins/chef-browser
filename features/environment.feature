@@ -1,4 +1,4 @@
-Feature: Browse environments
+Feature: Environment details
 
 Background:
   Given a Chef server populated with following data:
@@ -33,20 +33,19 @@ Background:
       }
     """
 
-Scenario: Wrong resource list url returns a 404 error
-  When I visit "/environmentss"
-  Then this page doesn't exist
-
-Scenario: List of environments
-  When I visit "/environments"
-  Then I can see "some-environment"
-  And I can see "_default"
-
-Scenario: Selecting environments
+Scenario: Table of environment attributes
   When I visit "/environments"
   And I click on "some-environment"
   Then I am at "/environment/some-environment"
+  And I see an attribute "$.third" with value "c"
 
-Scenario: Visiting a non-existing environment returns a 404 error
-  When I visit "/environment/some-environmentt"
-  Then this page doesn't exist
+Scenario: Tabs visible only when necessary
+  When I visit "/environment/_default"
+  Then I can see "Default"
+  And I can't see "Override"
+
+Scenario: Cookbooks are listed
+  When I visit "/environment/some-environment"
+  Then I can see "Cookbook Versions"
+  And I can see "cookbook1"
+  And I can see "version1"

@@ -17,6 +17,13 @@ Then(/^I can see "(.*?)"$/) do |text|
   assert { page.has_content?(text) }
 end
 
+Then(/^I can't see "(.*?)"$/) do |text|
+  # We normally expect the request to succeed, put the assertion here
+  # to avoid too verbose feature files.
+  assert { (200..399).include?(page.status_code) }
+  assert { page.has_content?(text) == false }
+end
+
 When(/^I click on "(.*?)"$/) do |text|
   click_on(text)
 end

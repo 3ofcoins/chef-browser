@@ -183,11 +183,17 @@ module ChefBrowser
       }
     end
 
-    get '/environment/:env_name/?' do
-      environment = chef_server.environment.find(params[:env_name])
+    get '/environment/:environment_name/?' do
+      environment = chef_server.environment.find(params[:environment_name])
       pass unless environment
-      @title << params[:env_name]
-      erb :environment, locals: { environment: environment }
+      @title << params[:environment_name]
+      tabs = {}
+      tabs['default'] = environment.default_attributes unless Array(environment.default_attributes).empty?
+      tabs['override'] = environment.override_attributes unless Array(environment.override_attributes).empty?
+      erb :environment, locals: {
+        environment: environment,
+        tabs: tabs
+      }
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id/?' do
@@ -201,7 +207,13 @@ module ChefBrowser
       role = chef_server.role.find(params[:role_id])
       pass unless role
       @title << params[:role_id]
-      erb :role, locals: { role: role }
+      tabs = {}
+      tabs['default'] = role.default_attributes unless Array(role.default_attributes).empty?
+      tabs['override'] = role.override_attributes unless Array(role.override_attributes).empty?
+      erb :role, locals: {
+        role: role,
+        tabs: tabs
+       }
     end
 
     get "/nodes/:search_name" do
