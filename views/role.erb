@@ -2,9 +2,10 @@
 
 <div class="page-header">
   <h1><%= role.name %></h1>
+<% if role.description && !role.description.empty? -%>
+  <p><%= role.description %></p>
+<% end -%>
 </div>
-
-<%== "<p>#{role.description}</p>" if !role.description.empty? %>
 
 <% if !role.run_list.empty? -%>
 <h2>Run List</h2>

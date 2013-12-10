@@ -51,6 +51,10 @@ footer:after {
   }
 }
 
+.page-header {
+padding-bottom: 9px;
+margin: 0 0 20px;
+
 footer a {
     color: #33a0d6;
 }
