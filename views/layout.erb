@@ -54,7 +54,7 @@
     <div class="container"><%== yield %></div>
 
     <footer>
-      <p class="text-muted"><a href="https://github.com/3ofcoins/chef-browser">Chef Browser</a> version <%= VERSION %> connected to Chef server at <a href="<%= settings.rb.server_url %>"><%= settings.rb.server_url %></a> as <em><%= settings.rb.client_name %></em></p>
+      <p class="text-muted"><a href="https://github.com/3ofcoins/chef-browser">Chef Browser</a> version <%= ChefBrowser::VERSION %> connected to Chef server at <a href="<%= settings.rb.server_url %>"><%= settings.rb.server_url %></a> as <em><%= settings.rb.client_name %></em></p>
     </footer>
 
     <script src='<%= url "/js/jquery-2.0.3.js" %>'></script>
