@@ -4,6 +4,7 @@ require 'ridley'
 
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
+require 'chef-browser/version'
 
 module ChefBrowser
   class App < Sinatra::Base
