@@ -28,8 +28,8 @@
 footer {
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
-    padding-top: .75em;
-    height: 3em;
+    padding: .75em;
+    min-height: 3em;
     text-align: center;
 }
 
@@ -37,12 +37,18 @@ footer {
 footer:after { 
     background-color: #f5f5f5;
     content: "";
-    padding-top: 0;
-    /* margin-top: .75em; /* to offset for footer's padding and avoid overlap */
-    width: 100%;
+    left: 0;
+    right: 0;
     height: 100%;
     position: fixed;
     display: block;
+}
+
+@media (max-width: 767px) {
+  footer:after {
+    right: 20px;
+    left: 20px;
+  }
 }
 
 footer a {
