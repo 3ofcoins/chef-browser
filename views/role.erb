@@ -6,38 +6,40 @@
 <% end -%>
 </div>
 
-<% if !role.run_list.empty? -%>
+<% if !role.run_list.empty? || !role.env_run_lists.empty?-%>
 <h2>Run List</h2>
-<%   if !role.env_run_lists.empty? -%>
+<% end -%>
+<% if !role.env_run_lists.empty? -%>
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#default" data-toggle="tab">Default</a></li>
-<%     role.env_run_lists.keys.each do |env| -%>
+<%== !role.run_list.empty? ? '<li class="active"><a href="#default" data-toggle="tab">Default</a></li>' : '' %>
+<%   role.env_run_lists.keys.each do |env| -%>
     <li><a href="#<%= env %>" data-toggle="tab"><%= env %></a></li>
-<%     end -%>
+<%   end -%>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="default">
-<%   end -%>
+<% end -%>
+<% if !role.run_list.empty? -%>
 <ul class="list-unstyled">
 <%     role.run_list.sort.each do |run_list| -%>
   <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').chop}") + "'>#{run_list}</a>" : run_list %></li>
 <%     end -%>
 </ul>
-<%   if !role.env_run_lists.empty? -%>
+<% end -%>
+<% if !role.env_run_lists.empty? -%>
     </div>
-<%     role.env_run_lists.sort.each do |env, run_list| -%>
+<%   role.env_run_lists.sort.each do |env, run_list| -%>
     <div class="tab-pane fade in" id="<%= env %>">
       <ul class="list-unstyled">
-<%       run_list.each do |run| -%>
+<%     run_list.each do |run| -%>
         <li><%= run %></li>
-<%       end -%>
+<%     end -%>
       </ul>
     </div>
-<%     end -%>
+<%   end -%>
   </div>
 </div>
-<%   end -%>
 <% end -%>
 
 <% unless tabs.empty? -%>
