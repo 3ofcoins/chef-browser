@@ -18,6 +18,14 @@ Background:
               "Env1": ["recipe[mmm]", "recipe[uuu]"],
               "Env2": ["recipe[aaa]"]
             }
+          },
+          "third-role": {
+            "name": "third-role",
+            "description": "A third role",
+            "env_run_lists": {
+              "Env1": ["recipe[ddd]", "recipe[bbb]"],
+              "Env2": ["recipe[fff]"]
+            }
           }
         }
       }
@@ -29,12 +37,20 @@ Scenario: Run List without env_run_lists
   And I can see "recipe[default]"
   And I can't see "Default"
 
-Scenario: Role has env_run_lists
+Scenario: Role has run list and env_run_lists
   When I visit "/role/another-role"
   Then I can see "Run List"
   And I can see "Default"
   And I can see "Env1"
   And I can see "recipe[uuu]"
+
+Scenario: Role has only env_run_lists
+  When I visit "/role/third-role"
+  Then I can see "Run List"
+  And I can't see "Default"
+  And I can see "recipe[ddd]"
+  And I click on "Env2"
+  Then I can see "recipe[fff]"
 
 Scenario: Clickable tabs
   When I visit "/role/another-role"
