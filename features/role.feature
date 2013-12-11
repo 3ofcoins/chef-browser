@@ -48,8 +48,9 @@ Scenario: Role has only env_run_lists
   When I visit "/role/third-role"
   Then I can see "Run List"
   And I can't see "Default"
-  And I can see "Env1"
-  And I can see "recipe[bbb]"
+  And I can see "recipe[ddd]"
+  And I click on "Env2"
+  Then I can see "recipe[fff]"
 
 Scenario: Clickable tabs
   When I visit "/role/another-role"
