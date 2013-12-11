@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= @title.join(' » ') %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='<%= url "/css/bootstrap-responsive.css" %>' rel="stylesheet" media="screen">
+    <link href='<%= url "/css/bootstrap.css" %>' rel="stylesheet" media="screen">
+    <link href='<%= url "/css/chef-browser.css" %>' rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <header class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href='<%= url "/" %>'><%= @title[0] %></a>
+        </div>
+        <nav class="collapse navbar-collapse" id="navbar-collapse" role="navigation">
+          <ul class="nav navbar-nav">
+<% SECTIONS.each do |section, link, _| -%>
+            <li<%== ' class="active"' if section == @section %>><a href='<%= url link %>'><%= section %></a></li>
+<% end -%>
+          </ul>
+
+<% if @search_url -%>
+          <form class="navbar-form navbar-right" method="get" action='<%= url @search_url %>' role="search" id="nav-search">
+            <div class="input-group">
+<%   if @section == 'Nodes' and not settings.rb.node_search.empty? -%>
+              <div class="input-group-btn">
+                <span class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></span>
+                <ul class="dropdown-menu">
+<%     settings.rb.node_search.each do |link_name, query| -%>
+                  <li><a href='<%= url "/nodes/#{::URI::encode_www_form_component(link_name)}" %>'><%= link_name %></a></li>
+<%     end -%>
+                </ul>
+              </div>
+<%   end -%>
+              <input type="text" class="form-control" name="q" placeholder="Search <%= @search_for %>" value="<%= search_query %>">
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search" title="search"></i></button>
+              </div>
+            </div>
+          </form>
+<% end -%>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container"><%== yield %></div>
+
+    <footer>
+      <p class="text-muted"><a href="https://github.com/3ofcoins/chef-browser">Chef Browser</a> version <%= ChefBrowser::VERSION %> connected to Chef server at <a href="<%= settings.rb.server_url %>"><%= settings.rb.server_url %></a> as <em><%= settings.rb.client_name %></em></p>
+    </footer>
+
+    <script src='<%= url "/js/jquery-2.0.3.js" %>'></script>
+    <script src='<%= url "/js/bootstrap.js" %>'></script>
+    <script src='<%= url "/js/jquery.filtertable.js" %>'></script>
+    <script>
+      $('table').filterTable({label: "", placeholder: "filter attributes", inputClass: "form-control"});
+    </script>
+  </body>
+</html>

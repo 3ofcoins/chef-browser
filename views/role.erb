@@ -1,0 +1,69 @@
+<div class="page-header">
+  <a class="btn btn-default btn-bg pull-right" href='<%= url "/nodes?q=roles:#{role.name}" %>'>Nodes</a>
+  <h1><%= role.name %></h1>
+<% if role.description && !role.description.empty? -%>
+  <p><%= role.description %></p>
+<% end -%>
+</div>
+
+<% if !role.run_list.empty? || !role.env_run_lists.empty?-%>
+<h2>Run List</h2>
+<% end -%>
+<% unless role.env_run_lists.empty? -%>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+<%   unless role.run_list.empty? -%>
+    <li class="active"><a href="#default" data-toggle="tab">Default</a></li>
+<%   end -%>
+<%   role.env_run_lists.keys.each_with_index do |env, index| -%>
+    <li<%== index == 0 && role.run_list.empty? ? ' class="active"' : '' %>><a href="#<%= env %>" data-toggle="tab"><%= env %></a></li>
+<%   end -%>
+  </ul>
+  <div class="tab-content">
+<%   unless role.run_list.empty? -%>
+    <div class="tab-pane active" id="default">
+<%   end -%>
+<% end -%>
+<% unless role.run_list.empty? -%>
+<ul class="list-unstyled">
+<%     role.run_list.sort.each do |run_list| -%>
+  <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').chop}") + "'>#{run_list}</a>" : run_list %></li>
+<%     end -%>
+</ul>
+<% end -%>
+<% unless role.env_run_lists.empty? -%>
+    <%== !role.run_list.empty? ? '</div>' : '' %>
+<%   role.env_run_lists.sort.each_with_index do |(env, run_list), index| -%>
+    <div class="tab-pane <%= index == 0 && role.run_list.empty? ? 'active' : 'fade in' %>" id="<%= env %>">
+      <ul class="list-unstyled">
+<%     run_list.each do |run| -%>
+        <li><%= run %></li>
+<%     end -%>
+      </ul>
+    </div>
+<%   end -%>
+  </div>
+</div>
+<% end -%>
+
+<% unless tabs.empty? -%>
+<h2>Attributes</h2>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+<%   tabs.keys.each_with_index do |tab_name, tab_index| -%>
+    <li<%== ' class="active"' if tab_index.zero? %>><a href="#attributes-<%= tab_name %>" data-toggle="tab"><%= tab_name.capitalize %></a></li>
+<%   end -%>
+  </ul>
+  <div class="tab-content">
+<%   tabs.each_with_index do |(tab_name, tab_data), tab_index| -%>
+    <div class="tab-pane <%= tab_index.zero? ? 'active' : 'fade in'  %>" id="attributes-<%= tab_name %>">
+      <table class="table table-condensed table-striped table-hover">
+<%     with_jsonpath(tab_data) do |path, value| -%>
+        <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<%     end -%>
+      </table>
+    </div>
+<%   end -%>
+  </div>
+</div>
+<% end -%>

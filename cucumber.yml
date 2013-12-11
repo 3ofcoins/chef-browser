@@ -1,0 +1,3 @@
+---
+default: --exclude fixtures
+validate: --exclude fixtures --quiet --format=progress VALIDATE_HTML=1
