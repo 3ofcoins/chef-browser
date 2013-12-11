@@ -1,5 +1,5 @@
 <div class="page-header">
-<a class="btn btn-default btn-bg pull-right" href='<%= url "/nodes?q=chef_environment:#{environment.name}" %>'>Nodes</a>
+  <a class="btn btn-default btn-bg pull-right" href='<%= url "/nodes?q=chef_environment:#{environment.name}" %>'>Nodes</a>
   <h1><%= environment.name %></h1>
 <% if environment.description && !environment.description.empty? -%>
   <p><%= environment.description %></p>
