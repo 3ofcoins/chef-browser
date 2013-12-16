@@ -96,18 +96,32 @@ module ChefBrowser
           # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
           resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
         else
-          resources = chef_server.search(resource, search_query)
+          resources = search_for(resource, search_query)
         end
       elsif data_bag
         resources = data_bag.item.all
       else
         resources = chef_server.send(resource).all
       end
-      erb :resource_list, locals: { resources: resources.sort, data_bag: data_bag }
+      erb :resource_list, locals: { resources: resources, data_bag: data_bag }
     end
 
     def search_query
       @search_query || params['q']
+    end
+
+    def search_for(resource, search_query)
+      if settings.rb.use_partial_search
+        if resource == :role
+          resources = chef_server.partial_search(:role, search_query, ["chef_type", "name"]).map { |attrs| Ridley::RoleObject.new(:role, attrs["data"]) }
+        elsif resource == :environment
+          resources = chef_server.partial_search(:environment, search_query, ["chef_type", "name"]).map { |attrs| Ridley::EnvironmentObject.new(:environment, attrs["data"]) }
+        elsif resource == :node
+          resources = chef_server.partial_search(:node, search_query, ["chef_type", "name"]).map { |attrs| Ridley::NodeObject.new(:node, attrs["data"]) }
+        end
+      else
+        chef_server.search(resource, search_query)
+      end
     end
 
     ##

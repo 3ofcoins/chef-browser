@@ -12,6 +12,9 @@ module ChefBrowser
     # {"displayed link name" => "query"}
     option :node_search, {}
     option :title, 'Chef Browser'
+    # Disable if you use chef below 11.0; partial searches are used
+    # to make searches less heavy on memory and bandwidth
+    option :use_partial_search, true
 
     # Returns a new Ridley connection, as configured by user
     def ridley
