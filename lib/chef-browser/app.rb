@@ -92,12 +92,7 @@ module ChefBrowser
     def resource_list(resource, data_bag=nil)
       if search_query && resource != :data_bag
         @title << search_query
-        if data_bag
-          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
-          resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
-        else
-          resources = search_for(resource, search_query)
-        end
+        resources = search_for(resource, search_query, data_bag)
       elsif data_bag
         resources = data_bag.item.all
       else
@@ -110,17 +105,24 @@ module ChefBrowser
       @search_query || params['q']
     end
 
-    def search_for(resource, search_query)
+    def search_for(resource, search_query, data_bag=nil)
       if settings.rb.use_partial_search
-        if resource == :role
-          resources = chef_server.partial_search(:role, search_query, ["chef_type", "name"]).map { |attrs| Ridley::RoleObject.new(:role, attrs["data"]) }
+        if data_bag
+          resources = chef_server.partial_search(data_bag.chef_id, search_query, ["chef_type", "name", "id"]).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
+        elsif resource == :role
+          resources = chef_server.partial_search(resource, search_query, ["chef_type", "name"]).map { |attrs| Ridley::RoleObject.new(resource, attrs["data"]) }
         elsif resource == :environment
-          resources = chef_server.partial_search(:environment, search_query, ["chef_type", "name"]).map { |attrs| Ridley::EnvironmentObject.new(:environment, attrs["data"]) }
+          resources = chef_server.partial_search(resource, search_query, ["chef_type", "name"]).map { |attrs| Ridley::EnvironmentObject.new(resource, attrs["data"]) }
         elsif resource == :node
-          resources = chef_server.partial_search(:node, search_query, ["chef_type", "name"]).map { |attrs| Ridley::NodeObject.new(:node, attrs["data"]) }
+          resources = chef_server.partial_search(resource, search_query, ["chef_type", "name"]).map { |attrs| Ridley::NodeObject.new(resource, attrs["data"]) }
         end
       else
-        chef_server.search(resource, search_query)
+        if data_bag
+          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
+          resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+        else
+          chef_server.search(resource, search_query)
+        end
       end
     end
 
