@@ -1,6 +1,7 @@
 require 'erubis'
 require 'sinatra'
 require 'ridley'
+require 'deep_merge'
 
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
@@ -92,7 +93,7 @@ module ChefBrowser
     def resource_list(resource, data_bag=nil)
       if search_query && resource != :data_bag
         @title << search_query
-        resources = search_for(resource, search_query, data_bag)
+        resources = search(search_query, resource, data_bag)
       elsif data_bag
         resources = data_bag.item.all
       else
@@ -105,7 +106,7 @@ module ChefBrowser
       @search_query || params['q']
     end
 
-    def search_for(resource, search_query, data_bag=nil)
+    def search(search_query, resource, data_bag=nil)
       if settings.rb.use_partial_search
         resource = data_bag.chef_id if data_bag
         results = chef_server.partial_search(resource, search_query, ["chef_type", "name", "id"])
