@@ -107,14 +107,13 @@ module ChefBrowser
 
     def search_for(resource, search_query, data_bag=nil)
       if settings.rb.use_partial_search
-        if data_bag
-          resources = chef_server.partial_search(data_bag.chef_id, search_query, ["chef_type", "name", "id"]).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
-        elsif resource == :role
-          resources = chef_server.partial_search(resource, search_query, ["chef_type", "name"]).map { |attrs| Ridley::RoleObject.new(resource, attrs["data"]) }
-        elsif resource == :environment
-          resources = chef_server.partial_search(resource, search_query, ["chef_type", "name"]).map { |attrs| Ridley::EnvironmentObject.new(resource, attrs["data"]) }
-        elsif resource == :node
-          resources = chef_server.partial_search(resource, search_query, ["chef_type", "name"]).map { |attrs| Ridley::NodeObject.new(resource, attrs["data"]) }
+        resource = data_bag.chef_id if data_bag
+        results = chef_server.partial_search(resource, search_query, ["chef_type", "name", "id"])
+        case resource
+        when :node        then results
+        when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
+        when :environment then results.map { |attrs| Ridley::EnvironmentObject.new(nil, attrs["data"]) }
+        else                   results.map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
         end
       else
         if data_bag
