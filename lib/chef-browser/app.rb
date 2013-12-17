@@ -93,7 +93,14 @@ module ChefBrowser
     def resource_list(resource, data_bag=nil)
       if search_query && resource != :data_bag
         @title << search_query
-        resources = search(search_query, resource, data_bag)
+        raw_query = search_query
+        raw_query = "tags:*#{raw_query}* OR roles:*#{raw_query}* OR fqdn:*#{raw_query}* OR addresses:*#{raw_query}*" unless raw_query[':']
+        if data_bag
+          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
+          resources = chef_server.search(data_bag.chef_id, raw_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+        else
+          resources = chef_server.search(resource, raw_query)
+        end
       elsif data_bag
         resources = data_bag.item.all
       else
@@ -104,6 +111,7 @@ module ChefBrowser
 
     def search_query
       @search_query || params['q']
+      @search_query ||= ( params['q'] && params['q'].strip )
     end
 
     def search(search_query, resource, data_bag=nil)
