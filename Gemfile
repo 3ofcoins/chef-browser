@@ -9,6 +9,7 @@ gem "jrjackson", platforms: :jruby # to be used by multijson
 gem "puma"
 gem "rubysl", "~> 2.0", platforms: :rbx
 gem "racc", platforms: :rbx
+gem "deep_merge"
 
 group :development do
   gem "capybara"
