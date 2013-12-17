@@ -19,7 +19,7 @@ Run:
 
 ```
 $ rackup config.ru
-Puma 1.6.3 starting...
+Puma 2.6.0 starting...
 * Min threads: 0, max threads: 16
 * Environment: development
 * Listening on tcp://0.0.0.0:9292
@@ -35,6 +35,10 @@ node_search['Staging'] = 'chef_environment:staging'
 ```
 
 You can define as many saved searches as you like. Your saved searches will appear as a dropdown list next to the search box. Right now this option works only for nodes.
+
+Chef-browser mimics knife's fuzzy searches, so entering "foo*" in the search box will result in performing a search for "tags:*foo* OR roles:*foo* OR fqdn:*foo* OR addresses:*foo*".
+
+In order to save on bandwidth and memory, partial searches are enabled for users of Chef 11.0. If you use Chef 10.x, disable the `use_partial_search` option in your settings.rb file.
 
 ## Accessible data
 
