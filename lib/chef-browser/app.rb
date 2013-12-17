@@ -1,6 +1,7 @@
 require 'erubis'
 require 'sinatra'
 require 'ridley'
+require 'deep_merge'
 
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
@@ -92,22 +93,37 @@ module ChefBrowser
     def resource_list(resource, data_bag=nil)
       if search_query && resource != :data_bag
         @title << search_query
-        if data_bag
-          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
-          resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
-        else
-          resources = chef_server.search(resource, search_query)
-        end
+        resources = search(search_query, resource, data_bag)
       elsif data_bag
         resources = data_bag.item.all
       else
         resources = chef_server.send(resource).all
       end
-      erb :resource_list, locals: { resources: resources.sort, data_bag: data_bag }
+      erb :resource_list, locals: { resources: resources, data_bag: data_bag }
     end
 
     def search_query
       @search_query || params['q']
+    end
+
+    def search(search_query, resource, data_bag=nil)
+      if settings.rb.use_partial_search
+        resource = data_bag.chef_id if data_bag
+        results = chef_server.partial_search(resource, search_query, ["chef_type", "name", "id"])
+        case resource
+        when :node        then results
+        when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
+        when :environment then results.map { |attrs| Ridley::EnvironmentObject.new(nil, attrs["data"]) }
+        else                   results.map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
+        end
+      else
+        if data_bag
+          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
+          resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+        else
+          chef_server.search(resource, search_query)
+        end
+      end
     end
 
     ##

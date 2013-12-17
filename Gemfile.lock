@@ -42,6 +42,7 @@ GEM
       gherkin (~> 2.12)
       multi_json (>= 1.7.5, < 2.0)
       multi_test (>= 0.0.2)
+    deep_merge (1.0.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     faraday (0.8.8)
@@ -359,6 +360,7 @@ DEPENDENCIES
   capybara
   chef-zero
   cucumber
+  deep_merge
   erubis (~> 2.7.0)
   jrjackson
   oj
