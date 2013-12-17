@@ -109,7 +109,7 @@ module ChefBrowser
     end
 
     def search_query
-      @search_query || params['q']
+      @search_query ||= ( params['q'] && params['q'].strip )
     end
 
     ##

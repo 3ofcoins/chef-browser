@@ -5,12 +5,12 @@ Background:
     """json
       {
         "nodes": {
-          "some-node-name": {
+          "some-node-test-name": {
             "automatic": {
-              "fqdn": "some-node-name.example.com",
+              "fqdn": "some-node-test-name.example.com",
               "ipaddress": "1.2.3.4",
-              "tags": ["test", "db"],
-              "environment": "production"
+              "tags": ["db"],
+              "chef_environment": "production"
             }
           },
           "another-node-name": {
@@ -18,7 +18,14 @@ Background:
               "fqdn": "another-node-name.example.com",
               "ipaddress": "1.2.3.5",
               "tags": ["test"],
-              "environment": "production"
+              "chef_environment": "production"
+            }
+          },
+          "this-node-should-not-be-found": {
+            "automatic": {
+              "fqdn": "this-node-should-not-be-found.example.com",
+              "ipaddress": "1.2.3.7",
+              "tags": ["whatever", "another"]
             }
           }
         }
@@ -30,4 +37,11 @@ Scenario: Perform a fuzzy search
   And I search for "test"
   Then I am at "/nodes"
   And I can see "Search results (2)"
-  And I can see "some-node-name"
+  And I can see "some-node-test-name"
+
+Scenario: Perform a fuzzy search with whitespace around
+  When I visit "/nodes"
+  And I search for "  test"
+  Then I am at "/nodes"
+  And I can see "Search results (2)"
+  And I can see "some-node-test-name"
