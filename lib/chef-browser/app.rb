@@ -107,13 +107,9 @@ module ChefBrowser
     end
 
     def search_query
-      @search_query ||= params['q']
-      unless @search_query == nil
-        if @search_query[":"]
-          @search_query
-        else
-          "tags:#{@search_query} OR roles:#{@search_query} OR fqdn:#{@search_query} OR addresses:#{@search_query}"
-        end
+      if @search_query ||= params['q']
+        @search_query = "tags:*#{@search_query}* OR roles:*#{@search_query}* OR fqdn:*#{@search_query}* OR addresses:*#{@search_query}*" unless @search_query[":"]
+        @search_query
       end
     end
 
