@@ -8,7 +8,21 @@ require 'chef-browser/settings'
 require 'chef-browser/version'
 
 module ChefBrowser
+  class Login < Sinatra::Base
+    enable :sessions
+    get('/login') { erb :login }
+
+    post('/login') do
+      if params['username'] && params['password']
+        session['username'] = params['username']
+      else
+        "Login failed, try again: <a href='/login'>login</a>"
+      end
+    end
+  end
+
   class App < Sinatra::Base
+    use Login
     include Erubis::XmlHelper
 
     # Triples of [ title, list URL, item URL ]
@@ -140,6 +154,9 @@ module ChefBrowser
 
     before do
       @title = [ settings.rb.title ]
+      unless session['username']
+        halt "Access denied, please <a href='/login'>login</a>."
+      end
     end
 
     SECTIONS.each do |section, list_route, item_route|
