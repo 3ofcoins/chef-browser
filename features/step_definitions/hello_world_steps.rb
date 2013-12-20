@@ -60,3 +60,8 @@ Then(/^this page doesn't exist$/) do
   assert { page.status_code == 404 }
 end
 
+When(/^I login as "(.*?)" with password "(.*?)"$/) do |user, password|
+  page.fill_in 'username', with: "#{user}"
+  page.fill_in 'password', with: "#{password}"
+  page.find('button[type="submit"]').click
+end
