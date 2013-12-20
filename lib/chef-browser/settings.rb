@@ -15,6 +15,7 @@ module ChefBrowser
     # Disable if you use chef below 11.0; partial searches are used
     # to make searches less heavy on memory and bandwidth
     option :use_partial_search, true
+    option :login, true
 
     # Returns a new Ridley connection, as configured by user
     def ridley

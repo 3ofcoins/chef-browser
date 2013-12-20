@@ -8,22 +8,14 @@ require 'chef-browser/settings'
 require 'chef-browser/version'
 
 module ChefBrowser
-  class Login < Sinatra::Base
-    enable :sessions
-    get('/login') { erb :login }
-
-    post('/login') do
-      if params['username'] && params['password']
-        session['username'] = params['username']
-      else
-        "Login failed, try again: <a href='/login'>login</a>"
-      end
-    end
-  end
-
   class App < Sinatra::Base
-    use Login
     include Erubis::XmlHelper
+
+    use Rack::Session::Cookie, expire_after: 3600,
+                               secret: "7ydjFs0jl2qHgvnNYA8G
+                                        uGE3Wu7NDG1DAhB1mQll
+                                        d8yj1jYS1Td4aLZDM8S4
+                                        NzTHARDvZz0kDS2erR2t"
 
     # Triples of [ title, list URL, item URL ]
     SECTIONS = [
@@ -57,6 +49,14 @@ module ChefBrowser
 
     def chef_server
       @chef_server ||= settings.rb.ridley
+    end
+
+    def authorized?
+      session[:authorized]
+    end
+
+    def logout
+      session[:authorized] = false
     end
 
     # This method takes any nested hash/array `obj`, and then
@@ -154,8 +154,8 @@ module ChefBrowser
 
     before do
       @title = [ settings.rb.title ]
-      unless session['username']
-        halt "Access denied, please <a href='/login'>login</a>."
+      if settings.rb.login
+        redirect url '/login' unless authorized? || request.path_info == '/login'
       end
     end
 
@@ -178,8 +178,26 @@ module ChefBrowser
     ## Views
     ## -----
 
+    get '/login' do
+      pass unless settings.rb.login
+      erb :login, layout: false
+    end
+
     get '/' do
       redirect url '/nodes'
+    end
+
+    post '/login' do
+      if chef_server.user.authenticate(params['username'], params['password'])
+        session[:authorized] = true
+        redirect url '/'
+      else
+        session[:authorized] = false
+        "Wrong username or password, try again: <a href= #{url '/login'}>login</a>"
+      end
+    end
+
+    get '/logout' do
     end
 
     get '/nodes/?' do

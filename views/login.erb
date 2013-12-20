@@ -1,14 +1,29 @@
-<div class="col-md-6 col-md-offset-3">
-	<h1>Log in</h1>
-	<form class="form-horizontal" method="post" action="<%= url '/' %>" role="form" id="loginform" name="loginform">
-		<div class="form-group">
-			<label for="username">Username</label>
-			<input class="form-control" type="text" id="username" name="username" placeholder="Username">
-		</div>
-		<div class="form-group">
-			<label for=password">Password</label>
-			<input class="form-control" type="password" id="password" name="password" placeholder="Password">
-		</div> 
-		<button type="submit" class="btn btn-primary btn-lg center-block" id="loginform-submit">Submit</button>
-	</form>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= @title.join(' » ') %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='<%= url "/css/bootstrap.css" %>' rel="stylesheet" media="screen">
+    <link href='<%= url "/css/chef-browser.css" %>' rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-md-6 col-md-offset-3">
+        <form class="form-horizontal" method="post" action="<%= url '/login' %>" role="form" id="loginform" name="loginform">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" id="username" name="username" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label for=password">Password</label>
+            <input class="form-control" type="password" id="password" name="password" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg center-block" id="loginform-submit">Submit</button>
+        </form>
+      </div>
+    </div>
+    <script src='<%= url "/js/jquery-2.0.3.js" %>'></script>
+    <script src='<%= url "/js/bootstrap.js" %>'></script>
+  </body>
+</html>

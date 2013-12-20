@@ -13,6 +13,7 @@ test/version_tmp
 tmp
 *~
 *.swp
+*.swo
 
 # YARD artifacts
 .yardoc
