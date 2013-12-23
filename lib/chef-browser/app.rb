@@ -198,6 +198,8 @@ module ChefBrowser
     end
 
     get '/logout' do
+      session[:authorized] = false
+      redirect url '/login'
     end
 
     get '/nodes/?' do
