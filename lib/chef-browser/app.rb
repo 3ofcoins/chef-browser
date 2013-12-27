@@ -11,12 +11,6 @@ module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
 
-    use Rack::Session::Cookie, expire_after: 3600,
-                               secret: "7ydjFs0jl2qHgvnNYA8G
-                                        uGE3Wu7NDG1DAhB1mQll
-                                        d8yj1jYS1Td4aLZDM8S4
-                                        NzTHARDvZz0kDS2erR2t"
-
     # Triples of [ title, list URL, item URL ]
     SECTIONS = [
       [ 'Nodes',        '/nodes',        '/node' ],
@@ -43,6 +37,8 @@ module ChefBrowser
                settings_rb
              end
 
+    use Rack::Session::Cookie, expire_after: settings.rb.cookie_time,
+                               secret: settings.rb.cookie_secret
     ##
     ## Helpers
     ## -------

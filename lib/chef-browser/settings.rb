@@ -16,7 +16,7 @@ module ChefBrowser
     # to make searches less heavy on memory and bandwidth
     option :use_partial_search, true
     option :login, true
-    # You can define your secret, or use the default below
+    # You can define your secret and session time, or use the default below
     option :cookie_secret, ::SecureRandom.base64(64)
     option :cookie_time, 3600
 
