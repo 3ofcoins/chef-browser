@@ -4,9 +4,10 @@ Background:
   Given a Chef server populated with following data:
     """json
       {
-        "user": {
+        "users": {
           "admin": {
             "chef_type": "user",
+            "id": "admin",
             "name": "admin",
             "admin": true,
             "public_key": "***",
@@ -44,3 +45,9 @@ Scenario: Wrong username
   And I login as "not-admin" with password "admin"
   Then I am at "/login"
   And I can see "Wrong username or password, try again"
+
+Scenario: Logging out
+  When I visit "/login"
+  And I login as "admin" with password "admin"
+  And I log out
+  Then I am at "/login"

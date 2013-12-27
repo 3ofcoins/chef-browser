@@ -53,7 +53,7 @@ end
 
 When(/^I search for "(.*?)"$/) do |search_query|
   page.fill_in 'q', with: "#{search_query}"
-  page.find('.navbar-form button[type="submit"]').click
+  page.find('button[id="search-submit"]').click
 end
 
 Then(/^this page doesn't exist$/) do
@@ -64,4 +64,8 @@ When(/^I login as "(.*?)" with password "(.*?)"$/) do |user, password|
   page.fill_in 'username', with: "#{user}"
   page.fill_in 'password', with: "#{password}"
   page.find('button[type="submit"]').click
+end
+
+When(/^I log out/) do
+  page.find('button[id="logout"]').click
 end
