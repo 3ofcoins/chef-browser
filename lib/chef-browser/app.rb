@@ -186,6 +186,7 @@ module ChefBrowser
     post '/login' do
       if chef_server.user.authenticate(params['username'], params['password'])
         session[:authorized] = true
+        $username = params['username']
         redirect url '/'
       else
         session[:authorized] = false
