@@ -9,20 +9,9 @@
   </head>
   <body>
     <div class="container">
-      <div class="login">
-        <form class="form-horizontal" method="post" action="<%= url '/login' %>" role="form" id="loginform" name="loginform">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input class="form-control" type="text" id="username" name="username">
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input class="form-control" type="password" id="password" name="password">
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block" id="loginform-submit">Login</button>
-        </form>
-      </div>
+      <div class="login"><%== yield %></div>
     </div>
+
     <script src='<%= url "/js/jquery-2.0.3.js" %>'></script>
     <script src='<%= url "/js/bootstrap.js" %>'></script>
   </body>

@@ -176,7 +176,7 @@ module ChefBrowser
 
     get '/login' do
       pass unless settings.rb.login
-      erb :login, layout: false
+      erb :login_form, layout: :login
     end
 
     get '/' do
@@ -190,7 +190,7 @@ module ChefBrowser
         redirect url '/'
       else
         session[:authorized] = false
-        "Wrong username or password, try again: <a href= #{url '/login'}>login</a>"
+        erb :not_logged_in, layout: :login
       end
     end
 
