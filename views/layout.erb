@@ -30,8 +30,8 @@
           <form class="navbar-form navbar-right" method="get" action="<%= url '/logout'%>">
             <span class="text-muted">Logged in as <em><%= session[:authorized] %></em></span>
             <button type="submit" class="btn btn-default" id="logout"><i class="glyphicon glyphicon-off" title="Log out"></i></button>
-<% end -%>
           </form>
+<% end -%>
 <% if @search_url -%>
           <form class="navbar-form navbar-right" method="get" action='<%= url @search_url %>' role="search" id="nav-search">
             <div class="input-group">
