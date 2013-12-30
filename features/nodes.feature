@@ -1,3 +1,4 @@
+@loggedin
 Feature: Node list
 
 Background:

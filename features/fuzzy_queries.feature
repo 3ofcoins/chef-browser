@@ -1,3 +1,4 @@
+@loggedin
 Feature: Fuzzy query
 
 Background:

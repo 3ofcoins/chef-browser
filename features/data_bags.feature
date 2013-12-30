@@ -1,3 +1,4 @@
+@loggedin
 Feature: Data bags page
 
 Background:

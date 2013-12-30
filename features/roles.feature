@@ -1,3 +1,4 @@
+@loggedin
 Feature: Browse roles
 
 Background:
