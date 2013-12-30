@@ -30,7 +30,7 @@ Scenario: Logging in
   When I visit "/login"
   And I log in as "admin" with password "admin"
   Then I am at "/nodes"
-  And I can see "Chef Browser version 1.0.1 connected to Chef server at http://127.0.0.1:4001 as stub"
+  And I can see "Logged in as admin"
 
 Scenario: Wrong password
   When I visit "/login"
@@ -48,4 +48,4 @@ Scenario: Logging out
   When I visit "/nodes"
   And I log in as "admin" with password "admin"
   And I log out
-  Then I am at "/login"
+	Then I am at "/login"
