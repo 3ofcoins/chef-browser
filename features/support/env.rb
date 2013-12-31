@@ -22,10 +22,11 @@ require 'chef-browser'
 require 'capybara/cucumber'
 
 Before('@loggedin') do
-  json_data = JSON['{"users": {"admin": {"chef_type": "user","id": "admin","name": "admin","admin": true,"password": "admin"}}}']
-  $chef_zero.load_data(json_data)
-  step 'I visit "/login"'
-  step 'I log in as "admin" with password "admin"'
+  ChefBrowser::Settings.option :login, false
+end
+
+Before('@login') do
+  ChefBrowser::Settings.option :login, true
 end
 
 require 'wrong'

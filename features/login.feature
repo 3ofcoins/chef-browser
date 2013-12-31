@@ -1,4 +1,5 @@
-Feature: Login
+@login
+Feature: Log in
 
 Background:
   Given a Chef server populated with following data:
@@ -12,6 +13,15 @@ Background:
             "admin": true,
             "password": "admin"
           }
+        },
+        "nodes": {
+          "some-node-name": {
+            "automatic": {
+              "fqdn": "some-node-name.example.com",
+              "ipaddress": "1.2.3.4",
+              "records": ["Manufacturer", "Version"]
+            }
+          }
         }
       }
     """
@@ -22,9 +32,10 @@ Scenario: Visible login page
   And I can see "Username"
   And I can see "Password"
 
-Scenario: Site not visible when not logged in
-  When I visit "/nodes"
+Scenario: Data not visible when not logged in
+  When I visit "/node/some-node-name"
   Then I am at "/login"
+  And I can't see "some-node-name"
 
 Scenario: Logging in
   When I visit "/login"
@@ -48,4 +59,4 @@ Scenario: Logging out
   When I visit "/nodes"
   And I log in as "admin" with password "admin"
   And I log out
-	Then I am at "/login"
+  Then I am at "/login"
