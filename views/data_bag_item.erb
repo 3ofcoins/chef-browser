@@ -1,6 +1,21 @@
 <div class="page-header">
   <h1><%= data_bag_item.data_bag.chef_id %>::<%= data_bag_item.chef_id %></h1>
 </div>
+
+<% if form -%>
+<form role="form" method="post" action='<%= url "data_bag/#{data_bag_item.data_bag.chef_id}/#{data_bag_item.chef_id}"%>'>
+  <p class="help-block">This bag is encrypted. Either paste the key or upload it to view the item's details.</p>
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" id="key" placeholder="Paste key here">
+  </div>
+  <div class="form-group">
+    <input type="file" id="upload">
+  </div>
+  <div class="btn-group-lg">
+    <button type="submit" class="btn btn-default">Submit</button>
+  </div>
+</form>
+<% else -%>
 <div class="filterable">
   <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(data_bag_item._attributes_) do |path, value| -%>
@@ -8,3 +23,4 @@
 <% end -%>
   </table>
 </div>
+<% end -%>

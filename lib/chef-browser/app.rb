@@ -257,7 +257,14 @@ module ChefBrowser
       data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
       pass unless data_bag_item
       @title << params[:data_bag_item_id]
-      erb :data_bag_item, locals: { data_bag_item: data_bag_item }
+      erb :data_bag_item, locals: { data_bag_item: data_bag_item, form: true }
+    end
+
+    post '/data_bag/:data_bag_id/:data_bag_item_id/?' do
+      data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
+      pass unless data_bag_item
+      @title << params[:data_bag_item_id]
+      erb :data_bag_item, locals: { data_bag_item: data_bag_item, form: false }
     end
 
     get '/role/:role_id/?' do
