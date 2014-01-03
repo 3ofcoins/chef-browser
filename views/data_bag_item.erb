@@ -3,19 +3,20 @@
 </div>
 
 <% if form -%>
-<form role="form" method="post" action='<%= url "data_bag/#{data_bag_item.data_bag.chef_id}/#{data_bag_item.chef_id}"%>'>
-  <p class="help-block">This bag is encrypted. Either paste the key or upload it to view the item's details.</p>
+<div class="alert alert-info">This bag is encrypted. Paste or upload the key to view the item's details.</div>
+<form role="form" method="post" action='<%= url "data_bag/#{data_bag_item.data_bag.chef_id}/#{data_bag_item.chef_id}"%>' enctype="multipart/form-data">
   <div class="form-group">
-    <input type="text" class="form-control input-lg" id="key" placeholder="Paste key here">
+    <input type="password" class="form-control" id="key" name="key" placeholder="Paste key here">
   </div>
   <div class="form-group">
-    <input type="file" id="upload">
+    <input type="file" id="upload" name="upload">
   </div>
-  <div class="btn-group-lg">
+  <div class="btn-group">
     <button type="submit" class="btn btn-default">Submit</button>
   </div>
 </form>
 <% else -%>
+<div class="alert alert-info">You are viewing decrypted data.</div>
 <div class="filterable">
   <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(data_bag_item._attributes_) do |path, value| -%>

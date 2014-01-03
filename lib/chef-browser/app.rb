@@ -264,7 +264,20 @@ module ChefBrowser
       data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
       pass unless data_bag_item
       @title << params[:data_bag_item_id]
-      erb :data_bag_item, locals: { data_bag_item: data_bag_item, form: false }
+      if params["key"] != "" || params["upload"] != nil
+        class << chef_server
+          attr_accessor :encrypted_data_bag_secret
+        end
+        begin
+          chef_server.encrypted_data_bag_secret = params["key"] || File.open(params["upload"][:tempfile]).read
+          data_bag_item = data_bag_item.decrypt
+          erb :data_bag_item, locals: { data_bag_item: data_bag_item, form: false }
+        ensure
+          chef_server.encrypted_data_bag_secret = nil
+        end
+      else
+        erb :data_bag_item, locals: { data_bag_item: data_bag_item, form: true }
+      end
     end
 
     get '/role/:role_id/?' do
