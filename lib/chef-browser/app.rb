@@ -144,6 +144,12 @@ module ChefBrowser
       end
     end
 
+    def encrypted?(data_bag_item)
+      if data_bag_item.attributes.values.last.is_a?(Hash) && data_bag_item.attributes.values.last.has_key?("cipher")
+        true
+      end
+    end
+
     ##
     ## Filters
     ## -------
@@ -257,7 +263,7 @@ module ChefBrowser
       data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
       pass unless data_bag_item
       @title << params[:data_bag_item_id]
-      erb :data_bag_item, locals: { data_bag_item: data_bag_item, form: true }
+      erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false }
     end
 
     post '/data_bag/:data_bag_id/:data_bag_item_id/?' do
@@ -271,12 +277,12 @@ module ChefBrowser
         begin
           chef_server.encrypted_data_bag_secret = params["key"] || File.open(params["upload"][:tempfile]).read
           data_bag_item = data_bag_item.decrypt
-          erb :data_bag_item, locals: { data_bag_item: data_bag_item, form: false }
+          erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: true }
         ensure
           chef_server.encrypted_data_bag_secret = nil
         end
       else
-        erb :data_bag_item, locals: { data_bag_item: data_bag_item, form: true }
+        erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false }
       end
     end
 

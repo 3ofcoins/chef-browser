@@ -2,7 +2,7 @@
   <h1><%= data_bag_item.data_bag.chef_id %>::<%= data_bag_item.chef_id %></h1>
 </div>
 
-<% if form -%>
+<% if encrypted?(data_bag_item) -%>
 <div class="alert alert-info">This bag is encrypted. Paste or upload the key to view the item's details.</div>
 <form role="form" method="post" action='<%= url "data_bag/#{data_bag_item.data_bag.chef_id}/#{data_bag_item.chef_id}"%>' enctype="multipart/form-data">
   <div class="form-group">
@@ -16,7 +16,9 @@
   </div>
 </form>
 <% else -%>
+<% if decrypted -%>
 <div class="alert alert-info">You are viewing decrypted data.</div>
+<% end -%>
 <div class="filterable">
   <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(data_bag_item._attributes_) do |path, value| -%>
