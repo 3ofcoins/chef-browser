@@ -276,8 +276,8 @@ module ChefBrowser
         end
         begin
           chef_server.encrypted_data_bag_secret = params["key"] || File.open(params["upload"][:tempfile]).read
-          data_bag_item = data_bag_item.decrypt
-          erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: true }
+          data_bag_item.decrypt
+          erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: true } 
         ensure
           chef_server.encrypted_data_bag_secret = nil
         end

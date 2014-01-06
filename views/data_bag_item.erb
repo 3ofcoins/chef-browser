@@ -16,9 +16,9 @@
   </div>
 </form>
 <% else -%>
-<% if decrypted -%>
+<%   if decrypted -%>
 <div class="alert alert-info">You are viewing decrypted data.</div>
-<% end -%>
+<%   end -%>
 <div class="filterable">
   <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(data_bag_item._attributes_) do |path, value| -%>
