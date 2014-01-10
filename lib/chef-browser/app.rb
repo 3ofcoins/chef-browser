@@ -263,7 +263,7 @@ module ChefBrowser
       data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
       pass unless data_bag_item
       @title << params[:data_bag_item_id]
-      erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false }
+      erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false, alert: false }
     end
 
     post '/data_bag/:data_bag_id/:data_bag_item_id/?' do
@@ -274,20 +274,24 @@ module ChefBrowser
         begin
           encrypted_data_bag_secret = (params["key"] unless params["key"] == "") || File.open(params["upload"][:tempfile]).read
           ::Ridley.open({
-              server_url: settings.rb.server_url,
-              client_name: settings.rb.client_name,
-              client_key: settings.rb.client_key,
-              encrypted_data_bag_secret: encrypted_data_bag_secret
-              }.merge(settings.rb.connection)) do |server|
-                data_bag_item = server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
-                data_bag_item.decrypt
-                erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: true }
+            server_url: settings.rb.server_url,
+            client_name: settings.rb.client_name,
+            client_key: settings.rb.client_key,
+            encrypted_data_bag_secret: encrypted_data_bag_secret
+            }.merge(settings.rb.connection)) do |server|
+            begin
+              data_bag_item = server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
+              data_bag_item.decrypt
+              erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: true, alert: false }
+            rescue OpenSSL::Cipher::CipherError => e
+              erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false, alert: true }
+            end
           end
         ensure
           encrypted_data_bag_secret = nil # just in case
         end
       else
-        erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false }
+        erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false, alert: false }
       end
     end
 
