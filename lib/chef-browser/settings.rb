@@ -19,15 +19,13 @@ module ChefBrowser
     # You can define your secret and session time, or use the default below
     option :cookie_secret, ::SecureRandom.base64(64)
     option :cookie_time, 3600
-    option :encrypted_data_bag_secret, nil
 
     # Returns a new Ridley connection, as configured by user
     def ridley
       ::Ridley.new({
           server_url: server_url,
           client_name: client_name,
-          client_key: client_key,
-          encrypted_data_bag_secret: encrypted_data_bag_secret
+          client_key: client_key
         }.merge(connection))
     end
   end
