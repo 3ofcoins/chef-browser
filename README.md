@@ -79,6 +79,11 @@ login true
 cookie_secret ::SecureRandom.base64(64)
 cookie_time 3600 # time given in seconds
 ```
+### Data bag encryption
+
+If a data bag item is encrypted, a key needs to be pasted or uploaded in order to access decrypted data. Important note: the key is not stored anywhere and (for safety reasons) deleted as soon as possible. This means that it has to be entered __each time__ a user tries to access the encoded data bag item's attributes.
+
+Chef Browser only handles version 1 and version 2 encryption, which makes this feature inaccessible for users of Chef 10, where version 0 encryption is used. In case of data bag items protected using version 0, their encryption will not be recognized and thus attributes will simply be listed in their encrypted form.
 
 ## Ruby versions
 
