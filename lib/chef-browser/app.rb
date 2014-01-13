@@ -278,12 +278,7 @@ module ChefBrowser
           params['upload'][:tempfile].close
           params['upload'][:tempfile].unlink
         end
-        ::Ridley.open({
-          server_url: settings.rb.server_url,
-          client_name: settings.rb.client_name,
-          client_key: settings.rb.client_key,
-          encrypted_data_bag_secret: encrypted_data_bag_secret
-          }.merge(settings.rb.connection)) do |server|
+        ::Ridley.open(settings.rb.ridley(encrypted_data_bag_secret).options) do |server|
           begin
             data_bag_item = server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
             data_bag_item.decrypt

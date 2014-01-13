@@ -21,11 +21,12 @@ module ChefBrowser
     option :cookie_time, 3600
 
     # Returns a new Ridley connection, as configured by user
-    def ridley
+    def ridley(secret = nil)
       ::Ridley.new({
           server_url: server_url,
           client_name: client_name,
-          client_key: client_key
+          client_key: client_key,
+          encrypted_data_bag_secret: secret
         }.merge(connection))
     end
   end
