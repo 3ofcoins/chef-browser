@@ -7,7 +7,7 @@
 <% if alert -%>
 <div class="alert alert-danger">Wrong key.</div>
 <% end -%>
-<form role="form" method="post" action='<%= url "data_bag/#{data_bag_item.data_bag.chef_id}/#{data_bag_item.chef_id}"%>' enctype="multipart/form-data">
+<form role="form" method="post" action='<%= url "/data_bag/#{data_bag_item.data_bag.chef_id}/#{data_bag_item.chef_id}"%>' enctype="multipart/form-data">
   <div class="form-group">
     <input type="password" class="form-control" id="key" name="key" placeholder="Paste key here">
   </div>
@@ -15,7 +15,7 @@
     <input type="file" id="upload" name="upload">
   </div>
   <div class="btn-group">
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" id="submit-key" class="btn btn-default">Submit</button>
   </div>
 </form>
 <% else -%>
