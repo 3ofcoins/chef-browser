@@ -23,9 +23,9 @@ client_key ::File.join(::File.dirname(__FILE__), 'features/fixtures/stub.pem')
 #
 # use_partial_search false
 
-# Uncomment if you don't want to have mandatory log in
+# Uncomment to enable login page
 #
-# login false
+# login true
 
 # Modify any of the details below
 #
