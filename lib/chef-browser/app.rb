@@ -24,18 +24,11 @@ module ChefBrowser
     ## --------
 
     set :erb, :escape_html => true
-    set :root, File.expand_path(File.join(File.dirname(__FILE__), '../..'))
+    set :root, Settings.app_root
 
     # It's named this way to have variables from the `settings.rb` file
     # visible from inside the app as `settings.rb.setting_name`
-    set :rb, begin
-               settings_path = ENV['CHEF_BROWSER_SETTINGS'] ?
-                 File.expand_path(ENV['CHEF_BROWSER_SETTINGS']) :
-                   File.join(settings.root, 'settings.rb')
-               settings_rb = Settings.new
-               settings_rb.load(settings_path)
-               settings_rb
-             end
+    set :rb, Settings.load
 
     use Rack::Session::Cookie, expire_after: settings.rb.cookie_time,
                                secret: settings.rb.cookie_secret

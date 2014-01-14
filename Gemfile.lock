@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/3ofcoins/tinyconfig.git
-  revision: 7a019dbea8de88ee521da02745443764fa3f799f
-  branch: develop
-  specs:
-    tinyconfig (0.0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -334,6 +327,7 @@ GEM
       ffi
     tilt (1.4.1)
     timers (1.1.0)
+    tinyconfig (0.1.1)
     varia_model (0.2.0)
       buff-extensions (~> 0.2)
       hashie (>= 2.0.2)
@@ -372,5 +366,5 @@ DEPENDENCIES
   rubysl (~> 2.0)
   rubysl-test-unit (~> 2.0)
   sinatra
-  tinyconfig!
+  tinyconfig (~> 0.1)
   wrong (= 0.7.1)

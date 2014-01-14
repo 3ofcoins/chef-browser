@@ -21,14 +21,6 @@ require 'chef-browser'
 
 require 'capybara/cucumber'
 
-Before('@loggedin') do
-  ChefBrowser::Settings.option :login, false
-end
-
-Before('@login') do
-  ChefBrowser::Settings.option :login, true
-end
-
 require 'wrong'
 World(Wrong)
 

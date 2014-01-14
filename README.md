@@ -63,22 +63,10 @@ Chef-browser is a Sinatra-based app. It uses [Ridley](http://github.com/RiotGame
 
 ## Safety
 
-By default, content is secured with a log in page, but this can be disabled in the settings (see below). The list of users with login permissions can be obtained via `knife user list`. Each user is represented by Ridley's UserObject and is authenticated using Ridley's `authenticate` method:
+By default, chef-browser publishes content without any access control, and authentication is left to the proxy server. It can be secured by a login page, which requires a username and password to validate against users registered in the Chef server (just as the original Chef Web UI). To limit access with a login page, set `login` option to `true` in the settings file.
 
-```ruby
-chef_server = Ridley.new(...)
-chef_server.user.authenticate("username", "password")
-```
+When login is required, Chef-browser uses Rack sessions. By default, on each restart, a fresh, random session secret is generated. This logs out every user, and can be annoying. To save secret across restarts, generate a random string (e.g. by running `ruby -rsecurerandom -e 'puts SecureRandom.base64(36)'`) and add it to `settings.rb` as `cookie_secret`.
 
-Chef-browser uses Rack sessions. By default, on each puma restart, a fresh, random cookie is generated, but this can be overriden in the settings.rb file.
-
-Available options with their default values can be found below:
-
-```ruby
-login true
-cookie_secret ::SecureRandom.base64(64)
-cookie_time 3600 # time given in seconds
-```
 ### Data bag encryption
 
 If a data bag item is encrypted, a key needs to be pasted or uploaded in order to access decrypted data. Important note: the key is not stored anywhere and (for safety reasons) deleted as soon as possible. This means that it has to be entered __each time__ a user tries to access the encoded data bag item's attributes.
