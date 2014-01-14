@@ -28,5 +28,20 @@ module ChefBrowser
           client_key: client_key
         }.merge(connection))
     end
+
+    # Application root dir
+    def self.app_root
+      ::File.expand_path(::File.join(::File.dirname(__FILE__), '../..'))
+    end
+
+    # Load from config file
+    def self.load
+      settings_path = ::ENV['CHEF_BROWSER_SETTINGS'] ?
+      ::File.expand_path(::ENV['CHEF_BROWSER_SETTINGS']) :
+        ::File.join(app_root, 'settings.rb')
+      settings_rb = new
+      settings_rb.load(settings_path)
+      settings_rb
+    end
   end
 end
