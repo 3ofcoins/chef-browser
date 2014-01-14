@@ -24,25 +24,28 @@ module ChefBrowser
     ## --------
 
     set :erb, :escape_html => true
-    set :root, File.expand_path(File.join(File.dirname(__FILE__), '../..'))
+    set :root, Settings.app_root
 
     # It's named this way to have variables from the `settings.rb` file
     # visible from inside the app as `settings.rb.setting_name`
-    set :rb, begin
-               settings_path = ENV['CHEF_BROWSER_SETTINGS'] ?
-                 File.expand_path(ENV['CHEF_BROWSER_SETTINGS']) :
-                   File.join(settings.root, 'settings.rb')
-               settings_rb = Settings.new
-               settings_rb.load(settings_path)
-               settings_rb
-             end
+    set :rb, Settings.load
 
+    use Rack::Session::Cookie, expire_after: settings.rb.cookie_time,
+                               secret: settings.rb.cookie_secret
     ##
     ## Helpers
     ## -------
 
     def chef_server
       @chef_server ||= settings.rb.ridley
+    end
+
+    def authorized?
+      session[:authorized]
+    end
+
+    def logout
+      session[:authorized] = false
     end
 
     # This method takes any nested hash/array `obj`, and then
@@ -140,6 +143,9 @@ module ChefBrowser
 
     before do
       @title = [ settings.rb.title ]
+      if settings.rb.login
+        redirect url '/login' unless authorized? || request.path_info == '/login'
+      end
     end
 
     SECTIONS.each do |section, list_route, item_route|
@@ -161,8 +167,28 @@ module ChefBrowser
     ## Views
     ## -----
 
+    get '/login' do
+      pass unless settings.rb.login
+      erb :login_form, layout: :login
+    end
+
     get '/' do
       redirect url '/nodes'
+    end
+
+    post '/login' do
+      if chef_server.user.authenticate(params['username'], params['password'])
+        session[:authorized] = params['username']
+        redirect url '/'
+      else
+        session[:authorized] = false
+        erb :not_logged_in, layout: :login
+      end
+    end
+
+    get '/logout' do
+      session[:authorized] = false
+      redirect url '/login'
     end
 
     get '/nodes/?' do

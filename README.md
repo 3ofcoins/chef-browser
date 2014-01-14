@@ -63,7 +63,9 @@ Chef-browser is a Sinatra-based app. It uses [Ridley](http://github.com/RiotGame
 
 ## Safety
 
-Any safety precautions are left on the side of the user. Chef browser is a minimal app that does not provide additional safety-enhancing features apart from what's built in Ridley.
+By default, chef-browser publishes content without any access control, and authentication is left to the proxy server. It can be secured by a login page, which requires a username and password to validate against users registered in the Chef server (just as the original Chef Web UI). To limit access with a login page, set `login` option to `true` in the settings file
+
+When login is required, Chef-browser uses Rack sessions. By default, on each restart, a fresh, random session secret is generated. This logs out every user, and can be annoying. To save secret across restarts, generate a random string (e.g. by running `ruby -rsecurerandom -e 'puts SecureRandom.base64(36)'`) and add it to `settings.rb` as `cookie_secret`.
 
 ## Ruby versions
 
@@ -76,5 +78,5 @@ Chef-browser works with Ruby 1.9.3, Ruby 2.0.0, JRuby and RBX.
 * Make sure you test your new feature.
 * Commit your changes together with specs for them: `git commit -am 'Add some feature'`
 * Push your changes to your feature branch.
-* Submit a pull request to the develop repository. Describe your feature in the pull request. Make sure you commit the specs.
+* Submit a pull request to the **develop** repository. Describe your feature in the pull request. Make sure you commit the specs.
 * A pull request does not necessarily need to represent the final, finished feature. Feel free to treat it as a base for discussion.

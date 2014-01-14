@@ -58,3 +58,14 @@ footer a {
 footer a:hover {
     color: #337799;
 }
+
+.container > .login {
+  background-color: #e7e7e7;
+  margin: auto;
+  margin-top: 40px;
+  width: 350px;
+  padding: 20px 45px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}

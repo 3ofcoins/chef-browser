@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/3ofcoins/tinyconfig.git
-  revision: 7a019dbea8de88ee521da02745443764fa3f799f
-  branch: develop
-  specs:
-    tinyconfig (0.0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -97,7 +90,7 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     retryable (1.3.3)
-    ridley (2.3.0)
+    ridley (2.4.0)
       addressable
       buff-config (~> 0.2)
       buff-extensions (~> 0.3)
@@ -329,11 +322,12 @@ GEM
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
     slop (3.4.7)
-    solve (0.8.1)
+    solve (0.8.2)
     spoon (0.0.4)
       ffi
     tilt (1.4.1)
     timers (1.1.0)
+    tinyconfig (0.1.1)
     varia_model (0.2.0)
       buff-extensions (~> 0.2)
       hashie (>= 2.0.2)
@@ -372,5 +366,5 @@ DEPENDENCIES
   rubysl (~> 2.0)
   rubysl-test-unit (~> 2.0)
   sinatra
-  tinyconfig!
+  tinyconfig (~> 0.1)
   wrong (= 0.7.1)

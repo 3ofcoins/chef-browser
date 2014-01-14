@@ -22,3 +22,12 @@ client_key ::File.join(::File.dirname(__FILE__), 'features/fixtures/stub.pem')
 # to make searches less heavy on memory and bandwidth
 #
 # use_partial_search false
+
+# Uncomment to enable login page
+#
+# login true
+
+# Modify any of the details below
+#
+# cookie_secret ::SecureRandom.base64(64)
+# cookie_time 3600

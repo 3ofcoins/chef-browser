@@ -15,6 +15,10 @@ module ChefBrowser
     # Disable if you use chef below 11.0; partial searches are used
     # to make searches less heavy on memory and bandwidth
     option :use_partial_search, true
+    option :login, false
+    # You can define your secret and session time, or use the default below
+    option :cookie_secret, ::SecureRandom.base64(64)
+    option :cookie_time, 3600
 
     # Returns a new Ridley connection, as configured by user
     def ridley
@@ -23,6 +27,21 @@ module ChefBrowser
           client_name: client_name,
           client_key: client_key
         }.merge(connection))
+    end
+
+    # Application root dir
+    def self.app_root
+      ::File.expand_path(::File.join(::File.dirname(__FILE__), '../..'))
+    end
+
+    # Load from config file
+    def self.load
+      settings_path = ::ENV['CHEF_BROWSER_SETTINGS'] ?
+      ::File.expand_path(::ENV['CHEF_BROWSER_SETTINGS']) :
+        ::File.join(app_root, 'settings.rb')
+      settings_rb = new
+      settings_rb.load(settings_path)
+      settings_rb
     end
   end
 end

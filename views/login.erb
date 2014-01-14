@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= @title.join(' » ') %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='<%= url "/css/bootstrap.css" %>' rel="stylesheet" media="screen">
+    <link href='<%= url "/css/chef-browser.css" %>' rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container">
+      <div class="login"><%== yield %></div>
+    </div>
+
+    <script src='<%= url "/js/jquery-2.0.3.js" %>'></script>
+    <script src='<%= url "/js/bootstrap.js" %>'></script>
+  </body>
+</html>

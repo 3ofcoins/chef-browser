@@ -1,6 +1,5 @@
 Feature: Configurable title
 
-
 Scenario: Title visibility: nodes
   When I visit "/nodes"
   Then I can see "Test application"
