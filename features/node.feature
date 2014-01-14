@@ -1,4 +1,3 @@
-@loggedin
 Feature: Node details
 
 Background:

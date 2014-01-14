@@ -1,4 +1,3 @@
-@loggedin
 Feature: Role search
 
 Background:

@@ -1,6 +1,4 @@
-@loggedin
 Feature: Configurable title
-
 
 Scenario: Title visibility: nodes
   When I visit "/nodes"

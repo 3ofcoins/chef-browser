@@ -1,4 +1,3 @@
-@loggedin
 Feature: Saved search
 
 Background:

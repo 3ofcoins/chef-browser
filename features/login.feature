@@ -1,8 +1,11 @@
-@login
 Feature: Log in
 
 Background:
-  Given a Chef server populated with following data:
+  Given a settings.rb configuration:
+    """ruby
+      login true
+    """
+  And a Chef server populated with following data:
     """json
       {
         "users": {

@@ -1,4 +1,3 @@
-@loggedin
 Feature: Data bag search
 
 Background:
