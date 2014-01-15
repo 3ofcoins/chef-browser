@@ -1,5 +1,3 @@
-@loggedin
-@encrypted
 Feature: Data bags page
 
 Background:
