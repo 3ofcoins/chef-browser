@@ -63,9 +63,15 @@ Chef-browser is a Sinatra-based app. It uses [Ridley](http://github.com/RiotGame
 
 ## Safety
 
-By default, chef-browser publishes content without any access control, and authentication is left to the proxy server. It can be secured by a login page, which requires a username and password to validate against users registered in the Chef server (just as the original Chef Web UI). To limit access with a login page, set `login` option to `true` in the settings file
+By default, chef-browser publishes content without any access control, and authentication is left to the proxy server. It can be secured by a login page, which requires a username and password to validate against users registered in the Chef server (just as the original Chef Web UI). To limit access with a login page, set `login` option to `true` in the settings file.
 
 When login is required, Chef-browser uses Rack sessions. By default, on each restart, a fresh, random session secret is generated. This logs out every user, and can be annoying. To save secret across restarts, generate a random string (e.g. by running `ruby -rsecurerandom -e 'puts SecureRandom.base64(36)'`) and add it to `settings.rb` as `cookie_secret`.
+
+### Data bag encryption
+
+If a data bag item is encrypted, a key needs to be pasted or uploaded in order to access decrypted data. Important note: the key is not stored anywhere and (for safety reasons) deleted as soon as possible. This means that it has to be entered __each time__ a user tries to access the encoded data bag item's attributes.
+
+Chef Browser only handles version 1 and version 2 encryption, which makes this feature inaccessible for users of Chef 10, where version 0 encryption is used. In case of data bag items protected using version 0, their encryption will not be recognized and thus attributes will simply be listed in their encrypted form.
 
 ## Ruby versions
 

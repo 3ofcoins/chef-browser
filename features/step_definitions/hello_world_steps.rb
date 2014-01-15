@@ -69,3 +69,16 @@ end
 When(/^I log out/) do
   page.find('button[id="logout"]').click
 end
+
+When(/^I provide (.*?) key$/) do |key|
+  if key == "a bad"
+    page.fill_in 'key', with: "123"
+    page.find('button[id="submit-key"]').click
+  elsif key == "no"
+     page.fill_in 'key', with: ""
+     page.find('button[id="submit-key"]').click
+  elsif key == "a good"
+     page.fill_in 'key', with: "RqAsBDGXSzuQkjmmmk3sQG7QJexiM6n3Oy09R2usdlh1sAUDJBuX8TjKSfc4FKG/+4QMfMp2YUQHzNEX1Vwg4sWd9WAkMWQ3QDHVHm8OphV2Vb95wSINPoEoJzC4Y6aTig/Hne1TBSvLV7LGN4588UTOLR5OBPMeVM8+e+Modiq5eRM2w/aZaf7ctl633PgW7VCBWZC06D8r+OyPvOHVfgD6K3rb0FvDMQlBUVixpqoaVGrufUbebZ8HQ5SEjfN3uBZMd7HHM8IsBi81tnex5LRuTHxMQ73Opn6DY7fffF1iQu+9VhI3VsYYn71S30+K8lQG2iD3tYQCoAJKVbxFXvPeEZBLiLLU2PGXXJLytIRJ0lMp4HgeLMStrf0dN9SpcieBrMCDOY9oa/Ft9xGkeiizn2XxSKwVip/6e3WCg3DRWkT5ru3SJMQOL5MNjc8P6RHnGzYFjOBnor+hyMEJK6rXcSfMdU8Sn1+8m/51abAJ87vtUjZl8uDxbUSpEV7NvQfLi5ySWZhNCEuZ1TQQooe3Vo6uE9tiB6vkbQgoyM01kKDubYUtTTR5qZwMUMZU4/jouBigUbpOhmBMY3OjBX6Rzg7W/AqvipMCJROWG7KvZFUdP7dvdwIReAA5ZPjtHSC/3sG/Ps4vpzUZXoOtzVLa5p777ICIHAosb+VnNQE="
+     page.find('button[id="submit-key"]').click
+   end
+end

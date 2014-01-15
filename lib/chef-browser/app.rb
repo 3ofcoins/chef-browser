@@ -137,6 +137,12 @@ module ChefBrowser
       end
     end
 
+    def encrypted?(data_bag_item)
+      if data_bag_item.attributes.values.last.is_a?(Hash) && data_bag_item.attributes.values.last.has_key?("cipher")
+        true
+      end
+    end
+
     ##
     ## Filters
     ## -------
@@ -250,7 +256,33 @@ module ChefBrowser
       data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
       pass unless data_bag_item
       @title << params[:data_bag_item_id]
-      erb :data_bag_item, locals: { data_bag_item: data_bag_item }
+      erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false, alert: false }
+    end
+
+    post '/data_bag/:data_bag_id/:data_bag_item_id/?' do
+      data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
+      pass unless data_bag_item
+      @title << params[:data_bag_item_id]
+      if params["key"] != "" || params["upload"] != nil
+        pasted = params["key"] unless params["key"] == ""
+        file =  File.open(params["upload"][:tempfile]).read if params['upload']
+        encrypted_data_bag_secret = pasted || file
+        if params['upload'] # let's get rid of this as soon as possible
+          params['upload'][:tempfile].close
+          params['upload'][:tempfile].unlink
+        end
+        ::Ridley.open(settings.rb.ridley(encrypted_data_bag_secret).options) do |server|
+          begin
+            data_bag_item = server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
+            data_bag_item.decrypt
+            erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: true, alert: false }
+          rescue OpenSSL::Cipher::CipherError => e
+            erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false, alert: true }
+          end
+        end
+      else
+        erb :data_bag_item, locals: { data_bag_item: data_bag_item, decrypted: false, alert: false }
+      end
     end
 
     get '/role/:role_id/?' do
