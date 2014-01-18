@@ -1,4 +1,4 @@
-Feature: Node list
+Feature: Browse nodes
 
 Background:
   Given a Chef server populated with following data:
@@ -26,7 +26,7 @@ Scenario: Wrong resource list url returns a 404 error
   When I visit "/nodess"
   Then this page doesn't exist
 
-Scenario: List of node names
+Scenario: List nodes
   When I visit "/nodes"
   Then I can see "some-node-name"
   And I can see "another-node-name"
