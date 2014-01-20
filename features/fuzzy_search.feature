@@ -1,4 +1,4 @@
-Feature: Fuzzy query
+Feature: Fuzzy search
 
 Background:
   Given a Chef server populated with following data:

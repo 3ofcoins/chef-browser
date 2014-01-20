@@ -44,7 +44,7 @@ Scenario: Search similar nodes
   And I can see "Search results (1)"
   And I can see "some-node-name"
 
-Scenario: make sure search box quotes properly
+Scenario: Make sure search box quotes properly
   When I visit "/nodes"
   And I search for "name:so"></html>""
   Then I am at "/nodes"
