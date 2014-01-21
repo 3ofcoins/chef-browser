@@ -1,3 +1,6 @@
+<% if wrong -%>
+<p class="alert alert-danger">Wrong password or username</p>
+<% end -%>
 <form class="form-horizontal" method="post" action="<%= url '/login' %>" role="form" id="loginform" name="loginform">
   <div class="form-group">
     <label for="username">Username</label>

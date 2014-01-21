@@ -50,13 +50,13 @@ Scenario: Wrong password
   When I visit "/login"
   And I log in as "admin" with password "123"
   Then I am at "/login"
-  And I can see "Wrong username or password, try again"
+  And I can see "Wrong password or username"
 
 Scenario: Wrong username
   When I visit "/login"
   And I log in as "not-admin" with password "admin"
   Then I am at "/login"
-  And I can see "Wrong username or password, try again"
+  And I can see "Wrong password or username"
 
 Scenario: Logging out
   When I visit "/nodes"

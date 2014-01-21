@@ -168,7 +168,7 @@ module ChefBrowser
 
     get '/login/?' do
       pass unless settings.rb.login
-      erb :login_form, layout: :login
+      erb :login_form, layout: :login, locals: {wrong: false}
     end
 
     post '/login/?' do
@@ -177,7 +177,7 @@ module ChefBrowser
         redirect url '/'
       else
         session[:authorized] = false
-        erb :not_logged_in, layout: :login
+        erb :login_form, layout: :login, locals: {wrong: true}
       end
     end
 
