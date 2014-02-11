@@ -32,7 +32,7 @@ Scenario: List roles
   Then I can see "one-role"
   And I can see "another-role"
 
-Scenario: Selecting roles
+Scenario: Selecting a role
   When I visit "/roles"
   And I click on "one-role"
   Then I am at "/role/one-role"

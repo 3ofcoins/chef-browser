@@ -93,31 +93,13 @@ module ChefBrowser
       end
     end
 
-    def resource_list(resource, data_bag=nil)
-      if search_query && resource != :data_bag
-        @title << search_query
-        raw_query = search_query
-        raw_query = "tags:*#{raw_query}* OR roles:*#{raw_query}* OR fqdn:*#{raw_query}* OR addresses:*#{raw_query}*" unless raw_query[':']
-        if data_bag
-          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
-          resources = chef_server.search(data_bag.chef_id, raw_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
-        else
-          resources = chef_server.search(resource, raw_query)
-        end
-      elsif data_bag
-        resources = data_bag.item.all
-      else
-        resources = chef_server.send(resource).all
-      end
-      erb :resource_list, locals: { resources: resources, data_bag: data_bag }
-    end
-
     def search_query
       @search_query || params['q']
       @search_query ||= ( params['q'] && params['q'].strip )
     end
 
     def search(search_query, resource, data_bag=nil)
+      search_query = "tags:*#{search_query}* OR roles:*#{search_query}* OR fqdn:*#{search_query}* OR addresses:*#{search_query}*" unless search_query[':']
       if settings.rb.use_partial_search
         resource = data_bag.chef_id if data_bag
         results = chef_server.partial_search(resource, search_query, ["chef_type", "name", "id"])
@@ -129,12 +111,25 @@ module ChefBrowser
         end
       else
         if data_bag
-          # For data bag search, Ridley returns untyped Hashie::Mash, we want to augment it with our methods.
+          # For data bag search, Ridley returns untyped Hashie::Mash,
+          # we want to augment it with our methods.
           resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
         else
           chef_server.search(resource, search_query)
         end
       end
+    end
+
+    def resource_list(resource, data_bag=nil)
+      if search_query && resource != :data_bag
+        @title << search_query
+        resources = search(search_query, resource, data_bag)
+      elsif data_bag
+        resources = data_bag.item.all
+      else
+        resources = chef_server.send(resource).all
+      end
+      erb :resource_list, locals: { resources: resources, data_bag: data_bag }
     end
 
     ##
@@ -167,26 +162,26 @@ module ChefBrowser
     ## Views
     ## -----
 
-    get '/login' do
-      pass unless settings.rb.login
-      erb :login_form, layout: :login
-    end
-
     get '/' do
       redirect url '/nodes'
     end
 
-    post '/login' do
+    get '/login/?' do
+      pass unless settings.rb.login
+      erb :login_form, layout: :login, locals: {wrong: false}
+    end
+
+    post '/login/?' do
       if chef_server.user.authenticate(params['username'], params['password'])
         session[:authorized] = params['username']
         redirect url '/'
       else
         session[:authorized] = false
-        erb :not_logged_in, layout: :login
+        erb :login_form, layout: :login, locals: {wrong: true}
       end
     end
 
-    get '/logout' do
+    get '/logout/?' do
       session[:authorized] = false
       redirect url '/login'
     end
@@ -266,7 +261,7 @@ module ChefBrowser
        }
     end
 
-    get "/nodes/:search_name" do
+    get "/nodes/:search_name/?" do
       @search_query = settings.rb.node_search[::URI::decode_www_form_component(params[:search_name])]
       pass unless @search_query
       resource_list :node

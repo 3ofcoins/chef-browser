@@ -1,4 +1,4 @@
-Feature: Data bags page
+Feature: Browse data bags
 
 Background:
   Given a Chef server populated with following data:
@@ -27,7 +27,7 @@ Scenario: Wrong resource list url returns a 404 error
   When I visit "/data_bagss"
   Then this page doesn't exist
 
-Scenario: List of data bags & items
+Scenario: List data bags
   When I visit "/data_bags"
   Then I can see "some-data-bag"
   And I can see "another-data-bag"

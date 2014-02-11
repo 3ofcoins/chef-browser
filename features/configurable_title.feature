@@ -1,5 +1,11 @@
 Feature: Configurable title
 
+Background:
+  Given a settings.rb configuration:
+    """ruby
+      title "Test application"
+    """
+
 Scenario: Title visibility: nodes
   When I visit "/nodes"
   Then I can see "Test application"

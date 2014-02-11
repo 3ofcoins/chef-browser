@@ -37,12 +37,12 @@ Scenario: Wrong resource list url returns a 404 error
   When I visit "/environmentss"
   Then this page doesn't exist
 
-Scenario: List of environments
+Scenario: List environments
   When I visit "/environments"
   Then I can see "some-environment"
   And I can see "_default"
 
-Scenario: Selecting environments
+Scenario: Selecting an environment
   When I visit "/environments"
   And I click on "some-environment"
   Then I am at "/environment/some-environment"
