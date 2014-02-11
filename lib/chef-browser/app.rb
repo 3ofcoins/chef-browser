@@ -16,7 +16,8 @@ module ChefBrowser
       [ 'Nodes',        '/nodes',        '/node' ],
       [ 'Environments', '/environments', '/environment' ],
       [ 'Roles',        '/roles',        '/role' ],
-      [ 'Data Bags',    '/data_bags',    '/data_bag' ]
+      [ 'Data Bags',    '/data_bags',    '/data_bag' ],
+      [ 'Cookbooks',    '/cookbooks',    '/cookbook' ]
     ]
 
     ##
@@ -265,6 +266,10 @@ module ChefBrowser
       @search_query = settings.rb.node_search[::URI::decode_www_form_component(params[:search_name])]
       pass unless @search_query
       resource_list :node
+    end
+
+    get "/cookbooks/?" do
+      resource_list :cookbook
     end
   end
 end

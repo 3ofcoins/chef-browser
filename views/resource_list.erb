@@ -11,7 +11,15 @@
 <%   end -%>
 <% end -%>
 <ul class="list-unstyled">
-<% resources.sort.each do |resource| -%>
+<% if resources.class == Hash -%>
+<%   resources.sort.each do |cookbook, versions| -%>
+<%     versions.sort.each do |version| -%>
+  <li><%= chef_server.cookbook.find(cookbook, version).name %>
+<%     end -%>
+<%   end -%>
+<% else -%>
+<%   resources.sort.each do |resource| -%>
   <li><a href='<%= url resource.url %>'><%= resource.chef_id || resource.name %></a></li>
+<%   end -%>
 <% end -%>
 </ul>
