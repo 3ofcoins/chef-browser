@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1><%= cookbook.name %></h1>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href='#basic' data-toggle='tab'>Basic</a></li>
+<% metadata.keys.each do |key| -%>
+<%   unless ( metadata[key] == {} or description.include? key ) -%>
+  <li><a href='#<%= key %>' data-toggle='tab'><%= key.capitalize %></a></li>
+<%   end -%>
+<% end -%>
+</ul>
+
+<div class='tab-content'>
+  <div class='tab-pane active' id='basic'>
+    <ul class='list-unstyled'>
+<% description.each do |desc| -%>
+<%   unless metadata[desc] == {} -%>
+  <li><%==  pretty_metadata(desc, metadata[desc]) %></li>
+<%   end -%>
+<% end -%>
+</ul>
+</div>
+<% metadata.each do |key, value| -%>
+<%   unless ( metadata[key] == {} or description.include? key ) -%>
+<%     if key == "recipes" -%>
+  <div class='tab-pane fade in' id='<%= key %>'>
+    <ul class="list-unstyled">
+<%       cookbook.recipes.each do |recipe| -%>
+      <li><a href='<%= url recipe.url %>'><%= recipe.name %></a></li>
+<%       end -%>
+    </ul>
+  </div>
+<%     else -%>
+  <div class='tab-pane fade in' id='<%= key %>'>
+    <%== pretty_metadata(key, value) %>
+  </div>
+<%     end -%>
+<%   end -%>
+<% end -%>
+</div>

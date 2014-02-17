@@ -2,6 +2,7 @@ require 'erubis'
 require 'sinatra'
 require 'ridley'
 require 'deep_merge'
+require 'kramdown'
 
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
@@ -33,6 +34,10 @@ module ChefBrowser
 
     use Rack::Session::Cookie, expire_after: settings.rb.cookie_time,
                                secret: settings.rb.cookie_secret
+
+    def kramdown_settings
+      @kramdown ||= {:input => 'markdown', :coderay_default_lang => "nil", :coderay_line_numbers => nil, :header_offset => "1", :auto_id_prefix => 'readme-'}
+    end
     ##
     ## Helpers
     ## -------
@@ -133,6 +138,39 @@ module ChefBrowser
       erb :resource_list, locals: { resources: resources, data_bag: data_bag }
     end
 
+    def pretty_metadata(key, value)
+      case key
+      when "name" then nil # already there
+      when "long_description" then Kramdown::Document.new(value, kramdown_settings).to_html
+      when "attributes" then nil
+      when "platforms" # returns a Hashie::Mash
+        unless value == {}
+          platforms = "<ul class='list-inline'><li><strong>Platforms:</strong></li>"
+          value.keys.each do |platform|
+            platforms << "<li>#{platform}</li>"
+          end
+          platforms << "</ul>"
+        end
+      when "providing" # returns a Hashie::Mash
+        unless value == {}
+          providing = "<ul class='list-unstyled'>"
+          value.each do |name, description|
+            providing << "<li>#{name}: #{description}</li>"
+          end
+          providing << "</ul>"
+        end
+      when "recipes" # returns a Hashie::Mash
+        unless value == {}
+          recipes = "<ul class='list-unstyled'>"
+          value.each do |name, description|
+            recipes << "<li>#{name}: #{description}</li>"
+          end
+          recipes << "</ul>"
+        end
+      else "<strong>#{key.capitalize}:</strong> #{value}" # description
+      end
+    end
+
     ##
     ## Filters
     ## -------
@@ -146,7 +184,7 @@ module ChefBrowser
 
     SECTIONS.each do |section, list_route, item_route|
       before "#{item_route}*" do
-        @search_url = list_route unless section == 'Data Bags' # Data bags are special.
+        @search_url = list_route unless section == 'Data Bags' or section == 'Cookbooks' # Data bags and Cookbooks are special.
         @search_for = section
         @title << section
         @section = section
@@ -270,6 +308,17 @@ module ChefBrowser
 
     get "/cookbooks/?" do
       resource_list :cookbook
+    end
+
+    get "/cookbook/*-*/?" do
+      cookbook = chef_server.cookbook.find(params[:splat].first, params[:splat].last)
+      pass unless cookbook
+      metadata = cookbook.metadata
+      erb :cookbook, locals: {
+        cookbook: cookbook,
+        metadata: metadata,
+        description: ["name", "description", "maintainer", "maintainer_email", "version", "license", "platforms", "dependencies", "long_description"]
+      }
     end
   end
 end

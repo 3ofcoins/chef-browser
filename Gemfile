@@ -10,6 +10,7 @@ gem "puma"
 gem "rubysl", "~> 2.0", platforms: :rbx
 gem "racc", platforms: :rbx
 gem "deep_merge"
+gem "kramdown"
 
 group :development do
   gem "capybara"
