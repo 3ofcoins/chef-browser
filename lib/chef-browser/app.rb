@@ -302,8 +302,10 @@ module ChefBrowser
       resource_list :cookbook
     end
 
-    get "/cookbook/*-*/?" do
-      cookbook = chef_server.cookbook.find(params[:splat].first, params[:splat].last)
+    get "/cookbook/:name/?" do
+      name = params[:name].gsub(/[0-9]+\.[0-9]+\.[0-9]+/, '').chop
+      version = params[:name][/[0-9]+\.[0-9]+\.[0-9]+/]
+      cookbook = chef_server.cookbook.find(name, version)
       pass unless cookbook
       metadata = cookbook.metadata
       erb :cookbook, locals: {
