@@ -9,6 +9,7 @@
   <li><a href='#<%= key %>' data-toggle='tab'><%= key.capitalize %></a></li>
 <%   end -%>
 <% end -%>
+  <li><a href='#metadata' data-toggle='tab'>Raw metadata</a></li>
 </ul>
 
 <div class='tab-content'>
@@ -19,8 +20,8 @@
   <li><%==  pretty_metadata(desc, metadata[desc]) %></li>
 <%   end -%>
 <% end -%>
-</ul>
-</div>
+    </ul>
+  </div>
 <% metadata.each do |key, value| -%>
 <%   unless ( metadata[key] == {} or description.include? key ) -%>
 <%     if key == "recipes" -%>
@@ -38,4 +39,7 @@
 <%     end -%>
 <%   end -%>
 <% end -%>
+  <div class='tab-pane fade in' id='metadata'>
+    <pre><%= JSON.pretty_generate(metadata) %></pre>
+  </div>
 </div>
