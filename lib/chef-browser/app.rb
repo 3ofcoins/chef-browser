@@ -145,13 +145,13 @@ module ChefBrowser
       when "attributes" then nil
       when "platforms", "dependencies"  # returns a Hashie::Mash
         unless value == {}
-          list = "<ul class='list-inline'><li><strong>#{key.capitalize}</strong></li>"
+          list = "<strong>#{key.capitalize}:</strong><ul class='list-unstyled'>"
           value.sort.each do |name, description|
             list << "<li>#{name}: #{description}</li>"
           end
           list << "</ul>"
         end
-      when "providing", "recipes", "suggestions", "conflicting", "recommendations"  # returns a Hashie::Mash
+      when "providing", "recipes", "suggestions", "conflicting", "recommendations", "groupings" # returns a Hashie::Mash
         unless value == {}
           recipes = "<ul class='list-unstyled'>"
           value.sort.each do |name, description|

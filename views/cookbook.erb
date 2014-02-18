@@ -5,11 +5,11 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href='#basic' data-toggle='tab'>Basic</a></li>
 <% metadata.keys.each do |key| -%>
-<%   unless ( metadata[key] == {} or description.include? key ) -%>
+<%   unless ( metadata[key] == {} or key == 'attributes' or description.include? key ) -%>
   <li><a href='#<%= key %>' data-toggle='tab'><%= key.capitalize %></a></li>
 <%   end -%>
 <% end -%>
-  <li><a href='#metadata' data-toggle='tab'>Raw metadata</a></li>
+  <li><a href='#metadata' data-toggle='tab'>Metadata</a></li>
 </ul>
 
 <div class='tab-content'>

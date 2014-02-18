@@ -14,7 +14,7 @@
 <% if resources.class == Hash -%>
 <%   resources.sort.each do |cookbook, versions| -%>
 <%     versions.sort.each do |version| -%>
-  <li><a href='<%= url "/cookbook/#{chef_server.cookbook.find(cookbook, version).name}" %>'><%= chef_server.cookbook.find(cookbook, version).name %></a>
+  <li><a href='<%= url "/cookbook/#{cookbook}-#{version}" %>'><%= "#{cookbook}-#{version}" %></a>
 <%     end -%>
 <%   end -%>
 <% else -%>
