@@ -143,26 +143,18 @@ module ChefBrowser
       when "name" then nil # already there
       when "long_description" then Kramdown::Document.new(value, kramdown_settings).to_html
       when "attributes" then nil
-      when "platforms" # returns a Hashie::Mash
+      when "platforms", "dependencies"  # returns a Hashie::Mash
         unless value == {}
-          platforms = "<ul class='list-inline'><li><strong>Platforms:</strong></li>"
-          value.keys.each do |platform|
-            platforms << "<li>#{platform}</li>"
+          list = "<ul class='list-inline'><li><strong>#{key.capitalize}</strong></li>"
+          value.sort.each do |name, description|
+            list << "<li>#{name}: #{description}</li>"
           end
-          platforms << "</ul>"
+          list << "</ul>"
         end
-      when "providing" # returns a Hashie::Mash
-        unless value == {}
-          providing = "<ul class='list-unstyled'>"
-          value.each do |name, description|
-            providing << "<li>#{name}: #{description}</li>"
-          end
-          providing << "</ul>"
-        end
-      when "recipes" # returns a Hashie::Mash
+      when "providing", "recipes", "suggestions", "conflicting", "recommendations"  # returns a Hashie::Mash
         unless value == {}
           recipes = "<ul class='list-unstyled'>"
-          value.each do |name, description|
+          value.sort.each do |name, description|
             recipes << "<li>#{name}: #{description}</li>"
           end
           recipes << "</ul>"
