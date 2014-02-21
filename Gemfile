@@ -11,6 +11,7 @@ gem "rubysl", "~> 2.0", platforms: :rbx
 gem "racc", platforms: :rbx
 gem "deep_merge"
 gem "kramdown"
+gem "github-markup"
 
 group :development do
   gem "capybara"

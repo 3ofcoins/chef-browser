@@ -2,7 +2,7 @@ require 'erubis'
 require 'sinatra'
 require 'ridley'
 require 'deep_merge'
-require 'kramdown'
+require 'github/markup'
 
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
@@ -35,9 +35,6 @@ module ChefBrowser
     use Rack::Session::Cookie, expire_after: settings.rb.cookie_time,
                                secret: settings.rb.cookie_secret
 
-    def kramdown_settings
-      @kramdown ||= {:input => 'markdown', :coderay_default_lang => "nil", :coderay_line_numbers => nil, :header_offset => "1", :auto_id_prefix => 'readme-'}
-    end
     ##
     ## Helpers
     ## -------
@@ -141,7 +138,7 @@ module ChefBrowser
     def pretty_metadata(key, value)
       case key
       when "name" then nil # already there
-      when "long_description" then Kramdown::Document.new(value, kramdown_settings).to_html
+      when "long_description" then GitHub::Markup.render("README.md", value)
       when "attributes" then nil
       when "platforms", "dependencies"  # returns a Hashie::Mash
         unless value == {}
