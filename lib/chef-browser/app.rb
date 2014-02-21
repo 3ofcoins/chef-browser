@@ -137,10 +137,10 @@ module ChefBrowser
 
     def pretty_metadata(key, value)
       case key
-      when "name" then nil # already there
+      when "name" then nil
       when "long_description" then GitHub::Markup.render("README.md", value)
       when "attributes" then nil
-      when "platforms", "dependencies"  # returns a Hashie::Mash
+      when "platforms", "dependencies"
         unless value == {}
           list = "<strong>#{key.capitalize}:</strong><ul class='list-unstyled'>"
           value.sort.each do |name, description|
@@ -148,15 +148,15 @@ module ChefBrowser
           end
           list << "</ul>"
         end
-      when "providing", "recipes", "suggestions", "conflicting", "recommendations", "groupings" # returns a Hashie::Mash
+      when "providing", "recipes", "suggestions", "conflicting", "recommendations", "groupings"
         unless value == {}
-          recipes = "<ul class='list-unstyled'>"
+          list = "<ul class='list-unstyled'>"
           value.sort.each do |name, description|
-            recipes << "<li>#{name}: #{description}</li>"
+            list << "<li>#{name}: #{description}</li>"
           end
-          recipes << "</ul>"
+          list << "</ul>"
         end
-      else "<strong>#{key.capitalize}:</strong> #{value}" # description
+      else "<strong>#{key.capitalize}:</strong> #{value}"
       end
     end
 

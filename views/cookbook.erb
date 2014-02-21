@@ -3,17 +3,17 @@
 </div>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href='#basic' data-toggle='tab'>Basic</a></li>
+  <li class="active"><a href='#tab-basic' data-toggle='tab'>Basic</a></li>
 <% metadata.keys.each do |key| -%>
 <%   unless ( metadata[key] == {} or key == 'attributes' or description.include? key ) -%>
-  <li><a href='#<%= key %>' data-toggle='tab'><%= key.capitalize %></a></li>
+  <li><a href='#tab-<%= key %>' data-toggle='tab'><%= key.capitalize %></a></li>
 <%   end -%>
 <% end -%>
-  <li><a href='#metadata' data-toggle='tab'>Metadata</a></li>
+  <li><a href='#tab-metadata' data-toggle='tab'>Metadata</a></li>
 </ul>
 
 <div class='tab-content'>
-  <div class='tab-pane active' id='basic'>
+  <div class='tab-pane active' id='tab-basic'>
     <ul class='list-unstyled'>
 <% description.each do |desc| -%>
 <%   unless metadata[desc] == {} -%>
@@ -25,21 +25,26 @@
 <% metadata.each do |key, value| -%>
 <%   unless ( metadata[key] == {} or description.include? key ) -%>
 <%     if key == "recipes" -%>
-  <div class='tab-pane fade in' id='<%= key %>'>
+  <div class='tab-pane fade in' id='tab-<%= key %>'>
     <ul class="list-unstyled">
 <%       cookbook.recipes.each do |recipe| -%>
       <li><a href='<%= url recipe.url %>'><%= recipe.name %></a></li>
 <%       end -%>
     </ul>
-  </div>
+<%       metadata.recipes.each do |recipe, description| -%>
+<%         unless description.empty? -%>
+<%=          recipe %>: <%= description %><br>
+<%         end -%>
+<%       end -%>
+</div>
 <%     else -%>
-  <div class='tab-pane fade in' id='<%= key %>'>
+  <div class='tab-pane fade in' id='tab-<%= key %>'>
     <%== pretty_metadata(key, value) %>
   </div>
 <%     end -%>
 <%   end -%>
 <% end -%>
-  <div class='tab-pane fade in' id='metadata'>
+  <div class='tab-pane fade in' id='tab-metadata'>
     <pre><%= JSON.pretty_generate(metadata) %></pre>
   </div>
 </div>
