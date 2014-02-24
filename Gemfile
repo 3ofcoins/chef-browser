@@ -12,6 +12,7 @@ gem "racc", platforms: :rbx
 gem "deep_merge"
 gem "kramdown"
 gem "github-markup"
+gem "coderay"
 
 group :development do
   gem "capybara"

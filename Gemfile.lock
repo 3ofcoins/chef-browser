@@ -355,6 +355,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   chef-zero
+  coderay
   cucumber
   deep_merge
   erubis (~> 2.7.0)

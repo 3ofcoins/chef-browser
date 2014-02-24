@@ -28,7 +28,7 @@
   <div class='tab-pane fade in' id='tab-<%= key %>'>
     <ul class="list-unstyled">
 <%       cookbook.recipes.each do |recipe| -%>
-      <li><a href='<%= url recipe.url %>'><%= recipe.name %></a></li>
+      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{recipe.name}" %>'><%= recipe.name %></a></li>
 <%       end -%>
     </ul>
 <%       metadata.recipes.each do |recipe, description| -%>

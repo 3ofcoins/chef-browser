@@ -160,6 +160,12 @@ module ChefBrowser
       end
     end
 
+    def find_recipe(recipe_name, cookbook)
+      cookbook.recipes.each do |candidate|
+        return candidate if candidate.name == recipe_name
+      end
+    end
+
     ##
     ## Filters
     ## -------
@@ -297,6 +303,15 @@ module ChefBrowser
 
     get "/cookbooks/?" do
       resource_list :cookbook
+    end
+
+    get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*\.rb)} do
+      cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
+      recipe = find_recipe(params[:captures][2], cookbook)
+      pass unless recipe
+        erb :recipe, locals: {
+          recipe: recipe
+      }
     end
 
     get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/?} do
