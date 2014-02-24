@@ -3,6 +3,7 @@ require 'sinatra'
 require 'ridley'
 require 'deep_merge'
 require 'github/markup'
+require 'coderay'
 
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
@@ -321,7 +322,8 @@ module ChefBrowser
       erb :cookbook, locals: {
         cookbook: cookbook,
         metadata: metadata,
-        description: ["name", "description", "maintainer", "maintainer_email", "version", "license", "platforms", "dependencies", "long_description"]
+        description: ["name", "description", "maintainer", "maintainer_email", "version", "license", "platforms", "dependencies", "long_description"],
+        file_types: ["resources", "providers", "definitions", "libraries", "attributes", "files", "templates", "root_files"]
       }
     end
   end

@@ -10,6 +10,7 @@
 <%   end -%>
 <% end -%>
   <li><a href='#tab-metadata' data-toggle='tab'>Metadata</a></li>
+  <li><a href='#tab-files' data-toggle='tab'>Files</a></li>
 </ul>
 
 <div class='tab-content'>
@@ -46,5 +47,17 @@
 <% end -%>
   <div class='tab-pane fade in' id='tab-metadata'>
     <pre><%= JSON.pretty_generate(metadata) %></pre>
+  </div>
+  <div class='tab-pane fade in' id='tab-files'>
+<% file_types.each do |file_type| -%>
+<%   unless cookbook.send(file_type) == [] -%>
+    <h2><%= file_type.capitalize %></h2>
+    <ul class='list-unstyled'>
+<%     cookbook.send(file_type).each do |file| -%>
+    <li><a href='<%= url file.url %>'><%= file.name %></a></li>
+<%     end -%>
+    </ul>
+<%   end -%>
+<% end -%>
   </div>
 </div>
