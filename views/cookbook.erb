@@ -28,16 +28,11 @@
 <%     if key == "recipes" -%>
   <div class='tab-pane fade in' id='tab-<%= key %>'>
     <ul class="list-unstyled">
-<%       cookbook.recipes.each do |recipe| -%>
-      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{recipe.name}" %>'><%= recipe.name %></a></li>
+<%       cookbook.recipes.zip(metadata.recipes) do |c_recipe, m_recipe| -%>
+      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{c_recipe.name}" %>'><%= c_recipe.name %></a><%= m_recipe.last != "" ? ": #{m_recipe.last}" : "" %></li>
 <%       end -%>
     </ul>
-<%       metadata.recipes.each do |recipe, description| -%>
-<%         unless description.empty? -%>
-<%=          recipe %>: <%= description %><br>
-<%         end -%>
-<%       end -%>
-</div>
+  </div>
 <%     else -%>
   <div class='tab-pane fade in' id='tab-<%= key %>'>
     <%== pretty_metadata(key, value) %>
