@@ -35,7 +35,6 @@ module ChefBrowser
 
     use Rack::Session::Cookie, expire_after: settings.rb.cookie_time,
                                secret: settings.rb.cookie_secret
-
     ##
     ## Helpers
     ## -------
@@ -311,6 +310,7 @@ module ChefBrowser
       recipe = find_recipe(params[:captures][2], cookbook)
       pass unless recipe
         erb :recipe, locals: {
+          cookbook_name: cookbook.chef_id,
           recipe: recipe
       }
     end
