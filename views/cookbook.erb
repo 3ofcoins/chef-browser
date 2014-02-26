@@ -5,7 +5,7 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href='#tab-basic' data-toggle='tab'>Basic</a></li>
 <% metadata.keys.each do |key| -%>
-<%   unless ( metadata[key] == {} or key == 'attributes' or description.include? key ) -%>
+<%   unless ( metadata[key].empty? or key == 'attributes' or description.include? key ) -%>
   <li><a href='#tab-<%= key %>' data-toggle='tab'><%= key.capitalize %></a></li>
 <%   end -%>
 <% end -%>
@@ -17,19 +17,19 @@
   <div class='tab-pane active' id='tab-basic'>
     <ul class='list-unstyled'>
 <% description.each do |desc| -%>
-<%   unless metadata[desc] == {} -%>
+<%   unless metadata[desc].empty? -%>
   <li><%==  pretty_metadata(desc, metadata[desc]) %></li>
 <%   end -%>
 <% end -%>
     </ul>
   </div>
 <% metadata.each do |key, value| -%>
-<%   unless ( metadata[key] == {} or description.include? key ) -%>
+<%   unless ( metadata[key].empty? or description.include? key ) -%>
 <%     if key == "recipes" -%>
   <div class='tab-pane fade in' id='tab-<%= key %>'>
     <ul class="list-unstyled">
 <%       cookbook.recipes.zip(metadata.recipes) do |c_recipe, m_recipe| -%>
-      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{c_recipe.name}" %>'><%= c_recipe.name %></a><%= m_recipe.last != "" ? ": #{m_recipe.last}" : "" %></li>
+      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{c_recipe.name}" %>'><%= c_recipe.name %></a><%= m_recipe.last.empty? ? "" : ": #{m_recipe.last}" %></li>
 <%       end -%>
     </ul>
   </div>
