@@ -1,0 +1,19 @@
+<% if file_type == 'recipes' -%>
+  <h1><%= cookbook_name %>::<%= file.name %></h1>
+<% else -%>
+  <h1><%= file_type %>/<%= file.name %></h1>
+<% end -%>
+<% case -%>
+<% when file.name.match(/.*\.rb/) -%>
+<%== CodeRay.scan(content, :ruby).div(:line_numbers => :table) %>
+<% when file.name.match(/.*\.erb/) -%>
+<%== CodeRay.scan(content, :erb).div(:line_numbers => :table) %>
+<% when file.name.match(/.*\.md/) -%>
+<%== GitHub::Markup.render("README.md", content) %>
+<% when file.name.match(/.*\.json/) -%>
+  <pre><%== CodeRay.scan(content, :json).div(:line_numbers => nil) %></pre>
+<% when file.name.match(/.*\.yml/) -%>
+<%== CodeRay.scan(content, :yml).div(:line_numbers => :table) %>
+<% else  -%>
+<%== CodeRay.scan(content, :auto).div(:line_numbers => :table) %>
+<% end -%>

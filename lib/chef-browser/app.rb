@@ -160,9 +160,10 @@ module ChefBrowser
       end
     end
 
-    def find_recipe(recipe_name, cookbook)
-      cookbook.recipes.each do |candidate|
-        return candidate if candidate.name == recipe_name
+    # returns a Hashie::Mash
+    def find_file(file_name, file_type, cookbook)
+      cookbook.send(file_type).each do |candidate|
+        return candidate if candidate.name[file_name]
       end
     end
 
@@ -305,16 +306,27 @@ module ChefBrowser
       resource_list :cookbook
     end
 
-    get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*\.rb)} do
+    # cookbook files
+    get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*)/(.*\.*)} do
       cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
-      recipe = find_recipe(params[:captures][2], cookbook)
-      pass unless recipe
-        erb :recipe, locals: {
+      if params[:captures][2]['/']
+        file_type = params[:captures][2].match(/.*?\//).to_s.chop
+      else
+        params[:captures][2] == "recipe"? file_type = "recipes" : file_type = params[:captures][2]
+      end
+      file_name = params[:captures][3]
+      file = find_file(file_name, file_type, cookbook)
+      content = open(file.url) { |f| f.read }
+       erb :file, locals: {
           cookbook_name: cookbook.chef_id,
-          recipe: recipe
+          file_type: file_type,
+          file_name: file_name,
+          file: file,
+          content: content
       }
     end
 
+    # single cookbook
     get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/?} do
       cookbook = chef_server.cookbook.find(params[:captures].first, params[:captures].last)
       pass unless cookbook
