@@ -316,6 +316,7 @@ module ChefBrowser
       end
       file_name = params[:captures][3]
       file = find_file(file_name, file_type, cookbook)
+      @title << [ cookbook.name, params[:captures][2], file_name ]
       content = open(file.url) { |f| f.read }
        erb :file, locals: {
           cookbook_name: cookbook.chef_id,
@@ -330,6 +331,7 @@ module ChefBrowser
     get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/?} do
       cookbook = chef_server.cookbook.find(params[:captures].first, params[:captures].last)
       pass unless cookbook
+      @title << cookbook.name
       metadata = cookbook.metadata
       erb :cookbook, locals: {
         cookbook: cookbook,
