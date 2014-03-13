@@ -28,8 +28,16 @@
 <%     if key == "recipes" -%>
   <div class='tab-pane fade in' id='tab-<%= key %>'>
     <ul class="list-unstyled">
-<%       cookbook.recipes.zip(metadata.recipes) do |c_recipe, m_recipe| -%>
-      <li><a href='<%= url "/cookbook/#{cookbook.name}/recipe/#{c_recipe.name}" %>'><%= c_recipe.name %></a><%= m_recipe.last.empty? ? "" : ": #{m_recipe.last}" %></li>
+<%       cookbook.recipes.each do |recipe| -%>
+      <li>
+        <a href='<%= url "/cookbook/#{cookbook.name}/recipe/#{recipe.name}" %>'><%= recipe.name %></a>
+<%         metadata.recipes.each  do |r, d| -%>
+<%           unless r.empty? -%>
+<%=            recipe.name.gsub('.rb', '') == r.gsub("#{cookbook.chef_id}::", "") && !d.empty? ? "- #{d}" : "" %>
+<%=            recipe.name == "default.rb" && r == cookbook.chef_id && !d.empty? ? "- #{d}" : "" %>
+<%           end -%>
+<%         end -%>
+      </li>
 <%       end -%>
     </ul>
   </div>
@@ -49,7 +57,7 @@
     <h2><%= file_type.capitalize %></h2>
     <ul class='list-unstyled'>
 <%     cookbook.send(file_type).each do |file| -%>
-	<li><a href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= file.name %></a></li>
+      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= file.name %></a></li>
 <%     end -%>
     </ul>
 <%   end -%>
