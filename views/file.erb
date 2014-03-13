@@ -4,7 +4,7 @@
   <h1><%= file_type %>/<%= file.name %></h1>
 <% end -%>
 <% case -%>
-<% when file.name.match(/.*\.rb/) -%>
+<% when ( file.name.match(/.*\.rb/) or file.name.match(/Gemfile$/) ) -%>
 <%== CodeRay.scan(content, :ruby).div(:line_numbers => :table) %>
 <% when file.name.match(/.*\.erb/) -%>
 <%== CodeRay.scan(content, :erb).div(:line_numbers => :table) %>

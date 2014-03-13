@@ -28,7 +28,7 @@
 <%     if key == "recipes" -%>
   <div class='tab-pane fade in' id='tab-<%= key %>'>
     <ul class="list-unstyled">
-<%       cookbook.recipes.each do |recipe| -%>
+<%       cookbook.recipes.sort_by { |k| k["name"].downcase }.each do |recipe| -%>
       <li>
         <a href='<%= url "/cookbook/#{cookbook.name}/recipe/#{recipe.name}" %>'><%= recipe.name %></a>
 <%         metadata.recipes.each  do |r, d| -%>
@@ -49,14 +49,14 @@
 <%   end -%>
 <% end -%>
   <div class='tab-pane fade in' id='tab-metadata'>
-    <pre><%= JSON.pretty_generate(metadata) %></pre>
+    <%== CodeRay.scan(JSON.pretty_generate(metadata), :json).div(:line_numbers => nil) %>
   </div>
   <div class='tab-pane fade in' id='tab-files'>
 <% file_types.each do |file_type| -%>
 <%   unless cookbook.send(file_type).empty? -%>
     <h2><%= file_type.capitalize %></h2>
     <ul class='list-unstyled'>
-<%     cookbook.send(file_type).each do |file| -%>
+<%     cookbook.send(file_type).sort_by { |k| k["name"].downcase }.each do |file| -%>
       <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= file.name %></a></li>
 <%     end -%>
     </ul>
