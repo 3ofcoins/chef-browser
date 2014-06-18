@@ -51,7 +51,9 @@
   <div class='tab-pane fade in' id='tab-files'>
 <% file_types.each do |file_type| -%>
 <%   unless cookbook.send(file_type).empty? -%>
+<%     unless file_type.capitalize == 'Root_files' %>
     <h2><%= file_type.capitalize %></h2>
+  <%     end %>
     <ul class='list-unstyled'>
 <%     cookbook.send(file_type).sort_by { |k| k["name"].downcase }.each do |file| -%>
       <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= file.name %></a></li>

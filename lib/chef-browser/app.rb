@@ -340,7 +340,7 @@ module ChefBrowser
         cookbook: cookbook,
         metadata: metadata,
         description: %w(name maintainer maintainer_email version license platforms dependencies long_description),
-        file_types: %w(resources providers definitions libraries attributes files templates root_files)
+        file_types: %w(root_files attributes templates files definitions resources providers libraries)
       }
     end
   end
