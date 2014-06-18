@@ -63,6 +63,12 @@
 <% end -%>
   </div>
   <div class='tab-pane fade in' id='tab-metadata'>
-    <%== CodeRay.scan(JSON.pretty_generate(metadata), :json).div(:line_numbers => nil) %>
+    <div class="tab-content">
+      <table class="table table-condensed table-striped table-hover">
+<% with_jsonpath(metadata) do |path, value| -%>
+        <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<% end -%>
+      </table>
+    </div>
   </div>
 </div>
