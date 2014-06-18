@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1><%= cookbook.name %></h1>
+  <p class="lead"><%= metadata["description"] %></p>
 </div>
-
 <ul class="nav nav-tabs">
   <li class="active"><a href='#tab-basic' data-toggle='tab'>Basic</a></li>
 <% metadata.keys.each do |key| -%>
@@ -9,8 +9,8 @@
   <li><a href='#tab-<%= key %>' data-toggle='tab'><%= key.capitalize %></a></li>
 <%   end -%>
 <% end -%>
-  <li><a href='#tab-metadata' data-toggle='tab'>Metadata</a></li>
   <li><a href='#tab-files' data-toggle='tab'>Files</a></li>
+  <li><a href='#tab-metadata' data-toggle='tab'>Metadata</a></li>
 </ul>
 
 <div class='tab-content'>
@@ -48,9 +48,6 @@
 <%     end -%>
 <%   end -%>
 <% end -%>
-  <div class='tab-pane fade in' id='tab-metadata'>
-    <%== CodeRay.scan(JSON.pretty_generate(metadata), :json).div(:line_numbers => nil) %>
-  </div>
   <div class='tab-pane fade in' id='tab-files'>
 <% file_types.each do |file_type| -%>
 <%   unless cookbook.send(file_type).empty? -%>
@@ -62,5 +59,8 @@
     </ul>
 <%   end -%>
 <% end -%>
+  </div>
+  <div class='tab-pane fade in' id='tab-metadata'>
+    <%== CodeRay.scan(JSON.pretty_generate(metadata), :json).div(:line_numbers => nil) %>
   </div>
 </div>

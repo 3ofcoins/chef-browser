@@ -140,6 +140,9 @@ module ChefBrowser
       when "name" then nil
       when "long_description" then GitHub::Markup.render("README.md", value)
       when "attributes" then nil
+      when "maintainer_email" then "<strong>#{key.capitalize.gsub('_', ' ')}:</strong> <a href='mailto:#{value}'>#{value}</a>"
+      when "license" then "<strong>#{key.capitalize}:</strong> <a href="">#{value}</a>"
+      when "version" then nil
       when "platforms", "dependencies"
         unless value.empty?
           list = "<strong>#{key.capitalize}:</strong><ul class='list-unstyled'>"
@@ -336,8 +339,8 @@ module ChefBrowser
       erb :cookbook, locals: {
         cookbook: cookbook,
         metadata: metadata,
-        description: ["name", "description", "maintainer", "maintainer_email", "version", "license", "platforms", "dependencies", "long_description"],
-        file_types: ["resources", "providers", "definitions", "libraries", "attributes", "files", "templates", "root_files"]
+        description: %w(name maintainer maintainer_email version license platforms dependencies long_description),
+        file_types: %w(resources providers definitions libraries attributes files templates root_files)
       }
     end
   end
