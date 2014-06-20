@@ -137,23 +137,12 @@ module ChefBrowser
 
     def pretty_metadata(key, value)
       case key
-      when "name" then nil
       when "long_description" then GitHub::Markup.render("README.md", value)
       when "attributes" then nil
       when "maintainer_email" then "<strong>#{key.capitalize.gsub('_', ' ')}:</strong> <a href='mailto:#{value}'>#{value}</a>"
-      when "license" then "<strong>#{key.capitalize}:</strong> <a href="">#{value}</a>"
-      when "version" then nil
-      when "platforms", "dependencies"
+      when "platforms", "dependencies", "suggestions", "conflicting", "replacing", "providing", "recipes", "recommendations", "groupings"
         unless value.empty?
           list = "<strong>#{key.capitalize}:</strong><ul class='list-unstyled'>"
-          value.sort.each do |name, description|
-            list << "<li>#{name}: #{description}</li>"
-          end
-          list << "</ul>"
-        end
-      when "providing", "recipes", "suggestions", "conflicting", "recommendations", "groupings"
-        unless value.empty?
-          list = "<ul class='list-unstyled'>"
           value.sort.each do |name, description|
             list << "<li>#{name}: #{description}</li>"
           end
@@ -339,7 +328,8 @@ module ChefBrowser
       erb :cookbook, locals: {
         cookbook: cookbook,
         metadata: metadata,
-        description: %w(name maintainer maintainer_email version license platforms dependencies long_description),
+        basic: %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description),
+        tabs: %w(basic recipes files metadata),
         file_types: %w(root_files attributes templates files definitions resources providers libraries)
       }
     end

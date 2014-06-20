@@ -3,28 +3,23 @@
   <p class="lead"><%= metadata["description"] %></p>
 </div>
 <ul class="nav nav-tabs">
-  <li class="active"><a href='#tab-basic' data-toggle='tab'>Basic</a></li>
-<% metadata.keys.each do |key| -%>
-<%   unless ( metadata[key].empty? or key == 'attributes' or description.include? key ) -%>
-  <li><a href='#tab-<%= key %>' data-toggle='tab'><%= key.capitalize %></a></li>
-<%   end -%>
+<% tabs.each do |tab| -%>
+  <li<%= tab == 'basic' ? ' class="active"' : ''%>><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
 <% end -%>
-  <li><a href='#tab-files' data-toggle='tab'>Files</a></li>
-  <li><a href='#tab-metadata' data-toggle='tab'>Metadata</a></li>
 </ul>
 
 <div class='tab-content'>
   <div class='tab-pane active' id='tab-basic'>
     <ul class='list-unstyled'>
-<% description.each do |desc| -%>
-<%   unless metadata[desc].empty? -%>
-  <li><%==  pretty_metadata(desc, metadata[desc]) %></li>
+<% basic.each do |b| -%>
+<%   unless metadata[b].empty? -%>
+  <li><%==  pretty_metadata(b, metadata[b]) %></li>
 <%   end -%>
 <% end -%>
     </ul>
   </div>
 <% metadata.each do |key, value| -%>
-<%   unless ( metadata[key].empty? or description.include? key ) -%>
+<%   unless ( metadata[key].empty? or basic.include? key ) -%>
 <%     if key == "recipes" -%>
   <div class='tab-pane fade in' id='tab-<%= key %>'>
     <ul class="list-unstyled">
@@ -48,12 +43,13 @@
 <%     end -%>
 <%   end -%>
 <% end -%>
+
   <div class='tab-pane fade in' id='tab-files'>
 <% file_types.each do |file_type| -%>
 <%   unless cookbook.send(file_type).empty? -%>
-<%     unless file_type.capitalize == 'Root_files' %>
+<%     unless file_type == 'root_files' %>
     <h2><%= file_type.capitalize %></h2>
-  <%     end %>
+<%     end %>
     <ul class='list-unstyled'>
 <%     cookbook.send(file_type).sort_by { |k| k["name"].downcase }.each do |file| -%>
       <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= file.name %></a></li>
@@ -62,6 +58,7 @@
 <%   end -%>
 <% end -%>
   </div>
+
   <div class='tab-pane fade in' id='tab-metadata'>
     <div class="tab-content">
       <table class="table table-condensed table-striped table-hover">
@@ -71,4 +68,5 @@
       </table>
     </div>
   </div>
+
 </div>
