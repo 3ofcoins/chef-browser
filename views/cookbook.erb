@@ -4,19 +4,22 @@
 </div>
 <ul class="nav nav-tabs">
 <% tabs.each do |tab| -%>
-  <li<%= tab == 'basic' ? ' class="active"' : ''%>><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
+  <li<%= tab == 'basic' ? ' class="active"' : '' %>><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
 <% end -%>
 </ul>
 
 <div class='tab-content'>
   <div class='tab-pane active' id='tab-basic'>
-    <ul class='list-unstyled'>
+    <dl class='dl-horizontal'>
 <% basic.each do |b| -%>
 <%   unless metadata[b].empty? -%>
-  <li><%==  pretty_metadata(b, metadata[b]) %></li>
+<%     if b == "long_description" -%>
+    </dl><%== pretty_metadata(b, metadata[b]) %>
+<%     else -%>
+<%==     pretty_metadata(b, metadata[b]) %>
+<%     end -%>
 <%   end -%>
 <% end -%>
-    </ul>
   </div>
 <% metadata.each do |key, value| -%>
 <%   unless ( metadata[key].empty? or basic.include? key ) -%>
@@ -36,10 +39,6 @@
 <%       end -%>
     </ul>
   </div>
-<%     else -%>
-  <div class='tab-pane fade in' id='tab-<%= key %>'>
-    <%== pretty_metadata(key, value) %>
-  </div>
 <%     end -%>
 <%   end -%>
 <% end -%>
@@ -52,7 +51,7 @@
 <%     end %>
     <ul class='list-unstyled'>
 <%     cookbook.send(file_type).sort_by { |k| k["name"].downcase }.each do |file| -%>
-      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= file.name %></a></li>
+      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= file_type == 'root_files' ? file.name : "#{file.specificity}/#{file.name}" %></a></li>
 <%     end -%>
     </ul>
 <%   end -%>

@@ -35,6 +35,7 @@ module ChefBrowser
 
     use Rack::Session::Cookie, expire_after: settings.rb.cookie_time,
                                secret: settings.rb.cookie_secret
+
     ##
     ## Helpers
     ## -------
@@ -137,18 +138,18 @@ module ChefBrowser
 
     def pretty_metadata(key, value)
       case key
-      when "long_description" then GitHub::Markup.render("README.md", value)
-      when "attributes" then nil
-      when "maintainer_email" then "<strong>#{key.capitalize.gsub('_', ' ')}:</strong> <a href='mailto:#{value}'>#{value}</a>"
-      when "platforms", "dependencies", "suggestions", "conflicting", "replacing", "providing", "recipes", "recommendations", "groupings"
+      when 'long_description' then GitHub::Markup.render('README.md', value)
+      when 'attributes' then nil
+      when 'maintainer_email' then "<dt>#{key.capitalize.gsub('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
+      when 'platforms', 'dependencies', 'suggestions', 'conflicting', 'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
         unless value.empty?
-          list = "<strong>#{key.capitalize}:</strong><ul class='list-unstyled'>"
+          list = "<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
           value.sort.each do |name, description|
             list << "<li>#{name}: #{description}</li>"
           end
-          list << "</ul>"
+          list << '</ul></dd>'
         end
-      else "<strong>#{key.capitalize}:</strong> #{value}"
+      else "<dt>#{key.capitalize}:</dt><dd>#{value}</dd>"
       end
     end
 
@@ -304,7 +305,7 @@ module ChefBrowser
       if params[:captures][2]['/']
         file_type = params[:captures][2].match(/.*?\//).to_s.chop
       else
-        params[:captures][2] == "recipe"? file_type = "recipes" : file_type = params[:captures][2]
+        params[:captures][2] == 'recipe'? file_type = 'recipes' : file_type = params[:captures][2]
       end
       file_name = params[:captures][3]
       file = find_file(file_name, file_type, cookbook)
