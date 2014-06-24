@@ -7,17 +7,19 @@
 <% end -%>
 <% case -%>
 <% when ( file.name.match(/.*\.rb/) or file.name.match(/Gemfile$/) ) -%>
-<%== Pygments.highlight(content, lexer: :rb, options: {encoding: 'utf-8'}) %>
+<%== Pygments.highlight(content, lexer: :rb, options: {encoding: 'utf-8', linenos: 'inline'}) %>
 <% when file.name.match(/.*\.erb/) -%>
-<%== Pygments.highlight(content, lexer: :erb, options: {encoding: 'utf-8'}) %>
+<%== Pygments.highlight(content, lexer: :erb, options: {encoding: 'utf-8', linenos: 'inline'}) %>
 <% when ( file.name.match(/.*\.md/) or file.name.match(/.*\.rdoc/) or file.name.match(/LICENSE/) or file.name.match(/CONTRIBUTING/) ) -%>
 <%== GitHub::Markup.render("README.md", content) %>
 <% when file.name.match(/.*\.json/) -%>
-<%== Pygments.highlight(content, lexer: :json, options: {encoding: 'utf-8'}) %>
+<%== Pygments.highlight(content, lexer: :json, options: {encoding: 'utf-8', linenos: 'inline'}) %>
 <% when file.name.match(/.*\.yml/) -%>
-<%== Pygments.highlight(content, lexer: :yaml, options: {encoding: 'utf-8'}) %>
+<%== Pygments.highlight(content, lexer: :yaml, options: {encoding: 'utf-8', linenos: 'inline'}) %>
 <% when file.name.match(/.*\.key/) -%>
-<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8'}) %>
+<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8', linenos: 'inline'}) %>
+<% when file.name.match(/.*\.sh/) -%>
+<%== Pygments.highlight(content, lexer: :sh, options: {encoding: 'utf-8', linenos: 'inline'}) %>
 <% else  -%>
-<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8'}) %>
+<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8', linenos: 'inline'}) %>
 <% end -%>
