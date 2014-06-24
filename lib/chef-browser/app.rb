@@ -4,6 +4,7 @@ require 'ridley'
 require 'deep_merge'
 require 'github/markup'
 require 'coderay'
+require 'pygments.rb'
 
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
@@ -305,18 +306,19 @@ module ChefBrowser
       if params[:captures][2]['/']
         file_type = params[:captures][2].match(/.*?\//).to_s.chop
       else
-        params[:captures][2] == 'recipe'? file_type = 'recipes' : file_type = params[:captures][2]
+        params[:captures][2] == 'recipe' ? file_type = 'recipes' : file_type = params[:captures][2]
       end
       file_name = params[:captures][3]
       file = find_file(file_name, file_type, cookbook)
-      @title << [ cookbook.name, params[:captures][2], file_name ]
+      @title << [cookbook.name, params[:captures][2], file_name]
       content = open(file.url) { |f| f.read }
-       erb :file, locals: {
-          cookbook_name: cookbook.chef_id,
-          file_type: file_type,
-          file_name: file_name,
-          file: file,
-          content: content
+      erb :file, locals: {
+        cookbook_name: cookbook.chef_id,
+        cookbook_version: cookbook.version,
+        file_type: file_type,
+        file_name: file_name,
+        file: file,
+        content: content
       }
     end
 

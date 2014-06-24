@@ -1,19 +1,23 @@
+<a role="button" class="btn btn-default" href='<%= url "/cookbook/#{cookbook_name}-#{cookbook_version}" %>'>« Back to <%= "#{cookbook_name}-#{cookbook_version}" %></a>
+
 <% if file_type == 'recipes' -%>
-  <h1><%= cookbook_name %>::<%= file.name %></h1>
+<h1><%= cookbook_name %>::<%= file.name.gsub('.rb', '') %></h1>
 <% else -%>
-  <h1><%= file_type %>/<%= file.name %></h1>
+<h1><%= file_type == ('root_files' or 'attributes') ? file.name : "#{file.specificity}/#{file.name}" %></h1>
 <% end -%>
 <% case -%>
 <% when ( file.name.match(/.*\.rb/) or file.name.match(/Gemfile$/) ) -%>
-<%== CodeRay.scan(content, :ruby).div(:line_numbers => :table) %>
+<%== Pygments.highlight(content, lexer: :rb, options: {encoding: 'utf-8'}) %>
 <% when file.name.match(/.*\.erb/) -%>
-<%== CodeRay.scan(content, :erb).div(:line_numbers => :table) %>
-<% when file.name.match(/.*\.md/) -%>
+<%== Pygments.highlight(content, lexer: :erb, options: {encoding: 'utf-8'}) %>
+<% when ( file.name.match(/.*\.md/) or file.name.match(/.*\.rdoc/) or file.name.match(/LICENSE/) or file.name.match(/CONTRIBUTING/) ) -%>
 <%== GitHub::Markup.render("README.md", content) %>
 <% when file.name.match(/.*\.json/) -%>
-  <pre><%== CodeRay.scan(content, :json).div(:line_numbers => nil) %></pre>
+<%== Pygments.highlight(content, lexer: :json, options: {encoding: 'utf-8'}) %>
 <% when file.name.match(/.*\.yml/) -%>
-<%== CodeRay.scan(content, :yml).div(:line_numbers => :table) %>
+<%== Pygments.highlight(content, lexer: :yaml, options: {encoding: 'utf-8'}) %>
+<% when file.name.match(/.*\.key/) -%>
+<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8'}) %>
 <% else  -%>
-<%== CodeRay.scan(content, :auto).div(:line_numbers => :table) %>
+<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8'}) %>
 <% end -%>

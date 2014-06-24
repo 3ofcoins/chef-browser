@@ -13,6 +13,7 @@ gem "deep_merge"
 gem "kramdown"
 gem "github-markup"
 gem "coderay"
+gem "pygments.rb"
 
 group :development do
   gem "capybara"
