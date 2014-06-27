@@ -5,21 +5,25 @@
 <% else -%>
 <h1><%= file_type == ('root_files' or 'attributes') ? file.name : "#{file.specificity}/#{file.name}" %></h1>
 <% end -%>
-<% case -%>
-<% when ( file.name.match(/.*\.rb/) or file.name.match(/Gemfile$/) ) -%>
-<%== Pygments.highlight(content, lexer: :rb, options: {encoding: 'utf-8', linenos: 'inline'}) %>
-<% when file.name.match(/.*\.erb/) -%>
-<%== Pygments.highlight(content, lexer: :erb, options: {encoding: 'utf-8', linenos: 'inline'}) %>
-<% when ( file.name.match(/.*\.md/) or file.name.match(/.*\.rdoc/) or file.name.match(/LICENSE/) or file.name.match(/CONTRIBUTING/) ) -%>
+<% case extname -%>
+<% when '.md' -%>
 <%== GitHub::Markup.render("README.md", content) %>
-<% when file.name.match(/.*\.json/) -%>
-<%== Pygments.highlight(content, lexer: :json, options: {encoding: 'utf-8', linenos: 'inline'}) %>
-<% when file.name.match(/.*\.yml/) -%>
-<%== Pygments.highlight(content, lexer: :yaml, options: {encoding: 'utf-8', linenos: 'inline'}) %>
-<% when file.name.match(/.*\.key/) -%>
-<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8', linenos: 'inline'}) %>
-<% when file.name.match(/.*\.sh/) -%>
-<%== Pygments.highlight(content, lexer: :sh, options: {encoding: 'utf-8', linenos: 'inline'}) %>
-<% else  -%>
-<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8', linenos: 'inline'}) %>
+<% when '.erb' # Pygments.lexers["ERB"][:filenames] is empty -%>
+<%== Pygments.highlight(content, lexer: :erb, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) %>
+<% when '' -%>
+<%   if %w(LICENSE README CONTRIBUTING).include? file_name -%>
+<%==   GitHub::Markup.render("README.md", content) %>
+<%   elsif %w(Berksfile Rakefile).include? file_name -%>
+<%==   Pygments.highlight(content, lexer: :rb, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) %>
+<%   else -%>
+<%==   Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) %>
+<%   end -%>
+<% else -%>
+<%   Pygments.lexers.each do |l| -%>
+<%     if l[1][:filenames].include? "*#{extname}" -%>
+<%==     @code = Pygments.highlight(content, lexer: l[1][:aliases].first.to_sym, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) %>
+<%       break -%>
+<%     end -%>
+<%   end -%>
+<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) unless @code.present? %>
 <% end -%>

@@ -312,12 +312,14 @@ module ChefBrowser
       file = find_file(file_name, file_type, cookbook)
       @title << [cookbook.name, params[:captures][2], file_name]
       content = open(file.url) { |f| f.read }
+      extname = File.extname(file_name).downcase
       erb :file, locals: {
         cookbook_name: cookbook.chef_id,
         cookbook_version: cookbook.version,
         file_type: file_type,
         file_name: file_name,
         file: file,
+        extname: extname,
         content: content
       }
     end
