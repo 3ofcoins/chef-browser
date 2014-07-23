@@ -14,6 +14,7 @@ gem "kramdown"
 gem "github-markup"
 gem "coderay"
 gem "pygments.rb"
+gem "github-linguist"
 
 group :development do
   gem "capybara"

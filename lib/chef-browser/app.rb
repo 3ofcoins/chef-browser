@@ -5,10 +5,12 @@ require 'deep_merge'
 require 'github/markup'
 require 'coderay'
 require 'pygments.rb'
+require 'linguist'
 
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
 require 'chef-browser/version'
+require 'chef-browser/file-content'
 
 module ChefBrowser
   class App < Sinatra::Base

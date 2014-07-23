@@ -5,25 +5,8 @@
 <% else -%>
 <h1><%= file_type == ('root_files' or 'attributes') ? file.name : "#{file.specificity}/#{file.name}" %></h1>
 <% end -%>
-<% case extname -%>
-<% when '.md' -%>
+<% if extname == '.md' -%>
 <%== GitHub::Markup.render("README.md", content) %>
-<% when '.erb' # Pygments.lexers["ERB"][:filenames] is empty -%>
-<%== Pygments.highlight(content, lexer: :erb, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) %>
-<% when '' -%>
-<%   if %w(LICENSE README CONTRIBUTING).include? file_name -%>
-<%==   GitHub::Markup.render("README.md", content) %>
-<%   elsif %w(Berksfile Rakefile).include? file_name -%>
-<%==   Pygments.highlight(content, lexer: :rb, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) %>
-<%   else -%>
-<%==   Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) %>
-<%   end -%>
 <% else -%>
-<%   Pygments.lexers.each do |l| -%>
-<%     if l[1][:filenames].include? "*#{extname}" -%>
-<%==     @code = Pygments.highlight(content, lexer: l[1][:aliases].first.to_sym, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) %>
-<%       break -%>
-<%     end -%>
-<%   end -%>
-<%== Pygments.highlight(content, lexer: :text, options: {encoding: 'utf-8', formatter: 'html', linenos: 'inline'}) unless @code.present? %>
+<%== ChefBrowser::FileContent.show(file, extname, content) %>
 <% end -%>
