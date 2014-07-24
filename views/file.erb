@@ -8,5 +8,7 @@
 <% if extname == '.md' -%>
 <%== GitHub::Markup.render("README.md", content) %>
 <% else -%>
-<%== ChefBrowser::FileContent.show(file, extname, content) %>
+<%== ( ChefBrowser::FileContent.show_file(file, extname, content) || "<p class='lead'>The content of this file cannot be displayed</p>" ) %>
+<%== ChefBrowser::FileContent.download_file(file.url) %>
+<p></p>
 <% end -%>
