@@ -6,6 +6,7 @@ client_key ::File.join(::File.dirname(__FILE__), 'features/fixtures/stub.pem')
 
 # Override the SECTIONS array for custom sections menu
 #
+# Triples of [ title, list URL, item URL ]
 # sections = [
 #   [ 'Nodes',        '/nodes',        '/node' ],
 #   [ 'Environments', '/environments', '/environment' ],
