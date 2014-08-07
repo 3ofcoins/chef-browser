@@ -36,6 +36,18 @@ node_search['Staging'] = 'chef_environment:staging'
 
 You can define as many saved searches as you like. Your saved searches will appear as a dropdown list next to the search box. Right now this option works only for nodes.
 
+You can *now* alter the main menu in the settings.rb file. For instance, we've added a saved search for Amazon Web Service instances, and don't really care about roles or data_bags for the browser, so we've configured the following:
+
+```
+node_search['AWS'] = 'cloud_provider:ec2'
+
+sections [
+    [ 'Nodes',  '/nodes', '/node' ],
+    [ 'Environments',  '/environments', '/environment' ],
+    [ 'AWS', '/nodes/AWS', '/nodes/AWS' ]
+  ]
+```
+
 Chef-browser mimics knife's fuzzy searches, so entering "foo*" in the search box will result in performing a search for "tags:*foo* OR roles:*foo* OR fqdn:*foo* OR addresses:*foo*".
 
 In order to save on bandwidth and memory, partial searches are enabled for users of Chef 11.0. If you use Chef 10.x, disable the `use_partial_search` option in your settings.rb file.
