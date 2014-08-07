@@ -11,14 +11,6 @@ module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
 
-    # Triples of [ title, list URL, item URL ]
-    SECTIONS = [
-      [ 'Nodes',        '/nodes',        '/node' ],
-      [ 'Environments', '/environments', '/environment' ],
-      [ 'Roles',        '/roles',        '/role' ],
-      [ 'Data Bags',    '/data_bags',    '/data_bag' ]
-    ]
-
     ##
     ## Settings
     ## --------
@@ -36,6 +28,17 @@ module ChefBrowser
                settings_rb.load(settings_path)
                settings_rb
              end
+
+    # Triples of [ title, list URL, item URL ]
+    #
+    # Defaults to the following; configurable in settings.rb
+    # SECTIONS = [
+    #   [ 'Nodes',        '/nodes',        '/node' ],
+    #   [ 'Environments', '/environments', '/environment' ],
+    #   [ 'Roles',        '/roles',        '/role' ],
+    #   [ 'Data Bags',    '/data_bags',    '/data_bag' ]
+    # ]
+    SECTIONS = settings.rb.sections
 
     ##
     ## Helpers

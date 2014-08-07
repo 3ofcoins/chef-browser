@@ -4,6 +4,15 @@ server_url "http://127.0.0.1:4000"
 client_name "marta"
 client_key ::File.join(::File.dirname(__FILE__), 'features/fixtures/stub.pem')
 
+# Override the SECTIONS array for custom sections menu
+#
+# sections = [
+#   [ 'Nodes',        '/nodes',        '/node' ],
+#   [ 'Environments', '/environments', '/environment' ],
+#   [ 'Roles',        '/roles',        '/role' ],
+#   [ 'Data Bags',    '/data_bags',    '/data_bag' ]
+# ]
+
 # If the Chef server has a self-signed https certificate, SSL certificate
 # checks need to be disabled.
 #

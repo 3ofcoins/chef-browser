@@ -18,3 +18,5 @@ tmp
 _yardoc
 doc/
 /settings.rb
+
+.*.swp
