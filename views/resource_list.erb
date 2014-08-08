@@ -14,7 +14,7 @@
 <% resources.each do |resource| -%>
   <li><a href='<%= url resource.url %>'><%= resource.chef_id || resource.name %></a></li>
 <%   if request.url =~ %r|/nodes/.*| -%>
-    <li class='col-md-offset-1'><%= gaze_cloud(resource) %></li>
+    <li class='cloud-resource'><%= gaze_cloud(resource) %></li>
 <%  end -%>
 <% end -%>
 </ul>

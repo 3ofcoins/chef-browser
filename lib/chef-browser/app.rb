@@ -21,7 +21,7 @@ module ChefBrowser
         elsif resource.rackspace?
           "Region: " + resource.automatic.rackspace.region.to_s
         else
-          "No data on Digital Ocean instances, yet."
+          "No data."
         end
       end
     end
