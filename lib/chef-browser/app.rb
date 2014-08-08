@@ -11,6 +11,21 @@ module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
 
+    helpers do
+      def gaze_cloud(resource)
+        if resource.ec2?
+          [
+            resource.automatic.ec2.placement_availability_zone.to_s,
+            resource.automatic.ec2.instance_type.to_s
+          ].join(", ")
+        elsif resource.rackspace?
+          "Region: " + resource.automatic.rackspace.region.to_s
+        else
+          "No data on Digital Ocean instances, yet."
+        end
+      end
+    end
+
     ##
     ## Settings
     ## --------
@@ -165,7 +180,8 @@ module ChefBrowser
     ## -----
 
     get '/' do
-      redirect url '/nodes'
+      # redirect url '/nodes'
+      erb :welcome
     end
 
     get '/nodes/?' do
