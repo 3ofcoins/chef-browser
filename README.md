@@ -1,6 +1,8 @@
 chef-browser
 ============
 
+***NB: This branch is dedicated to our in-house uses*** - Though you may find the changes helpful, it is not designed to merge happily into upstream. The changes we've made that *should* merge nicely are in 'master' of this fork.
+
 Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list (and search through) nodes, environments, roles and data bags (and items) as well as view their details: basic information plus pre-formatted JSON data. Shorten the time necessary to access often used information with saved searches.
 
 ## Installation
