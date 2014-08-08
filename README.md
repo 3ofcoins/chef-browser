@@ -1,6 +1,8 @@
 chef-browser
 ============
 
+***NB: This branch is dedicated to our in-house uses*** - Though you may find the changes helpful, it is not designed to merge happily into upstream. The changes we've made that *should* merge nicely are in 'for-upstream' of this fork. Ideally, this fork will make things configurable, such that our in-house changes need not be in upstream.
+
 Easily browse through Chef data in a user-friendly format using your favorite browser. Chef-browser allows you to list (and search through) nodes, environments, roles and data bags (and items) as well as view their details: basic information plus pre-formatted JSON data. Shorten the time necessary to access often used information with saved searches.
 
 ## Installation
@@ -35,6 +37,18 @@ node_search['Staging'] = 'chef_environment:staging'
 ```
 
 You can define as many saved searches as you like. Your saved searches will appear as a dropdown list next to the search box. Right now this option works only for nodes.
+
+You can *now* alter the main menu in the settings.rb file. For instance, we've added a saved search for Amazon Web Service instances, and don't really care about roles or data_bags for the browser, so we've configured the following:
+
+```
+node_search['AWS'] = 'cloud_provider:ec2'
+
+sections [
+    [ 'Nodes',  '/nodes', '/node' ],
+    [ 'Environments',  '/environments', '/environment' ],
+    [ 'AWS', '/nodes/AWS', '/nodes/AWS' ]
+  ]
+```
 
 Chef-browser mimics knife's fuzzy searches, so entering "foo*" in the search box will result in performing a search for "tags:*foo* OR roles:*foo* OR fqdn:*foo* OR addresses:*foo*".
 

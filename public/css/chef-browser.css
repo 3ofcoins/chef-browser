@@ -58,3 +58,8 @@ footer a {
 footer a:hover {
     color: #337799;
 }
+
+.cloud-resource {
+  margin-bottom: 1em;
+  padding-left: 2em;
+}

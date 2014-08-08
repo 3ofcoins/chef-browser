@@ -11,13 +11,20 @@ module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
 
-    # Triples of [ title, list URL, item URL ]
-    SECTIONS = [
-      [ 'Nodes',        '/nodes',        '/node' ],
-      [ 'Environments', '/environments', '/environment' ],
-      [ 'Roles',        '/roles',        '/role' ],
-      [ 'Data Bags',    '/data_bags',    '/data_bag' ]
-    ]
+    helpers do
+      def gaze_cloud(resource)
+        if resource.ec2?
+          [
+            resource.automatic.ec2.placement_availability_zone.to_s,
+            resource.automatic.ec2.instance_type.to_s
+          ].join(", ")
+        elsif resource.rackspace?
+          "Region: " + resource.automatic.rackspace.region.to_s
+        else
+          "No data."
+        end
+      end
+    end
 
     ##
     ## Settings
@@ -36,6 +43,17 @@ module ChefBrowser
                settings_rb.load(settings_path)
                settings_rb
              end
+
+    # Triples of [ title, list URL, item URL ]
+    #
+    # Defaults to the following; configurable in settings.rb
+    # SECTIONS = [
+    #   [ 'Nodes',        '/nodes',        '/node' ],
+    #   [ 'Environments', '/environments', '/environment' ],
+    #   [ 'Roles',        '/roles',        '/role' ],
+    #   [ 'Data Bags',    '/data_bags',    '/data_bag' ]
+    # ]
+    SECTIONS = settings.rb.sections
 
     ##
     ## Helpers
@@ -106,6 +124,9 @@ module ChefBrowser
       else
         resources = chef_server.send(resource).all
       end
+      resources.sort! do |x,y|
+        x.chef_id <=> y.chef_id
+      end
       erb :resource_list, locals: { resources: resources, data_bag: data_bag }
     end
 
@@ -162,7 +183,8 @@ module ChefBrowser
     ## -----
 
     get '/' do
-      redirect url '/nodes'
+      # redirect url '/nodes'
+      erb :welcome
     end
 
     get '/nodes/?' do
