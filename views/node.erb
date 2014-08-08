@@ -2,7 +2,38 @@
   <h1><%= node.name %></h1>
 </div>
 
-<p><%= node[:automatic][:fqdn] %> (<%= node[:automatic][:ipaddress] %>)</p>
+<p>
+  <table>
+    <tr>
+      <td>Hostname:</td>
+      <td><%= node[:automatic][:hostname] %></td>
+    </tr>
+    <tr>
+      <td>FQDN:</td>
+      <td><%= node[:automatic][:fqdn] %> (<%= node[:automatic][:ipaddress] %>)</td>
+    </tr>
+    <tr>
+      <td>(v)CPU cores:</td>
+      <td><%= node[:automatic][:cpu][:total] %></td>
+    </tr>
+    <tr>
+      <td>Total memory:</td>
+      <td><%= node[:automatic][:memory][:total] %></td>
+    </tr>
+    <tr>
+      <td>Platform:</td>
+      <td><%= node[:automatic][:platform].to_s.capitalize + " " + node[:automatic][:platform_version].to_s %></td>
+    </tr>
+    <tr>
+      <td>Cloud provider:</td>
+      <td><%= node[:automatic][:cloud] ? node[:automatic][:cloud][:provider] : "digital-ocean?" %></td>
+    </tr>
+    <tr>
+      <td>Virtualization:</td>
+      <td><%= node[:automatic][:virtualization][:system] %></td>
+    </tr>
+  </table>
+</p>
 
 <p><strong>Environment:</strong> <a href='<%= url "/nodes?q=chef_environment:#{node.chef_environment}" %>'><%= node.chef_environment %></a></p>
 
