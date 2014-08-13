@@ -30,6 +30,7 @@ Scenario: List of node names
   When I visit "/nodes"
   Then I can see "some-node-name"
   And I can see "another-node-name"
+  And "another-node-name" precedes "some-node-name"
 
 Scenario: Selecting a node
   When I visit "/nodes"
@@ -40,3 +41,4 @@ Scenario: Selecting a node
 Scenario: Visiting a non-existing node returns a 404 error
   When I visit "/node/some-node-namee"
   Then this page doesn't exist
+
