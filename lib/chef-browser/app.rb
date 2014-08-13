@@ -106,6 +106,9 @@ module ChefBrowser
       else
         resources = chef_server.send(resource).all
       end
+      resources.sort! do |x,y|
+        x.chef_id <=> y.chef_id
+      end
       erb :resource_list, locals: { resources: resources, data_bag: data_bag }
     end
 

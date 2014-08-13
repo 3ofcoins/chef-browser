@@ -24,6 +24,10 @@ Then(/^I can't see "(.*?)"$/) do |text|
   assert { page.has_content?(text) == false }
 end
 
+Then(/^"(.*?)" precedes "(.*?)"$/) do |first,second|
+  assert { page.text.index(first) < page.text.index(second) }
+end
+
 When(/^I click on "(.*?)"$/) do |text|
   click_on(text)
 end
