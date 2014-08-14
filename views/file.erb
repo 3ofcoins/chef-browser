@@ -5,10 +5,6 @@
 <% else -%>
 <h1><%= file_type == ('root_files' or 'attributes') ? file.name : "#{file.specificity}/#{file.name}" %></h1>
 <% end -%>
-<% if extname == '.md' -%>
-<%== GitHub::Markup.render("README.md", content) %>
-<% else -%>
 <%== ( ChefBrowser::FileContent.show_file(file, extname, content) || "<p class='lead'>The content of this file cannot be displayed</p>" ) %>
-<%== ChefBrowser::FileContent.download_file(file.url) %>
+<a role='button' class='btn btn-default btn-primary' href="<%= url file.url %>">Download file</a>
 <p></p>
-<% end -%>
