@@ -1,5 +1,10 @@
 <a role="button" class="btn btn-default" href='<%= url "/cookbook/#{cookbook_name}-#{cookbook_version}" %>'>« Back to <%= "#{cookbook_name}-#{cookbook_version}" %></a>
 
+<div class="page-header">
+  <h1><%= cookbook_name %></h1>
+  <p class="lead"><%= metadata["description"] %></p>
+</div>
+
 <% if file_type == 'recipes' -%>
 <h1><%= cookbook_name %>::<%= file.name.gsub('.rb', '') %></h1>
 <% else -%>
