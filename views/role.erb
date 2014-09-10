@@ -26,7 +26,7 @@
 <% end -%>
 <% unless role.run_list.empty? -%>
 <ul class="list-unstyled">
-<%     role.run_list.sort.each do |run_list| -%>
+<%     role.run_list.each do |run_list| -%>
   <li><%== run_list["role"] != nil ? "<a href='" + url("/role/#{run_list.gsub('role[', '').chop}") + "'>#{run_list}</a>" : run_list %></li>
 <%     end -%>
 </ul>
