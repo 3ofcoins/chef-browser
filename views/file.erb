@@ -1,15 +1,14 @@
-<a role="button" class="btn btn-default" href='<%= url "/cookbook/#{cookbook_name}-#{cookbook_version}" %>'>« Back to <%= "#{cookbook_name}-#{cookbook_version}" %></a>
-
 <div class="page-header">
-  <h1><%= cookbook_name %></h1>
+  <h1><a href='<%= url "/cookbook/#{cookbook_name}-#{cookbook_version}" %>'><%= cookbook.name %></a></h1>
   <p class="lead"><%= metadata["description"] %></p>
 </div>
 
+<h1>
 <% if file_type == 'recipes' -%>
-<h1><%= cookbook_name %>::<%= file.name.gsub('.rb', '') %></h1>
+<%= cookbook_name %>::<%= file.name.gsub('.rb', '') %>
 <% else -%>
-<h1><%= file_type == ('root_files' or 'attributes') ? file.name : "#{file.specificity}/#{file.name}" %></h1>
+<%= file_type == ('root_files' or 'attributes') ? file.name : "#{file.specificity}/#{file.name}" %>
 <% end -%>
+<a role='button' class='btn btn-default btn-primary btn-lg' href="<%= url file.url %>"><span class='glyphicon glyphicon-download'></span></a>
+</h1>
 <%== ( ChefBrowser::FileContent.show_file(file, extname, content) || "<p class='lead'>The content of this file cannot be displayed</p>" ) %>
-<a role='button' class='btn btn-default btn-primary' href="<%= url file.url %>">Download file</a>
-<p></p>

@@ -319,6 +319,7 @@ module ChefBrowser
       erb :file, locals: {
         cookbook_name: cookbook.chef_id,
         cookbook_version: cookbook.version,
+        cookbook: cookbook,
         file_type: file_type,
         file_name: file_name,
         file: file,
