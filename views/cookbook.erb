@@ -1,5 +1,17 @@
-<div class="page-header">
-  <h1><%= cookbook.name %></h1>
+<div class='page-header'>
+  <h1><%= cookbook.chef_id %>
+    <div class='dropdown' style='display: inline;'>
+      <button class='btn btn-default dropdown-toggle btn-lg' type='button' id='versions' data-toggle='dropdown'>
+<%= cookbook.version %>
+        <span class='caret'></span>
+      </button>
+      <ul class='dropdown-menu' role='menu' aria-labelledby='versions'>
+<%  versions.reverse.each do |version| -%>
+          <li role='presentation'><a role='menuitem' tabindex="-1" href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}" %>'><%= version %></a></li>
+<%  end -%>
+      </ul>
+    </div>
+  </h1>
   <p class="lead"><%= metadata["description"] %></p>
 </div>
 <ul class="nav nav-tabs">

@@ -335,9 +335,11 @@ module ChefBrowser
       pass unless cookbook
       @title << cookbook.name
       metadata = cookbook.metadata
+      versions = chef_server.cookbook.all[cookbook.chef_id]
       erb :cookbook, locals: {
         cookbook: cookbook,
         metadata: metadata,
+        versions: versions,
         basic: %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description),
         tabs: %w(basic recipes files metadata),
         file_types: %w(root_files attributes templates files definitions resources providers libraries)
