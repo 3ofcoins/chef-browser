@@ -1,20 +1,3 @@
-<div class="page-header">
-  <h1><a href='<%= url "/cookbook/#{cookbook_name}-#{cookbook_version}" %>'><%= cookbook.name %></a>
-    <div class='dropdown' style='display: inline;'>
-      <button class='btn btn-default dropdown-toggle btn-lg' type='button' id='versions' data-toggle='dropdown'>
-<%= cookbook.version %>
-        <span class='caret'></span>
-      </button>
-      <ul class='dropdown-menu' role='menu' aria-labelledby='versions'>
-<%  versions.reverse.each do |version| -%>
-  <li role='presentation'><a role='menuitem' tabindex="-1" href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= version %></a></li>
-<%  end -%>
-      </ul>
-    </div>
-  </h1>
-  <p class="lead"><%= metadata["description"] %></p>
-</div>
-
 <h1>
 <% if file_type == 'recipes' -%>
 <%= cookbook_name %>::<%= file.name.gsub('.rb', '') %>

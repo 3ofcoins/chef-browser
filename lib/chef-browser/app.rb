@@ -317,7 +317,7 @@ module ChefBrowser
       extname = File.extname(file_name).downcase
       metadata = cookbook.metadata
       versions = chef_server.cookbook.all[cookbook.chef_id]
-      erb :file, locals: {
+      erb :file, layout: :cookbook_layout, locals: {
         cookbook_name: cookbook.chef_id,
         cookbook_version: cookbook.version,
         cookbook: cookbook,
@@ -338,7 +338,7 @@ module ChefBrowser
       @title << cookbook.name
       metadata = cookbook.metadata
       versions = chef_server.cookbook.all[cookbook.chef_id]
-      erb :cookbook, locals: {
+      erb :cookbook, layout: :cookbook_layout, locals: {
         cookbook: cookbook,
         metadata: metadata,
         versions: versions,
