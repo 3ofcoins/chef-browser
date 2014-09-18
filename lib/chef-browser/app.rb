@@ -316,6 +316,7 @@ module ChefBrowser
       content = open(file.url) { |f| f.read }
       extname = File.extname(file_name).downcase
       metadata = cookbook.metadata
+      versions = chef_server.cookbook.all[cookbook.chef_id]
       erb :file, locals: {
         cookbook_name: cookbook.chef_id,
         cookbook_version: cookbook.version,
@@ -325,7 +326,8 @@ module ChefBrowser
         file: file,
         extname: extname,
         content: content,
-        metadata: metadata
+        metadata: metadata,
+        versions: versions
       }
     end
 
