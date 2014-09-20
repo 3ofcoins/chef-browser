@@ -163,6 +163,24 @@ module ChefBrowser
       end
     end
 
+    def run_list_helper(run_list)
+      if run_list.include? "role["
+        "<a href='" + url("/role/#{run_list.gsub('role[', '').chop}") + "'>" + run_list + "</a>"
+      elsif run_list.include? "recipe["
+        if run_list.include? "::"
+          run_list =~ /\[(.*)::(.*)\]/
+        else
+          run_list =~ /\[(.*)\]/
+        end
+        name = Regexp.last_match[1]
+        recipe = Regexp.last_match[2]
+        version = chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil?
+        "<a href='" + url("/cookbook/#{name}-#{version}/recipe/#{recipe || 'default'}.rb") + "'>" + run_list + "</a>"
+      else
+        run_list
+      end
+    end
+
     ##
     ## Filters
     ## -------
