@@ -320,6 +320,29 @@ module ChefBrowser
       resource_list :cookbook
     end
 
+    # download a cookbook file
+    before %r{download/*} do
+      content_type 'application/octet-stream'
+    end
+
+    get %r{download/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*)/(.*\.*)} do
+      cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
+      if params[:captures][2]['/']
+        file_type = params[:captures][2].match(/.*?\//).to_s.chop
+      else
+        params[:captures][2] == 'recipe' ? file_type = 'recipes' : file_type = params[:captures][2]
+      end
+      file_name = params[:captures][3]
+      file = find_file(file_name, file_type, cookbook)
+      @title << [cookbook.name, params[:captures][2], file_name]
+      content = FileContent.new(file.name, file.url, (open(file.url) { |f| f.read }))
+      extname = File.extname(file_name).downcase
+      metadata = cookbook.metadata
+      versions = chef_server.cookbook.all[cookbook.chef_id]
+      attachment "#{file_name}"
+      "#{content.data}"
+    end
+
     # cookbook files
     get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*)/(.*\.*)} do
       cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
@@ -331,7 +354,7 @@ module ChefBrowser
       file_name = params[:captures][3]
       file = find_file(file_name, file_type, cookbook)
       @title << [cookbook.name, params[:captures][2], file_name]
-      content = open(file.url) { |f| f.read }
+      content = FileContent.new(file.name, file.url, (open(file.url) { |f| f.read }))
       extname = File.extname(file_name).downcase
       metadata = cookbook.metadata
       versions = chef_server.cookbook.all[cookbook.chef_id]

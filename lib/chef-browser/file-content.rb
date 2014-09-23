@@ -7,6 +7,7 @@ module ChefBrowser
     attr_accessor :name, :path, :data
 
     @highlight_options = { encoding: 'utf-8', formatter: 'html', linenos: 'inline' }
+    @markup_files = %w(license contributing testing readme)
 
     def initialize(name, path, content)
       @name = name
@@ -16,16 +17,14 @@ module ChefBrowser
 
     class << self
       def show_file(file, extname, content)
-        markup_files = %w(license contributing testing readme)
-        if extname == '.md' || markup_files.include?(file[:name].downcase)
-          GitHub::Markup.render('README.md', content)
+        if extname == '.md' || @markup_files.include?(file[:name].downcase)
+          GitHub::Markup.render('README.md', content.data)
         else
-          file_content = FileContent.new(file.name, file.url, content)
-          if file_content.image?
-            path = file_content.path
+          if content.image?
+            path = content.path
             "<img src = '#{path}'><p></p>"
-          elsif file_content.text?
-            FileContent.highlight_file(file_content.name, extname, file_content.data)
+          elsif content.text?
+            FileContent.highlight_file(content.name, extname, content.data)
           end
         end
       end

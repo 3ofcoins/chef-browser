@@ -4,6 +4,6 @@
 <% else -%>
 <%= file_type == ('root_files' or 'attributes') ? file.name : "#{file.specificity}/#{file.name}" %>
 <% end -%>
-<a role='button' class='btn btn-default btn-primary btn-lg' href="<%= url file.url %>"><span class='glyphicon glyphicon-download'></span></a>
+<a role='button' class='btn btn-default btn-primary btn-lg' href='<%= url "/download#{request.path}" %>'><span class='glyphicon glyphicon-download'></span></a>
 </h1>
 <%== ( ChefBrowser::FileContent.show_file(file, extname, content) || "<p class='lead'>The content of this file cannot be displayed</p>" ) %>
