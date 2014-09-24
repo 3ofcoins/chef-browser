@@ -1,24 +1,25 @@
-<ul class="nav nav-tabs">
-<% tabs.each do |tab| -%>
-  <li<%= tab == 'basic' ? ' class="active"' : '' %>><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
-<% end -%>
-</ul>
-
+<p></p>
 <div class='tab-content'>
   <div class='tab-pane active' id='tab-basic'>
     <dl class='dl-horizontal'>
+      <div class='col-md-9'>
+<%== pretty_metadata('long_description', metadata['long_description']) %>
+      </div>
+      <div class='col-md-3' id='basic'>
+        <small>
+          <dl class='dl-horizontal'>
 <% basic.each do |b| -%>
 <%   unless metadata[b].empty? -%>
-<%     if b == "long_description" -%>
-    </dl><%== pretty_metadata(b, metadata[b]) %>
-<%     else -%>
-<%==     pretty_metadata(b, metadata[b]) %>
-<%     end -%>
+<%==   pretty_metadata(b, metadata[b]) unless b == "long_description" %>
 <%   end -%>
 <% end -%>
-  </div>
+          </dl>
+        </small>
+      </div>
+    </div>
+
 <% metadata.each do |key, value| -%>
-<%   unless ( metadata[key].empty? or basic.include? key ) -%>
+<%   unless (metadata[key].empty? or basic.include? key) -%>
 <%     if key == "recipes" -%>
   <div class='tab-pane fade in' id='tab-<%= key %>'>
     <ul class="list-unstyled">

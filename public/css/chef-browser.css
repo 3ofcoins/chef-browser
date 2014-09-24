@@ -70,6 +70,15 @@ footer a:hover {
   border-radius: 10px;
 }
 
+.nav-tabs > li {
+  float: right;
+}
+
+#basic {
+  border-left: 1px solid #dddddd;
+  padding: 10px 0 0 0;
+}
+
 /* Pygments.rb-generated css */
 .hll { background-color: #ffffcc }
 .c { color: #408080; font-style: italic } /* Comment */

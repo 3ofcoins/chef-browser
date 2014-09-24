@@ -58,29 +58,32 @@
 
     <div class="container">
 
-      <div class="page-header">
-        <h1>
-          <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{cookbook.version}" %>'><%= cookbook.chef_id %></a>
-          <div class='dropdown' style='display: inline;'>
-            <button class='btn btn-default dropdown-toggle btn-lg' type='button' id='versions' data-toggle='dropdown'>
+      <h1>
+        <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{cookbook.version}" %>'><%= cookbook.chef_id %></a>
+        <div class='dropdown' style='display: inline;'>
+          <button class='btn btn-default dropdown-toggle btn-lg' type='button' id='versions' data-toggle='dropdown'>
 <%= cookbook.version %>
-              <span class='caret'></span>
-            </button>
-            <ul class='dropdown-menu' role='menu' aria-labelledby='versions'>
+            <span class='caret'></span>
+          </button>
+          <ul class='dropdown-menu' role='menu' aria-labelledby='versions'>
 <%  versions.sort.each do |version| -%>
-              <li role='presentation'>
+            <li role='presentation'>
 <%    if defined? file_type -%>
-                <a role='menuitem' tabindex="-1" href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}/#{file_type}/#{file.name}" %>'><%= version %></a>
+              <a role='menuitem' tabindex="-1" href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}/#{file_type}/#{file.name}" %>'><%= version %></a>
 <%    else -%>
-                <a role='menuitem' tabindex="-1" href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}" %>'><%= version %></a>
+              <a role='menuitem' tabindex="-1" href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}" %>'><%= version %></a>
 <%    end -%>
-              </li>
+            </li>
 <%  end -%>
-            </ul>
-          </div>
-        </h1>
-        <p class="lead"><%= metadata["description"] %></p>
-      </div>
+          </ul>
+        </div>
+      </h1>
+      <p class="lead"><%= metadata["description"] %></p>
+      <ul class="nav nav-tabs" role="tablist">
+<% tabs.reverse.each do |tab| -%>
+        <li><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
+<% end -%>
+      </ul>
 
 <%== yield %>
 
