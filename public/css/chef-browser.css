@@ -70,8 +70,8 @@ footer a:hover {
   border-radius: 10px;
 }
 
-.nav-tabs > li {
-  float: right;
+.cook-tabs {
+  float: right !important;
 }
 
 #basic {

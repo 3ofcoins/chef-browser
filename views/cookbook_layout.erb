@@ -79,11 +79,13 @@
         </div>
       </h1>
       <p class="lead"><%= metadata["description"] %></p>
+<% if defined? tabs -%>
       <ul class="nav nav-tabs" role="tablist">
-<% tabs.reverse.each do |tab| -%>
-        <li><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
-<% end -%>
+<%   tabs.each do |tab| -%>
+        <li class='cook-tabs'><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
+<%   end -%>
       </ul>
+<% end -%>
 
 <%== yield %>
 
