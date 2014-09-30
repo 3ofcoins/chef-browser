@@ -1,22 +1,18 @@
 <p></p>
 <div class='tab-content'>
   <div class='tab-pane active' id='tab-basic'>
-    <dl class='dl-horizontal'>
-      <div class='col-md-9'>
+    <div class='col-md-9'>
 <%== pretty_metadata('long_description', metadata['long_description']) %>
-      </div>
-      <div class='col-md-3' id='basic'>
-        <small>
-          <dl class='dl-horizontal'>
+    </div>
+    <div class='col-md-3' id='basic'>
+      <dl class='dl-horizontal small'>
 <% basic.each do |b| -%>
 <%   unless metadata[b].empty? -%>
 <%==   pretty_metadata(b, metadata[b]) unless b == "long_description" %>
 <%   end -%>
 <% end -%>
-          </dl>
-        </small>
-      </div>
-    </dl>
+      </dl>
+    </div>
   </div>
 
 <% metadata.each do |key, value| -%>
@@ -47,7 +43,7 @@
 <% file_types.each do |file_type| -%>
 <%   unless cookbook.send(file_type).empty? -%>
 <%     if file_type == 'root_files' %>
-        <h3 id='section-root_files'><span class='glyphicon glyphicon-home'></span></h2>
+        <p id='section-root_files'> <span class='glyphicon glyphicon-home'></span></p>
 <%       else -%>
         <h2 id='section-<%= file_type %>'><%= file_type.capitalize %></h2>
 <%     end %>
@@ -74,7 +70,6 @@
       </div>
     </div>
   </div>
-
   <div class='tab-pane fade in' id='tab-metadata'>
     <div class="tab-content">
       <table class="table table-condensed table-striped table-hover">
@@ -84,5 +79,4 @@
       </table>
     </div>
   </div>
-
 </div>

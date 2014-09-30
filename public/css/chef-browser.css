@@ -80,6 +80,10 @@ footer a:hover {
   padding: 10px 0 0 0;
 }
 
+#cookbook-dropdown {
+	display: inline;
+}
+
 /* courtesy of http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-affix.php */
 ul.nav-tabs.files {
   width: 140px;

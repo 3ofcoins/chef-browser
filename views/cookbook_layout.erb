@@ -57,10 +57,9 @@
     </header>
 
     <div class="container">
-
       <h1>
         <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{cookbook.version}" %>'><%= cookbook.chef_id %></a>
-        <div class='dropdown' style='display: inline;'>
+        <div class='dropdown' id='cookbook-dropdown'>
           <button class='btn btn-default dropdown-toggle btn-lg' type='button' id='versions' data-toggle='dropdown'>
 <%= cookbook.version %>
             <span class='caret'></span>
