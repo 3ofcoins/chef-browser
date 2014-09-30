@@ -79,20 +79,22 @@
         </div>
       </h1>
       <p class="lead"><%= metadata["description"] %></p>
-<% if defined? tabs -%>
-      <ul class="nav nav-tabs" role="tablist">
+<%     if defined? tabs -%>
+        <div class='tabbable'>
+          <ul class="nav nav-tabs" role="tablist">
 <%   tabs.each do |tab| -%>
-<%     if tab == 'basic' -%>
-        <li class='cook-tabs hide'><a href='#tab-basic' data-toggle='tab'></a></li>
-<%     else -%>
-        <li class='cook-tabs'><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
+<%       if tab == 'basic' -%>
+            <li class='cook-tabs hide'><a href='#tab-basic' data-toggle='tab'></a></li>
+<%       else -%>
+            <li class='cook-tabs'><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
+<%       end -%>
 <%     end -%>
+          </ul>
 <%   end -%>
-      </ul>
-<% end -%>
 
 <%== yield %>
 
+      </div>
     </div>
 
     <footer>
@@ -103,7 +105,13 @@
     <script src='<%= url "/js/bootstrap.js" %>'></script>
     <script src='<%= url "/js/jquery.filtertable.js" %>'></script>
     <script>
-      $('table').filterTable({label: "", placeholder: "filter attributes", inputClass: "form-control"});
-    </script>
-  </body>
+    $(document).ready(function(){
+        $("#affixer").affix({
+            offset: {
+                top: 125
+            }
+        });
+    });
+</script>
+</body>
 </html>

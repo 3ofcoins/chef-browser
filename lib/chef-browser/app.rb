@@ -389,7 +389,7 @@ module ChefBrowser
         metadata: metadata,
         versions: versions,
         basic: %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description),
-        tabs: %w(basic recipes files metadata),
+        tabs: %w(metadata files recipes basic),
         file_types: %w(root_files attributes templates files definitions resources providers libraries)
       }
     end

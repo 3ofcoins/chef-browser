@@ -11,6 +11,7 @@
     right: 0;
 }
 
+
 /* copy of col-sm-4, without float:left */
 #nav-search {
     position: relative;
@@ -77,6 +78,40 @@ footer a:hover {
 #basic {
   border-left: 1px solid #dddddd;
   padding: 10px 0 0 0;
+}
+
+/* courtesy of http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-affix.php */
+ul.nav-tabs.files {
+  width: 140px;
+  margin-top: 20px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+}
+
+ul.nav-tabs.files li {
+  margin: 0;
+  border-top: 1px solid #ddd;
+}
+
+ul.nav-tabs.files li:first-child {
+  border-top: none;
+}
+
+ul.nav-tabs.files li a {
+  margin: 0;
+  padding: 8px 16px;
+  border-radius: 0;
+}
+
+ul.nav-tabs.files li.active a, ul.nav-tabs li.active a:hover {
+  color: #fff;
+  background: #0088cc;
+  border: 1px solid #0088cc;
+}
+
+ul.nav-tabs.affix{
+  top: 30px;
 }
 
 /* Pygments.rb-generated css */
