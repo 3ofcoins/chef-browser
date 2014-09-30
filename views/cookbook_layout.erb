@@ -82,7 +82,11 @@
 <% if defined? tabs -%>
       <ul class="nav nav-tabs" role="tablist">
 <%   tabs.each do |tab| -%>
+<%     if tab == 'basic' -%>
+        <li class='cook-tabs hide'><a href='#tab-basic' data-toggle='tab'></a></li>
+<%     else -%>
         <li class='cook-tabs'><a href='#tab-<%= tab %>' data-toggle='tab'><%= tab.capitalize %></a></li>
+<%     end -%>
 <%   end -%>
       </ul>
 <% end -%>
