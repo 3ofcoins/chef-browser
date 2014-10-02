@@ -165,7 +165,7 @@ module ChefBrowser
 
     def run_list_helper(run_list)
       if run_list.include? "role["
-        "<a href='" + url("/role/#{run_list.gsub('role[', '').chop}") + "'>" + run_list + "</a>"
+        "<a href='#{url("/role/#{run_list.gsub('role[', '').chop}")}'>#{run_list}</a>"
       elsif run_list.include? "recipe["
         if run_list.include? "::"
           run_list =~ /\[(.*)::(.*)\]/
@@ -174,11 +174,11 @@ module ChefBrowser
         end
         name = Regexp.last_match[1]
         recipe = Regexp.last_match[2]
-        version = ( chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil? ) || 0
+        version = (chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil?) || 0
         if version == 0
           "<a href='#{url("/cookbooks")}'>#{run_list}</a>"
         else
-          "<a href='" + url("/cookbook/#{name}-#{version}/recipe/#{recipe || 'default'}.rb") + "'>" + run_list + "</a>"
+          "<a href='#{url("/cookbook/#{name}-#{version}/recipe/#{recipe || 'default'}.rb")}'>#{run_list}</a>"
         end
       else
         run_list
