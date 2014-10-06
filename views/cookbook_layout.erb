@@ -66,18 +66,18 @@
           </button>
           <ul class='dropdown-menu' role='menu' aria-labelledby='versions'>
 <%  versions.sort.each do |version| -%>
-            <li role='presentation'>
+            <li>
 <%    if defined? file_type -%>
-              <a role='menuitem' tabindex="-1" href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}/#{file_type}/#{file.name}" %>'><%= version %></a>
+              <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}/#{file_type}/#{file.name}" %>'><%= version %></a>
 <%    else -%>
-              <a role='menuitem' tabindex="-1" href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}" %>'><%= version %></a>
+              <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}" %>'><%= version %></a>
 <%    end -%>
             </li>
 <%  end -%>
           </ul>
         </div>
       </h1>
-      <p class="lead"><%= metadata["description"] %></p>
+      <p class='lead'><%= metadata['description'] %></p>
 <%     if defined? tabs -%>
         <div class='tabbable'>
           <ul class="nav nav-tabs" role="tablist">
@@ -104,13 +104,13 @@
     <script src='<%= url "/js/bootstrap.js" %>'></script>
     <script src='<%= url "/js/jquery.filtertable.js" %>'></script>
     <script>
-    $(document).ready(function(){
-        $("#affixer").affix({
-            offset: {
-                top: 125
-            }
-        });
-    });
-</script>
+      $(document).ready(function(){
+          $("#affixer").affix({
+              offset: {
+                  top: 125
+              }
+          });
+      });
+    </script>
 </body>
 </html>

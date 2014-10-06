@@ -16,20 +16,20 @@ module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
 
-    # Triples of [ title, list URL, item URL ]
+    # Triples of [title, list URL, item URL]
     SECTIONS = [
-      [ 'Nodes',        '/nodes',        '/node' ],
-      [ 'Environments', '/environments', '/environment' ],
-      [ 'Roles',        '/roles',        '/role' ],
-      [ 'Data Bags',    '/data_bags',    '/data_bag' ],
-      [ 'Cookbooks',    '/cookbooks',    '/cookbook' ]
+      ['Nodes',        '/nodes',        '/node'],
+      ['Environments', '/environments', '/environment'],
+      ['Roles',        '/roles',        '/role'],
+      ['Data Bags',    '/data_bags',    '/data_bag'],
+      ['Cookbooks',    '/cookbooks',    '/cookbook']
     ]
 
     ##
     ## Settings
     ## --------
 
-    set :erb, :escape_html => true
+    set :erb, escape_html: true
     set :root, Settings.app_root
 
     # It's named this way to have variables from the `settings.rb` file
@@ -68,7 +68,7 @@ module ChefBrowser
     #   ["$.xyzzy[4]", 1]
     #   ["$.xyzzy[3]", 2]
     #   ["$.xyzzy[2]", 3]
-    def with_jsonpath(obj, prefix='$', &block)
+    def with_jsonpath(obj, prefix = '$', &block)
       case obj
       when Array
         obj.each_with_index do |v, i|
@@ -102,14 +102,14 @@ module ChefBrowser
 
     def search_query
       @search_query || params['q']
-      @search_query ||= ( params['q'] && params['q'].strip )
+      @search_query ||= (params['q'] && params['q'].strip)
     end
 
-    def search(search_query, resource, data_bag=nil)
+    def search(search_query, resource, data_bag = nil)
       search_query = "tags:*#{search_query}* OR roles:*#{search_query}* OR fqdn:*#{search_query}* OR addresses:*#{search_query}*" unless search_query[':']
       if settings.rb.use_partial_search
         resource = data_bag.chef_id if data_bag
-        results = chef_server.partial_search(resource, search_query, ["chef_type", "name", "id"])
+        results = chef_server.partial_search(resource, search_query, %w(chef_type name id))
         case resource
         when :node        then results
         when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
@@ -127,7 +127,7 @@ module ChefBrowser
       end
     end
 
-    def resource_list(resource, data_bag=nil)
+    def resource_list(resource, data_bag = nil)
       if search_query && resource != :data_bag
         @title << search_query
         resources = search(search_query, resource, data_bag)
@@ -190,7 +190,7 @@ module ChefBrowser
     ## -------
 
     before do
-      @title = [ settings.rb.title ]
+      @title = [settings.rb.title]
       if settings.rb.login
         redirect url '/login' unless authorized? || request.path_info == '/login'
       end
@@ -198,7 +198,7 @@ module ChefBrowser
 
     SECTIONS.each do |section, list_route, item_route|
       before "#{item_route}*" do
-        @search_url = list_route unless section == 'Data Bags' or section == 'Cookbooks' # Data bags and Cookbooks are special.
+        @search_url = list_route unless section == 'Data Bags' || section == 'Cookbooks' # Data bags and Cookbooks are special.
         @search_for = section
         @title << section
         @section = section
@@ -221,7 +221,7 @@ module ChefBrowser
 
     get '/login/?' do
       pass unless settings.rb.login
-      erb :login_form, layout: :login, locals: {wrong: false}
+      erb :login_form, layout: :login, locals: { wrong: false }
     end
 
     post '/login/?' do
@@ -230,7 +230,7 @@ module ChefBrowser
         redirect url '/'
       else
         session[:authorized] = false
-        erb :login_form, layout: :login, locals: {wrong: true}
+        erb :login_form, layout: :login, locals: { wrong: true }
       end
     end
 
@@ -311,11 +311,11 @@ module ChefBrowser
       erb :role, locals: {
         role: role,
         tabs: tabs
-       }
+      }
     end
 
     get "/nodes/:search_name/?" do
-      @search_query = settings.rb.node_search[::URI::decode_www_form_component(params[:search_name])]
+      @search_query = settings.rb.node_search[::URI.decode_www_form_component(params[:search_name])]
       pass unless @search_query
       resource_list :node
     end
