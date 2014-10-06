@@ -80,7 +80,7 @@ module ChefBrowser
         if data_bag
           # For data bag search, Ridley returns untyped Hashie::Mash,
           # we want to augment it with our methods.
-          resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+          chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
         else
           chef_server.search(resource, search_query)
         end
@@ -134,11 +134,11 @@ module ChefBrowser
         end
         name = Regexp.last_match[1]
         recipe = Regexp.last_match[2]
-        version = (chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil?) || 0
-        if version == 0
-          "<a href='#{url("/cookbooks")}'>#{run_list}</a>"
-        else
+        version = (chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil?) || nil
+        if version
           "<a href='#{url("/cookbook/#{name}-#{version}/recipe/#{recipe || 'default'}.rb")}'>#{run_list}</a>"
+        else
+          "<a href='#{url("/cookbooks")}'>#{run_list}</a>"
         end
       else
         run_list

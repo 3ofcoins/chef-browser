@@ -6,7 +6,7 @@
 <% end -%>
 </div>
 
-<% if !role.run_list.empty? || !role.env_run_lists.empty?-%>
+<% unless role.run_list.empty? && role.env_run_lists.empty?-%>
 <h2>Run List</h2>
 <% end -%>
 <% unless role.env_run_lists.empty? -%>
@@ -26,18 +26,18 @@
 <% end -%>
 <% unless role.run_list.empty? -%>
 <ul class="list-unstyled">
-<%     role.run_list.each do |run_list| -%>
-  <li><%== run_list_helper(run_list) %></li>
+<%     role.run_list.each do |element| -%>
+  <li><%== run_list_helper(element) %></li>
 <%     end -%>
 </ul>
 <% end -%>
 <% unless role.env_run_lists.empty? -%>
-    <%== !role.run_list.empty? ? '</div>' : '' %>
+    <%== role.run_list.empty? ? '' : '</div>' %>
 <%   role.env_run_lists.sort.each_with_index do |(env, run_list), index| -%>
     <div class="tab-pane <%= index == 0 && role.run_list.empty? ? 'active' : 'fade in' %>" id="<%= env %>">
       <ul class="list-unstyled">
-<%     run_list.each do |run| -%>
-        <li><%= run %></li>
+<%     run_list.each do |element| -%>
+        <li><%== run_list_helper(element) %></li>
 <%     end -%>
       </ul>
     </div>
