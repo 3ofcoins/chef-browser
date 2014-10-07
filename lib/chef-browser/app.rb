@@ -66,6 +66,10 @@ module ChefBrowser
       @title << params[:data_bag_id]
     end
 
+    before "download/*" do
+      content_type 'application/octet-stream'
+    end
+
     ##
     ## Views
     ## -----
@@ -76,7 +80,7 @@ module ChefBrowser
 
     get '/login/?' do
       pass unless settings.rb.login
-      erb :login_form, layout: :login, locals: { wrong: false }
+      erb :login_form, layout: :login_layout, locals: { wrong: false }
     end
 
     post '/login/?' do
@@ -85,7 +89,7 @@ module ChefBrowser
         redirect url '/'
       else
         session[:authorized] = false
-        erb :login_form, layout: :login, locals: { wrong: true }
+        erb :login_form, layout: :login_layout, locals: { wrong: true }
       end
     end
 
@@ -180,10 +184,6 @@ module ChefBrowser
     end
 
     # download a cookbook file
-    before %r{download/*} do
-      content_type 'application/octet-stream'
-    end
-
     get %r{download/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*)/(.*\.*)} do
       cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
       pass unless cookbook
