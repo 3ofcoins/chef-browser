@@ -16,6 +16,7 @@ require 'chef-browser/helpers'
 module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
+    include Helpers
 
     # Triples of [title, list URL, item URL]
     SECTIONS = [

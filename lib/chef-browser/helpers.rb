@@ -1,7 +1,7 @@
 require 'chef-browser/app'
 
 module ChefBrowser
-  class App < Sinatra::Base
+  module Helpers
 
     def chef_server
       @chef_server ||= settings.rb.ridley
