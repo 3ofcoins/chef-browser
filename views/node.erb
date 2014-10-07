@@ -6,7 +6,7 @@
 
 <p><strong>Environment:</strong> <a href='<%= url "/nodes?q=chef_environment:#{node.chef_environment}" %>'><%= node.chef_environment %></a></p>
 
-<% if attributes[:tags] and not attributes[:tags].empty? -%>
+<% if attributes[:tags] && !attributes[:tags].empty? -%>
 <p><strong>Tags:</strong></p>
 <ul class="list-inline">
 <%   attributes[:tags].each do |tag| -%>
@@ -19,7 +19,8 @@
 <p><strong>Run list:</strong></p>
 <ul class="list-inline">
 <%   node[:run_list].each do |run_list_item| -%>
-  <li><%== run_list_item["role"] != nil ? "<a href='" + url("/role/#{run_list_item.gsub('role[', '').chop}") + "'>#{run_list_item}</a>" : run_list_item %></li>
+  <li><%== run_list_helper(run_list_item) %></li>
+
 <%   end -%>
 </ul>
 <% end -%>
