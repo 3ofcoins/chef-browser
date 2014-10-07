@@ -3,8 +3,6 @@ PAGES = {
 }
 
 When(/^I visit (?:the )?"(.*?)"$/) do |page_url|
-  # Find address from dictionary of named pages, unless we actually got
-  # an URL path.
   page_url = PAGES[page_url.downcase] unless page_url =~ /^\//
   page_url = "#{$rack_script_path}#{page_url}" if $rack_script_path
   visit(page_url)
@@ -34,18 +32,18 @@ Then(/^I am at "(.*?)"$/) do |path|
 end
 
 Then(/^I see an? (\w+) attribute "([^\"]+)" with value (.*)$/) do |kind, path, value|
-  values = all("div#attributes-#{kind} tr"). # all table rows inside div with id=attributes-`kind`
-    select { |row| row.find('td[1]').text == path }. # select rows where first cell's text is `path`
-    map { |row| row.find('td[2]').text }             # make array of such rows' second cell's texts
+  values = all("div#attributes-#{kind} tr")
+    .select { |row| row.find('td[1]').text == path }
+    .map { |row| row.find('td[2]').text }
 
-  assert { values.length == 1 }    # there should be only one such row, no more and no less
-  assert { values.first == value } # and its value should be as specified
+  assert { values.length == 1 }
+  assert { values.first == value }
 end
 
 Then(/^I see an attribute "(.*?)" with value (.*?)$/) do |path, value|
-  values = all("table.table tr").                    # all table rows inside table with class="table"
-    select { |row| row.find('td[1]').text == path }. # select rows where first cell's text is `path`
-    map { |row| row.find('td[2]').text }             # make an array of such rows' second cell texts
+  values = all("table.table tr")
+    .select { |row| row.find('td[1]').text == path }
+    .map { |row| row.find('td[2]').text }
 
   assert { values.length == 1 }
   assert { values.first == value }
