@@ -23,10 +23,10 @@
 <%       cookbook.recipes.sort_by { |k| k["name"].downcase }.each do |recipe| -%>
       <li>
         <a href='<%= url "/cookbook/#{cookbook.name}/recipe/#{recipe.name}" %>'><%= recipe.name %></a>
-<%         metadata.recipes.each  do |r, d| -%>
-<%           unless r.empty? -%>
-<%=            recipe.name.gsub('.rb', '') == r.gsub("#{cookbook.chef_id}::", "") && !d.empty? ? "- #{d}" : "" %>
-<%=            recipe.name == "default.rb" && r == cookbook.chef_id && !d.empty? ? "- #{d}" : "" %>
+<%         metadata.recipes.each  do |res, desc| -%>
+<%           unless res.empty? -%>
+<%=            recipe.name.gsub('.rb', '') == res.gsub("#{cookbook.chef_id}::", "") && !desc.empty? ? "- #{desc}" : "" %>
+<%=            recipe.name == "default.rb" && res == cookbook.chef_id && !desc.empty? ? "- #{desc}" : "" %>
 <%           end -%>
 <%         end -%>
       </li>

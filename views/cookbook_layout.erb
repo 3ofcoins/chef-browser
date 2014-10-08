@@ -57,9 +57,10 @@
     </header>
 
     <div class="container">
-      <h1>
-        <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{cookbook.version}" %>'><%= cookbook.chef_id %></a>
-        <div class='dropdown' id='cookbook-dropdown'>
+
+      <div class='dropdown' id='cookbook-dropdown'>
+        <h1>
+          <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{cookbook.version}" %>'><%= cookbook.chef_id %></a>
           <button class='btn btn-default dropdown-toggle btn-lg' type='button' id='versions' data-toggle='dropdown'>
 <%= cookbook.version %>
             <span class='caret'></span>
@@ -75,8 +76,9 @@
             </li>
 <%  end -%>
           </ul>
-        </div>
-      </h1>
+        </h1>
+      </div>
+
       <p class='lead'><%= metadata['description'] %></p>
 <%     if defined? tabs -%>
         <div class='tabbable'>
