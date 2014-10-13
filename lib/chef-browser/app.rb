@@ -196,10 +196,20 @@ module ChefBrowser
       file_name = params[:captures][3]
       file = find_file(file_name, file_type, cookbook)
       pass unless file
-      @title << [cookbook.name, params[:captures][2], file_name]
-      content = FileContent.new(file.name, file.url, (open(file.url) { |f| f.read }))
+
+      from_server = open(file.url)
+
+      # Set content_type first, so we can default to
+      # 'application/octet-stream', and `attachment` doesn't blow up
+      # on unknown extensions
+      content_type mime_type(File.extname(file_name)) || 'application/octet-stream'
+
+      # Set Content-Disposition & Content-Length
       attachment file_name
-      content.data
+      headers['Content-Length'] = from_server.metas['content-length']
+
+      # Serve reader directly, don't cache it in memory
+      from_server
     end
 
     # cookbook files
