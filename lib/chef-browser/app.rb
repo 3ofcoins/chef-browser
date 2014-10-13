@@ -67,10 +67,6 @@ module ChefBrowser
       @title << params[:data_bag_id]
     end
 
-    before "download/*" do
-      content_type 'application/octet-stream'
-    end
-
     ##
     ## Views
     ## -----
