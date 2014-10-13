@@ -181,27 +181,16 @@ module ChefBrowser
     end
 
     # download a cookbook file
-    get %r{download/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*)/(.*\.*)} do
-      cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
-      pass unless cookbook
-      if params[:captures][2]['/']
-        file_type = params[:captures][2].match(/.*?\//).to_s.chop
-      else
-        params[:captures][2] == 'recipe' ? file_type = 'recipes' : file_type = params[:captures][2]
-      end
-      file_name = params[:captures][3]
-      file = find_file(file_name, file_type, cookbook)
-      pass unless file
-
-      from_server = open(file.url)
+    get '/download/cookbook/:cookbook/*' do
+      from_server = open(cookbook_file.url)
 
       # Set content_type first, so we can default to
       # 'application/octet-stream', and `attachment` doesn't blow up
       # on unknown extensions
-      content_type mime_type(File.extname(file_name)) || 'application/octet-stream'
+      content_type mime_type(File.extname(cookbook_file.name)) || 'application/octet-stream'
 
       # Set Content-Disposition & Content-Length
-      attachment file_name
+      attachment cookbook_file.name
       headers['Content-Length'] = from_server.metas['content-length']
 
       # Serve reader directly, don't cache it in memory
@@ -209,29 +198,16 @@ module ChefBrowser
     end
 
     # cookbook files
-    get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*)/(.*\.*)} do
-      cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
-      pass unless cookbook
-      if params[:captures][2]['/']
-        file_type = params[:captures][2].match(/.*?\//).to_s.chop
-      else
-        params[:captures][2] == 'recipe' ? file_type = 'recipes' : file_type = params[:captures][2]
-      end
-      file_name = params[:captures][3]
-      file = find_file(file_name, file_type, cookbook)
-      pass unless file
-      @title << [cookbook.name, params[:captures][2], file_name]
-      content = FileContent.new(file.name, file.url, (open(file.url) { |f| f.read }))
-      extname = File.extname(file_name).downcase
+    get '/cookbook/:cookbook/*' do
+      content = FileContent.new(cookbook_file.name, cookbook_file.url, (open(cookbook_file.url) { |f| f.read }))
+      extname = File.extname(cookbook_file.name).downcase
       metadata = cookbook.metadata
       versions = chef_server.cookbook.all[cookbook.chef_id]
       erb :file, layout: :cookbook_layout, locals: {
         cookbook_name: cookbook.chef_id,
         cookbook_version: cookbook.version,
         cookbook: cookbook,
-        file_type: file_type,
-        file_name: file_name,
-        file: file,
+        file: cookbook_file,
         extname: extname,
         content: content,
         metadata: metadata,
@@ -240,19 +216,14 @@ module ChefBrowser
     end
 
     # single cookbook
-    get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/?} do
-      cookbook = chef_server.cookbook.find(params[:captures].first, params[:captures].last)
-      pass unless cookbook
-      @title << cookbook.name
-      metadata = cookbook.metadata
+    get '/cookbook/:cookbook/?' do
       versions = chef_server.cookbook.all[cookbook.chef_id]
       erb :cookbook, layout: :cookbook_layout, locals: {
         cookbook: cookbook,
-        metadata: metadata,
+        metadata: cookbook.metadata,
         versions: versions,
         basic: %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description),
         tabs: %w(metadata files recipes basic),
-        file_types: %w(root_files attributes templates files definitions resources providers libraries)
       }
     end
   end

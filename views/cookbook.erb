@@ -22,7 +22,7 @@
     <ul class="list-unstyled">
 <%       cookbook.recipes.sort_by { |k| k["name"].downcase }.each do |recipe| -%>
       <li>
-        <a href='<%= url "/cookbook/#{cookbook.name}/recipe/#{recipe.name}" %>'><%= recipe.name %></a>
+        <a href='<%= url "/cookbook/#{cookbook.name}/recipes/#{recipe.name}" %>'><%= recipe.name %></a>
 <%         metadata.recipes.each  do |res, desc| -%>
 <%           unless res.empty? -%>
 <%=            recipe.name.gsub('.rb', '') == res.gsub("#{cookbook.chef_id}::", "") && !desc.empty? ? "- #{desc}" : "" %>
@@ -40,31 +40,29 @@
   <div class='tab-pane fade in' id='tab-files'>
     <div class='row' data-spy='scroll' data-target='#file-scroll-spy'>
       <div class='col-xs-9'>
-<% file_types.each do |file_type| -%>
-<%   unless cookbook.send(file_type).empty? -%>
-<%     if file_type == 'root_files' %>
-        <p id='section-root_files'> <span class='glyphicon glyphicon-home'></span></p>
-<%       else -%>
-        <h2 id='section-<%= file_type %>'><%= file_type.capitalize %></h2>
-<%     end %>
+        <h2 id='section-root_files'> <span class='glyphicon glyphicon-home' title='Root Files'></span></h2>
         <ul class='list-unstyled'>
-<%     cookbook.send(file_type).sort_by { |k| k["name"].downcase }.each do |file| -%>
-          <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file_type}/#{file.name}" %>'><%= file_type == 'root_files' ? file.name : "#{file.specificity}/#{file.name}" %></a></li>
-<%     end -%>
+<% cookbook.root_files.sort_by(&:path).each do |file| -%>
+          <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file.path}" %>'><%= file.path %></a></li>
+<% end -%>
         </ul>
+
+<% COOKBOOK_FILE_TYPES.each do |file_type| -%>
+<%   next if cookbook.send(file_type).empty? -%>
+        <h2 id='section-<%= file_type %>'><%= file_type.capitalize %></h2>
+        <ul class='list-unstyled'>
+<%   cookbook.send(file_type).sort_by(&:path).each do |file| -%>
+          <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file.path}" %>'><%= file.path %></a></li>
 <%   end -%>
+        </ul>
 <% end -%>
       </div>
       <div class='col-xs-3' id='file-scroll-spy'>
         <ul class='nav nav-tabs nav-stacked files' data-spy='affix' data-offset-top='125' id='affixer'>
-<% file_types.each do |file_type| -%>
-<%   unless cookbook.send(file_type).empty? -%>
-<%     if file_type == 'root_files' -%>
-          <li class='active'><a href="#section-<%= file_type %>"><span class='glyphicon glyphicon-home'></span></a></li>
-<%     else -%>
+          <li class='active'><a href="#section-root_files"><span class='glyphicon glyphicon-home'></span></a></li>
+<% COOKBOOK_FILE_TYPES.each do |file_type| -%>
+<%   next if cookbook.send(file_type).empty? -%>
           <li><a href="#section-<%= file_type %>"><%= file_type.capitalize %></a></li>
-<%     end -%>
-<%   end -%>
 <% end -%>
         </ul>
       </div>

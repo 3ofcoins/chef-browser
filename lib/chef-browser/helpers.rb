@@ -2,6 +2,8 @@ require 'chef-browser/app'
 
 module ChefBrowser
   module Helpers
+    COOKBOOK_FILE_TYPES = %w(attributes templates files definitions resources providers libraries)
+      .map(&:freeze).freeze
 
     def chef_server
       @chef_server ||= settings.rb.ridley
@@ -116,11 +118,29 @@ module ChefBrowser
       end
     end
 
-    # returns a Hashie::Mash
-    def find_file(file_name, file_type, cookbook)
-      cookbook.send(file_type).each do |candidate|
-        return candidate if candidate.name[file_name]
-      end
+    COOKBOOK_RX = /^(.*)-([0-9\.]+)$/.freeze
+    def cookbook
+      @cookbook ||=
+        begin
+          halt 404 unless params[:cookbook] =~ COOKBOOK_RX
+          cookbook = chef_server.cookbook.find($1, $2)
+          halt 404 unless cookbook
+          @title << cookbook.name
+          cookbook
+        end
+    end
+
+    COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/.freeze
+    def cookbook_file
+      @cookbook_file ||=
+        begin
+          path = params[:splat].first
+          file_type = COOKBOOK_FILE_TYPE_RX.match(path)[1] || 'root_files'
+          file = cookbook.send(file_type).find { |f| f.path == path }
+          halt 404 unless file
+          file.type = file_type
+          file
+        end
     end
 
     def run_list_helper(run_list_element)
