@@ -10,7 +10,7 @@ require 'linguist'
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
 require 'chef-browser/version'
-require 'chef-browser/file-content'
+require 'chef-browser/file_content'
 require 'chef-browser/helpers'
 
 module ChefBrowser
