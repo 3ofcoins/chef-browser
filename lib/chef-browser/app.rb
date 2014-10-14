@@ -200,7 +200,7 @@ module ChefBrowser
     # cookbook files
     get '/cookbook/:cookbook/*' do
       erb :file, locals: {
-        content: FileContent::show_file(cookbook_file)
+        content: FileContent.show_file(cookbook_file)
       }
     end
 

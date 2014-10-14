@@ -123,7 +123,7 @@ module ChefBrowser
       @cookbook ||=
         begin
           halt 404 unless params[:cookbook] =~ COOKBOOK_RX
-          cookbook = chef_server.cookbook.find($1, $2)
+          cookbook = chef_server.cookbook.find(Regexp.last_match[1], Regexp.last_match[2])
           halt 404 unless cookbook
           @title << cookbook.name
           cookbook
