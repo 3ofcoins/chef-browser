@@ -1,9 +1,14 @@
+<%== erb :cookbook_head, layout: false %>
 <h1>
-<% if file.type == 'recipes' -%>
-<%= cookbook_name %>::<%= file.name.gsub('.rb', '') %>
+<% if cookbook_file.type == 'recipes' -%>
+<%= cookbook.chef_id %>::<%= cookbook_file.name.gsub('.rb', '') %>
 <% else -%>
-<%= file.path %>
+<%= cookbook_file.path %>
 <% end -%>
   <a role='button' class='btn btn-link' href='<%= url "/download#{request.path}" %>' title='Download file'><span class='glyphicon glyphicon-download'></span></a>
 </h1>
-<%== (ChefBrowser::FileContent.show_file(file, extname, content) || "<p class='lead'>The content of this file cannot be displayed. <a href='#{url "/download#{request.path}"}'>Download to your computer</a> to view it locally.</p>") %>
+<% if content -%>
+<%== content %>
+<% else -%>
+<p class='lead'>The content of this file cannot be displayed. <a href='<%= url "/download#{request.path}" %>'>Download to your computer</a> to view it locally.</p>
+<% end -%>

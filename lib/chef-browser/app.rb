@@ -199,32 +199,20 @@ module ChefBrowser
 
     # cookbook files
     get '/cookbook/:cookbook/*' do
-      content = FileContent.new(cookbook_file.name, cookbook_file.url, (open(cookbook_file.url) { |f| f.read }))
-      extname = File.extname(cookbook_file.name).downcase
-      metadata = cookbook.metadata
-      versions = chef_server.cookbook.all[cookbook.chef_id]
-      erb :file, layout: :cookbook_layout, locals: {
-        cookbook_name: cookbook.chef_id,
-        cookbook_version: cookbook.version,
-        cookbook: cookbook,
-        file: cookbook_file,
-        extname: extname,
-        content: content,
-        metadata: metadata,
-        versions: versions
+      erb :file, locals: {
+        content: FileContent::show_file(cookbook_file)
       }
     end
 
+    COOKBOOK_BASIC_METADATA = %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description).map(&:freeze).freeze
     # single cookbook
     get '/cookbook/:cookbook/?' do
-      versions = chef_server.cookbook.all[cookbook.chef_id]
-      erb :cookbook, layout: :cookbook_layout, locals: {
-        cookbook: cookbook,
-        metadata: cookbook.metadata,
-        versions: versions,
-        basic: %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description),
-        tabs: %w(metadata files recipes basic),
-      }
+      template_name = if request.query_string =~ /^\w+$/
+                        "cookbook_tab_#{request.query_string}".to_sym
+                      else
+                        :cookbook
+                      end
+      erb template_name
     end
   end
 end

@@ -1,0 +1,8 @@
+<%== erb :cookbook_head, layout: false %>
+<div class="tab-content">
+  <table class="table table-condensed table-striped table-hover">
+<% with_jsonpath(metadata) do |path, value| -%>
+    <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+<% end -%>
+  </table>
+</div>

@@ -1,0 +1,29 @@
+<div class='dropdown' id='cookbook-dropdown'>
+  <h1>
+    <a href='<%= url "/cookbook/#{cookbook.name}" %>'><%= cookbook.chef_id %></a>
+    <button class='btn btn-default dropdown-toggle btn-lg' type='button' id='versions' data-toggle='dropdown'>
+<%= cookbook.version %>
+      <span class='caret'></span>
+    </button>
+    <ul class='dropdown-menu' role='menu' aria-labelledby='versions'>
+<%  cookbook_versions.each do |version| -%>
+      <li>
+<%    if cookbook_file? -%>
+        <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}/#{cookbook_file.path}" %>'><%= version %></a>
+<%    else -%>
+        <a href='<%= url "/cookbook/#{cookbook.chef_id}-#{version}" %><%= request.query_string.empty? ? "" : "?#{request.query_string}" %>'><%= version %></a>
+<%    end -%>
+      </li>
+<%  end -%>
+    </ul>
+  </h1>
+</div>
+
+<p class='lead'><%= cookbook.metadata['description'] %></p>
+<div class='tabbable'>
+  <ul class="nav nav-tabs" role="tablist">
+<% %w(metadata files recipes).each do |tab| -%>
+    <li class='cook-tabs<% if request.query_string == tab || ( tab == 'files' && cookbook_file? ) %> active<% end %>'><a href='<%= url "/cookbook/#{cookbook.name}" %>?<%= tab %>'><%= tab.capitalize %></a></li>
+<% end -%>
+  </ul>
+</div>

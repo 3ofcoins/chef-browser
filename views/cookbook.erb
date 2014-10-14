@@ -1,81 +1,14 @@
-<p></p>
-<div class='tab-content'>
-  <div class='tab-pane active' id='tab-basic'>
-    <div class='col-md-8'>
-<%== pretty_metadata('long_description', metadata['long_description']) %>
-    </div>
-    <div class='col-md-4' id='basic'>
-      <dl class='dl-horizontal'>
-<% basic.each do |b| -%>
-<%   unless metadata[b].empty? -%>
-<%==   pretty_metadata(b, metadata[b]) unless b == 'long_description' %>
+<%== erb :cookbook_head, layout: false %>
+<div class='row'>
+  <div class='col-md-8'>
+<%== pretty_metadata('long_description', cookbook.metadata['long_description']) %>
+  </div>
+  <div class='col-md-4' id='basic'>
+    <dl class='dl-horizontal'>
+<% COOKBOOK_BASIC_METADATA.each do |b| -%>
+<%   unless cookbook.metadata[b].empty? -%>
+<%==   pretty_metadata(b, cookbook.metadata[b]) unless b == 'long_description' %>
 <%   end -%>
 <% end -%>
-      </dl>
-    </div>
+    </dl>
   </div>
-
-<% metadata.each do |key, value| -%>
-<%   unless (metadata[key].empty? or basic.include? key) -%>
-<%     if key == "recipes" -%>
-  <div class='tab-pane fade in' id='tab-<%= key %>'>
-    <ul class="list-unstyled">
-<%       cookbook.recipes.sort_by { |k| k["name"].downcase }.each do |recipe| -%>
-      <li>
-        <a href='<%= url "/cookbook/#{cookbook.name}/recipes/#{recipe.name}" %>'><%= recipe.name %></a>
-<%         metadata.recipes.each  do |res, desc| -%>
-<%           unless res.empty? -%>
-<%=            recipe.name.gsub('.rb', '') == res.gsub("#{cookbook.chef_id}::", "") && !desc.empty? ? "- #{desc}" : "" %>
-<%=            recipe.name == "default.rb" && res == cookbook.chef_id && !desc.empty? ? "- #{desc}" : "" %>
-<%           end -%>
-<%         end -%>
-      </li>
-<%       end -%>
-    </ul>
-  </div>
-<%     end -%>
-<%   end -%>
-<% end -%>
-
-  <div class='tab-pane fade in' id='tab-files'>
-    <div class='row' data-spy='scroll' data-target='#file-scroll-spy'>
-      <div class='col-xs-9'>
-        <h2 id='section-root_files'> <span class='glyphicon glyphicon-home' title='Root Files'></span></h2>
-        <ul class='list-unstyled'>
-<% cookbook.root_files.sort_by(&:path).each do |file| -%>
-          <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file.path}" %>'><%= file.path %></a></li>
-<% end -%>
-        </ul>
-
-<% COOKBOOK_FILE_TYPES.each do |file_type| -%>
-<%   next if cookbook.send(file_type).empty? -%>
-        <h2 id='section-<%= file_type %>'><%= file_type.capitalize %></h2>
-        <ul class='list-unstyled'>
-<%   cookbook.send(file_type).sort_by(&:path).each do |file| -%>
-          <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file.path}" %>'><%= file.path %></a></li>
-<%   end -%>
-        </ul>
-<% end -%>
-      </div>
-      <div class='col-xs-3' id='file-scroll-spy'>
-        <ul class='nav nav-tabs nav-stacked files' data-spy='affix' data-offset-top='125' id='affixer'>
-          <li class='active'><a href="#section-root_files"><span class='glyphicon glyphicon-home'></span></a></li>
-<% COOKBOOK_FILE_TYPES.each do |file_type| -%>
-<%   next if cookbook.send(file_type).empty? -%>
-          <li><a href="#section-<%= file_type %>"><%= file_type.capitalize %></a></li>
-<% end -%>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class='tab-pane fade in' id='tab-metadata'>
-    <div class="tab-content">
-      <table class="table table-condensed table-striped table-hover">
-<% with_jsonpath(metadata) do |path, value| -%>
-        <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
-<% end -%>
-      </table>
-    </div>
-  </div>
-</div>
-</div>
