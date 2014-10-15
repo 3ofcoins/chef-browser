@@ -6,8 +6,8 @@ module ChefBrowser
 
     attr_accessor :name, :path, :data
 
-    @highlight_options = { encoding: 'utf-8', formatter: 'html', linenos: 'inline' }
-    @markup_files = %w(license contributing testing readme)
+    HIGHLIGHT_OPTIONS = { encoding: 'utf-8', formatter: 'html', linenos: 'inline' }
+    MARKUP_FILES = %w(license contributing testing readme)
 
     def initialize(name, path, content)
       @name = name
@@ -19,7 +19,7 @@ module ChefBrowser
       def show_file(file)
         content = FileContent.new(file.name, file.url, open(file.url).read)
         extname = File.extname(file.name).downcase
-        if extname == '.md' || @markup_files.include?(file[:name].downcase)
+        if extname == '.md' || MARKUP_FILES.include?(file[:name].downcase)
           GitHub::Markup.render('README.md', content.data)
         else
           if content.image?
@@ -37,9 +37,9 @@ module ChefBrowser
                  Linguist::Language[Linguist.interpreter_from_shebang(content)]
                 )
         if lexer
-          lexer.colorize(content, options: @highlight_options)
+          lexer.colorize(content, options: HIGHLIGHT_OPTIONS)
         else
-          Pygments.highlight(content, lexer: 'text', options: @highlight_options)
+          Pygments.highlight(content, lexer: 'text', options: HIGHLIGHT_OPTIONS)
         end
       end
     end
