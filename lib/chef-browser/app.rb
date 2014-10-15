@@ -10,26 +10,28 @@ require 'linguist'
 require 'chef-browser/ridley_ext'
 require 'chef-browser/settings'
 require 'chef-browser/version'
-require 'chef-browser/file-content'
+require 'chef-browser/file_content'
+require 'chef-browser/helpers'
 
 module ChefBrowser
   class App < Sinatra::Base
     include Erubis::XmlHelper
+    include Helpers
 
-    # Triples of [ title, list URL, item URL ]
+    # Triples of [title, list URL, item URL]
     SECTIONS = [
-      [ 'Nodes',        '/nodes',        '/node' ],
-      [ 'Environments', '/environments', '/environment' ],
-      [ 'Roles',        '/roles',        '/role' ],
-      [ 'Data Bags',    '/data_bags',    '/data_bag' ],
-      [ 'Cookbooks',    '/cookbooks',    '/cookbook' ]
+      ['Nodes',        '/nodes',        '/node'],
+      ['Environments', '/environments', '/environment'],
+      ['Roles',        '/roles',        '/role'],
+      ['Data Bags',    '/data_bags',    '/data_bag'],
+      ['Cookbooks',    '/cookbooks',    '/cookbook']
     ]
 
     ##
     ## Settings
     ## --------
 
-    set :erb, :escape_html => true
+    set :erb, escape_html: true
     set :root, Settings.app_root
 
     # It's named this way to have variables from the `settings.rb` file
@@ -40,157 +42,11 @@ module ChefBrowser
                                secret: settings.rb.cookie_secret
 
     ##
-    ## Helpers
-    ## -------
-
-    def chef_server
-      @chef_server ||= settings.rb.ridley
-    end
-
-    def authorized?
-      session[:authorized]
-    end
-
-    def logout
-      session[:authorized] = false
-    end
-
-    # This method takes any nested hash/array `obj`, and then
-    # calls provided block with two arguments:
-    # each value's jsonpath selector, and the value itself.
-    #
-    # Example:
-    #   with_jsonpath({'foo' => {'bar' => 23, 'baz' => -1}, 'xyzzy' => [5,4,3,2]}) { |k, v| p [k, v] }
-    # will print:
-    #   ["$.foo.bar", 23]
-    #   ["$.foo.baz", -1]
-    #   ["$.xyzzy[5]", 0]
-    #   ["$.xyzzy[4]", 1]
-    #   ["$.xyzzy[3]", 2]
-    #   ["$.xyzzy[2]", 3]
-    def with_jsonpath(obj, prefix='$', &block)
-      case obj
-      when Array
-        obj.each_with_index do |v, i|
-          with_jsonpath(v, "#{prefix}[#{i}]", &block)
-        end
-      when Hash
-        obj.each do |k, v|
-          with_jsonpath(v, "#{prefix}.#{k}", &block)
-        end
-      else
-        yield prefix, obj
-      end
-    end
-
-    def pretty_value(value)
-      case value
-      when true    then '<span class="label label-success">true</span>'
-      when false   then '<span class="label label-warning">false</span>'
-      when nil     then '<em class="text-muted">nil</em>'
-      when Numeric then value.to_s
-      when String
-        if value.include?("\n") || value.length > 150
-          "<pre>#{html_escape(value)}</pre>"
-        else
-          "<code>#{html_escape(value.to_json)}</code>"
-        end
-      else
-        "<code>#{html_escape(value.to_json)}</code>"
-      end
-    end
-
-    def search_query
-      @search_query || params['q']
-      @search_query ||= ( params['q'] && params['q'].strip )
-    end
-
-    def search(search_query, resource, data_bag=nil)
-      search_query = "tags:*#{search_query}* OR roles:*#{search_query}* OR fqdn:*#{search_query}* OR addresses:*#{search_query}*" unless search_query[':']
-      if settings.rb.use_partial_search
-        resource = data_bag.chef_id if data_bag
-        results = chef_server.partial_search(resource, search_query, ["chef_type", "name", "id"])
-        case resource
-        when :node        then results
-        when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
-        when :environment then results.map { |attrs| Ridley::EnvironmentObject.new(nil, attrs["data"]) }
-        else                   results.map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
-        end
-      else
-        if data_bag
-          # For data bag search, Ridley returns untyped Hashie::Mash,
-          # we want to augment it with our methods.
-          resources = chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
-        else
-          chef_server.search(resource, search_query)
-        end
-      end
-    end
-
-    def resource_list(resource, data_bag=nil)
-      if search_query && resource != :data_bag
-        @title << search_query
-        resources = search(search_query, resource, data_bag)
-      elsif data_bag
-        resources = data_bag.item.all
-      else
-        resources = chef_server.send(resource).all
-      end
-      erb :resource_list, locals: { resources: resources, data_bag: data_bag }
-    end
-
-    def pretty_metadata(key, value)
-      case key
-      when 'long_description' then GitHub::Markup.render('README.md', value)
-      when 'attributes' then nil
-      when 'maintainer_email' then "<dt>#{key.capitalize.gsub('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
-      when 'platforms', 'dependencies', 'suggestions', 'conflicting', 'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
-        unless value.empty?
-          list = "<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
-          value.sort.each do |name, description|
-            list << "<li>#{name}: #{description}</li>"
-          end
-          list << '</ul></dd>'
-        end
-      else "<dt>#{key.capitalize}:</dt><dd>#{value}</dd>"
-      end
-    end
-
-    # returns a Hashie::Mash
-    def find_file(file_name, file_type, cookbook)
-      cookbook.send(file_type).each do |candidate|
-        return candidate if candidate.name[file_name]
-      end
-    end
-
-    def run_list_helper(run_list)
-      if run_list.include? "role["
-        "<a href='#{url("/role/#{run_list.gsub('role[', '').chop}")}'>#{run_list}</a>"
-      elsif run_list.include? "recipe["
-        if run_list.include? "::"
-          run_list =~ /\[(.*)::(.*)\]/
-        else
-          run_list =~ /\[(.*)\]/
-        end
-        name = Regexp.last_match[1]
-        recipe = Regexp.last_match[2]
-        version = (chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil?) || 0
-        if version == 0
-          "<a href='#{url("/cookbooks")}'>#{run_list}</a>"
-        else
-          "<a href='#{url("/cookbook/#{name}-#{version}/recipe/#{recipe || 'default'}.rb")}'>#{run_list}</a>"
-        end
-      else
-        run_list
-      end
-    end
-
-    ##
     ## Filters
     ## -------
 
     before do
-      @title = [ settings.rb.title ]
+      @title = [settings.rb.title]
       if settings.rb.login
         redirect url '/login' unless authorized? || request.path_info == '/login'
       end
@@ -198,7 +54,7 @@ module ChefBrowser
 
     SECTIONS.each do |section, list_route, item_route|
       before "#{item_route}*" do
-        @search_url = list_route unless section == 'Data Bags' or section == 'Cookbooks' # Data bags and Cookbooks are special.
+        @search_url = list_route unless section == 'Data Bags' || section == 'Cookbooks' # Data bags and Cookbooks are special.
         @search_for = section
         @title << section
         @section = section
@@ -221,7 +77,7 @@ module ChefBrowser
 
     get '/login/?' do
       pass unless settings.rb.login
-      erb :login_form, layout: :login, locals: {wrong: false}
+      erb :login_form, layout: :login_layout, locals: { wrong: false }
     end
 
     post '/login/?' do
@@ -230,7 +86,7 @@ module ChefBrowser
         redirect url '/'
       else
         session[:authorized] = false
-        erb :login_form, layout: :login, locals: {wrong: true}
+        erb :login_form, layout: :login_layout, locals: { wrong: true }
       end
     end
 
@@ -311,11 +167,11 @@ module ChefBrowser
       erb :role, locals: {
         role: role,
         tabs: tabs
-       }
+      }
     end
 
     get "/nodes/:search_name/?" do
-      @search_query = settings.rb.node_search[::URI::decode_www_form_component(params[:search_name])]
+      @search_query = settings.rb.node_search[::URI.decode_www_form_component(params[:search_name])]
       pass unless @search_query
       resource_list :node
     end
@@ -325,73 +181,38 @@ module ChefBrowser
     end
 
     # download a cookbook file
-    before %r{download/*} do
-      content_type 'application/octet-stream'
-    end
+    get '/download/cookbook/:cookbook/*' do
+      from_server = open(cookbook_file.url)
 
-    get %r{download/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*)/(.*\.*)} do
-      cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
-      pass unless cookbook
-      if params[:captures][2]['/']
-        file_type = params[:captures][2].match(/.*?\//).to_s.chop
-      else
-        params[:captures][2] == 'recipe' ? file_type = 'recipes' : file_type = params[:captures][2]
-      end
-      file_name = params[:captures][3]
-      file = find_file(file_name, file_type, cookbook)
-      pass unless file
-      @title << [cookbook.name, params[:captures][2], file_name]
-      content = FileContent.new(file.name, file.url, (open(file.url) { |f| f.read }))
-      attachment file_name
-      content.data
+      # Set content_type first, so we can default to
+      # 'application/octet-stream', and `attachment` doesn't blow up
+      # on unknown extensions
+      content_type mime_type(File.extname(cookbook_file.name)) || 'application/octet-stream'
+
+      # Set Content-Disposition & Content-Length
+      attachment cookbook_file.name
+      headers['Content-Length'] = from_server.metas['content-length']
+
+      # Serve reader directly, don't cache it in memory
+      from_server
     end
 
     # cookbook files
-    get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/(.*)/(.*\.*)} do
-      cookbook = chef_server.cookbook.find(params[:captures][0], params[:captures][1])
-      pass unless cookbook
-      if params[:captures][2]['/']
-        file_type = params[:captures][2].match(/.*?\//).to_s.chop
-      else
-        params[:captures][2] == 'recipe' ? file_type = 'recipes' : file_type = params[:captures][2]
-      end
-      file_name = params[:captures][3]
-      file = find_file(file_name, file_type, cookbook)
-      pass unless file
-      @title << [cookbook.name, params[:captures][2], file_name]
-      content = FileContent.new(file.name, file.url, (open(file.url) { |f| f.read }))
-      extname = File.extname(file_name).downcase
-      metadata = cookbook.metadata
-      versions = chef_server.cookbook.all[cookbook.chef_id]
-      erb :file, layout: :cookbook_layout, locals: {
-        cookbook_name: cookbook.chef_id,
-        cookbook_version: cookbook.version,
-        cookbook: cookbook,
-        file_type: file_type,
-        file_name: file_name,
-        file: file,
-        extname: extname,
-        content: content,
-        metadata: metadata,
-        versions: versions
+    get '/cookbook/:cookbook/*' do
+      erb :file, locals: {
+        content: FileContent.show_file(cookbook_file)
       }
     end
 
+    COOKBOOK_BASIC_METADATA = %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description).map(&:freeze).freeze
     # single cookbook
-    get %r{/cookbook/(.*)-([0-9]+\.[0-9]+\.[0-9]+)/?} do
-      cookbook = chef_server.cookbook.find(params[:captures].first, params[:captures].last)
-      pass unless cookbook
-      @title << cookbook.name
-      metadata = cookbook.metadata
-      versions = chef_server.cookbook.all[cookbook.chef_id]
-      erb :cookbook, layout: :cookbook_layout, locals: {
-        cookbook: cookbook,
-        metadata: metadata,
-        versions: versions,
-        basic: %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description),
-        tabs: %w(metadata files recipes basic),
-        file_types: %w(root_files attributes templates files definitions resources providers libraries)
-      }
+    get '/cookbook/:cookbook/?' do
+      template_name = if request.query_string =~ /^\w+$/
+                        "cookbook_tab_#{request.query_string}".to_sym
+                      else
+                        :cookbook
+                      end
+      erb template_name
     end
   end
 end

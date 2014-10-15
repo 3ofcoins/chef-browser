@@ -3,7 +3,7 @@ require 'tinyconfig'
 
 module ChefBrowser
   class Settings < TinyConfig
-    #use option method to define known options
+    # use option method to define known options
     option :server_url, 'https://127.0.0.1'
     option :client_name, 'chef-webui'
     option :client_key, '/etc/chef-server/chef-webui.pem'
@@ -23,10 +23,10 @@ module ChefBrowser
     # Returns a new Ridley connection, as configured by user
     def ridley
       ::Ridley.new({
-          server_url: server_url,
-          client_name: client_name,
-          client_key: client_key
-        }.merge(connection))
+        server_url: server_url,
+        client_name: client_name,
+        client_key: client_key
+      }.merge(connection))
     end
 
     # Application root dir
@@ -36,9 +36,11 @@ module ChefBrowser
 
     # Load from config file
     def self.load
-      settings_path = ::ENV['CHEF_BROWSER_SETTINGS'] ?
-      ::File.expand_path(::ENV['CHEF_BROWSER_SETTINGS']) :
-        ::File.join(app_root, 'settings.rb')
+      settings_path = if ::ENV['CHEF_BROWSER_SETTINGS']
+                        ::File.expand_path(::ENV['CHEF_BROWSER_SETTINGS'])
+                      else
+                        ::File.join(app_root, 'settings.rb')
+                      end
       settings_rb = new
       settings_rb.load(settings_path)
       settings_rb

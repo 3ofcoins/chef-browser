@@ -1,13 +1,13 @@
 require 'net/http'
 
 # Raise exception if `html_str` is not valid HTML according to
-# http://html5.validator.nu/
+# http://validator.w3.org/nu/
 def validate_html(html_str)
-  resp = Net::HTTP.start('html5.validator.nu') do |http|
-    http.post '/?out=text', html_str, { 'Content-Type' => 'text/html; charset=utf-8' }
+  resp = Net::HTTP.start('validator.w3.org') do |http|
+    http.post '/nu/?out=text', html_str, { 'Content-Type' => 'text/html; charset=utf-8' }
   end
   resp.value                    # raise error if not 2xx
-  unless resp.body =~ /^The document is valid HTML5/
+  unless resp.body.rstrip.end_with?("\nThe document validates according to the specified schema(s) and to additional constraints checked by the validator.")
     lines = []
     html_str.lines.each_with_index do |line, i|
       lines << "#{i+1}\t#{line}"

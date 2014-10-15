@@ -16,7 +16,9 @@ module ChefBrowser
     end
 
     class << self
-      def show_file(file, extname, content)
+      def show_file(file)
+        content = FileContent.new(file.name, file.url, open(file.url).read)
+        extname = File.extname(file.name).downcase
         if extname == '.md' || @markup_files.include?(file[:name].downcase)
           GitHub::Markup.render('README.md', content.data)
         else

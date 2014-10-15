@@ -1,0 +1,30 @@
+<%== erb :cookbook_head, layout: false %>
+<div class='row'>
+  <div class='col-md-10'>
+    <h2 id='section-root_files'> <span class='small glyphicon glyphicon-home' title='Root Files'></span></h2>
+    <ul class='list-unstyled' id='section-root_files'>
+<% cookbook.root_files.sort_by(&:path).each do |file| -%>
+      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file.path}" %>'><%= file.path %></a></li>
+<% end -%>
+    </ul>
+
+<% COOKBOOK_FILE_TYPES.each do |file_type| -%>
+<%   next if cookbook.send(file_type).empty? -%>
+    <h2 id='section-<%= file_type %>'><%= file_type.capitalize %></h2>
+    <ul class='list-unstyled'>
+<%   cookbook.send(file_type).sort_by(&:path).each do |file| -%>
+      <li><a href='<%= url "/cookbook/#{cookbook.name}/#{file.path}" %>'><%= file.path %></a></li>
+<%   end -%>
+    </ul>
+<% end -%>
+  </div>
+  <div class='col-md-2' id='files-menu'>
+    <ul class='nav nav-tabs nav-stacked files'>
+      <li><a href="#section-root_files"><span class='glyphicon glyphicon-home'></span></a></li>
+<% COOKBOOK_FILE_TYPES.each do |file_type| -%>
+<%   next if cookbook.send(file_type).empty? -%>
+      <li><a href="#section-<%= file_type %>"><%= file_type.capitalize %></a></li>
+<% end -%>
+    </ul>
+  </div>
+</div>

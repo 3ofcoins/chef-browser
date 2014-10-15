@@ -43,7 +43,7 @@ In order to save on bandwidth and memory, partial searches are enabled for users
 ## Accessible data
 
 Chef-browser allows you to access the following:
-- nodes, environments, roles and data bags available on your server,
+- nodes, environments, roles, data bags and cookbooks available on your server,
 - details of each node:
     - name, ip address, fqdn, environment, tags, run list,
     - attributes presented using JSONpath in a handy, filterable table,
@@ -53,7 +53,11 @@ Chef-browser allows you to access the following:
 - details of each role:
     - run lists and env_run_lists (if present),
     - default and override attributes,
-- details of bags and data bag items.
+- details of bags and data bag items,
+- details of each cookbook:
+    - name, description, metadata,
+    - file list, recipe list,
+    - display and/or download every file in a cookbook.
 
 Where possible, tags, environment names and role views link to appropriate nodes, while run list elements link to other roles.
 

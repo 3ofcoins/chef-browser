@@ -1,0 +1,14 @@
+<%== erb :cookbook_head, layout: false %>
+<ul class="list-unstyled">
+<% cookbook.recipes.sort_by { |k| k["name"].downcase }.each do |recipe| -%>
+  <li>
+    <a href='<%= url "/cookbook/#{cookbook.name}/recipes/#{recipe.name}" %>'><%= recipe.name %></a>
+<%    cookbook.metadata.recipes.each do |res, desc| -%>
+<%      unless res.empty? -%>
+<%=       recipe.name.gsub('.rb', '') == res.gsub("#{cookbook.chef_id}::", "") && !desc.empty? ? "- #{desc}" : "" %>
+<%=       recipe.name == "default.rb" && res == cookbook.chef_id && !desc.empty? ? "- #{desc}" : "" %>
+<%      end -%>
+<%    end -%>
+  </li>
+<%  end -%>
+</ul>
