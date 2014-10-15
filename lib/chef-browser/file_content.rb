@@ -22,13 +22,25 @@ module ChefBrowser
         if extname == '.md' || MARKUP_FILES.include?(file[:name].downcase)
           GitHub::Markup.render('README.md', content.data)
         else
-          if content.image?
-            path = content.path
-            "<img src = '#{path}'><p></p>"
-          elsif content.text?
-            FileContent.highlight_file(content.name, extname, content.data)
-          end
+         text_or_image(content, extname)
         end
+      end
+
+      def text_or_image(content, extname)
+        if content.image?
+         show_graphic_file(content)
+        elsif content.text?
+          show_text_file(content, extname)
+        end
+      end
+
+      def show_graphic_file(content)
+          path = content.path
+          "<img src = '#{path}'><p></p>"
+      end
+
+      def show_text_file(content, extname)
+        FileContent.highlight_file(content.name, extname, content.data)
       end
 
       def highlight_file(filename, extname, content)
