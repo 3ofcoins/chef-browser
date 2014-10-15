@@ -1,7 +1,13 @@
 <%== erb :cookbook_head, layout: false %>
 <div class='row'>
   <div class='col-md-8'>
-<%== pretty_metadata('long_description', cookbook.metadata['long_description']) %>
+<% cookbook.root_files.each do |file| -%>
+<%   if file['name'].downcase =~ /readme/ -%>
+<%==	  ChefBrowser::FileContent.show_file(file) %>
+<%   else -%>
+<%=    pretty_metadata('long_description', cookbook.metadata['long_description']) %>
+<%   end -%>
+<% end -%>
   </div>
   <div class='col-md-4' id='basic'>
     <dl class='dl-horizontal'>
