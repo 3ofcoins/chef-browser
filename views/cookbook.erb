@@ -5,7 +5,7 @@
 <%   if file['name'].downcase =~ /readme/ -%>
 <%==	  ChefBrowser::FileContent.show_file(file) %>
 <%   else -%>
-<%=    pretty_metadata('long_description', cookbook.metadata['long_description']) %>
+<%==    pretty_metadata('long_description', cookbook.metadata['long_description']) %>
 <%   end -%>
 <% end -%>
   </div>
