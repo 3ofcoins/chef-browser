@@ -131,7 +131,7 @@ module ChefBrowser
     end
 
     def cookbook_versions
-      chef_server.cookbook.versions(cookbook.chef_id).sort_by { |v| Semverse::Version.new(v) }
+      chef_server.cookbook.versions(cookbook.chef_id).sort_by { |v| Semverse::Version.new(v) }.reverse
     end
 
     COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/.freeze
@@ -148,7 +148,7 @@ module ChefBrowser
     end
 
     def cookbook_file?
-      !!@cookbook_file
+      !@cookbook_file.nil?
     end
 
     def run_list_helper(run_list_element)
