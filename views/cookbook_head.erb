@@ -1,6 +1,6 @@
-<div class='dropdown' id='cookbook-dropdown'>
-  <h1>
-    <a href='<%= url "/cookbook/#{cookbook.name}" %>'><%= cookbook.chef_id %></a>
+<h1>
+  <a href='<%= url "/cookbook/#{cookbook.name}" %>'><%= cookbook.chef_id %></a>
+  <div class='dropdown' id='cookbook-dropdown'>
     <button class='btn btn-default dropdown-toggle btn-lg' type='button' id='versions' data-toggle='dropdown'>
 <%= cookbook.version %>
       <span class='caret'></span>
@@ -16,8 +16,8 @@
       </li>
 <%  end -%>
     </ul>
-  </h1>
-</div>
+  </div>
+</h1>
 
 <p class='lead'><%= cookbook.metadata['description'] %></p>
 <div class='tabbable'>
