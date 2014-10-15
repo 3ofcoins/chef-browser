@@ -1,3 +1,10 @@
+##1.1.0, 2014-10-15
+
+* Adds a cookbook feature:
+  - browse cookbooks,
+  - view cookbook details,
+  - display and download cookbook files.
+
 ##1.0.2, 2014-09-10
 
 * [bugfix] A role's run list is no longer sorted.
