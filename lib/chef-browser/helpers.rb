@@ -33,12 +33,12 @@ module ChefBrowser
     def with_jsonpath(obj, prefix = '$', &block)
       case obj
       when Array
-        obj.each_with_index do |v, i|
-          with_jsonpath(v, "#{prefix}[#{i}]", &block)
+        obj.each_with_index do |value, index|
+          with_jsonpath(value, "#{prefix}[#{index}]", &block)
         end
       when Hash
-        obj.each do |k, v|
-          with_jsonpath(v, "#{prefix}.#{k}", &block)
+        obj.each do |key, value|
+          with_jsonpath(value, "#{prefix}.#{key}", &block)
         end
       else
         yield prefix, obj
@@ -131,7 +131,7 @@ module ChefBrowser
     end
 
     def cookbook_versions
-      chef_server.cookbook.versions(cookbook.chef_id).sort_by { |v| Semverse::Version.new(v) }.reverse
+      chef_server.cookbook.versions(cookbook.chef_id).sort_by { |version| Semverse::Version.new(version) }.reverse
     end
 
     COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/.freeze

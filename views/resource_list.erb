@@ -14,7 +14,7 @@
 <% if resources.class == Hash -%>
 <%   resources.sort.each do |cookbook, versions| -%>
   <li><%= cookbook %>
-<%     versions.sort_by { |v| Semverse::Version.new(v) }.reverse.each do |version| -%>
+<%     versions.sort_by { |ver| Semverse::Version.new(ver) }.reverse.each do |version| -%>
     <a href='<%= url "/cookbook/#{cookbook}-#{version}" %>'><%= version %></a><%= resources[cookbook.to_s].length == 1 ? "" : ( version == resources[cookbook.to_s].sort.first ? "" : ", " ) %>
 <%     end -%>
   </li>
