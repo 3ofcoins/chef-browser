@@ -33,8 +33,8 @@ end
 
 Then(/^I see an? (\w+) attribute "([^\"]+)" with value (.*)$/) do |kind, path, value|
   values = all("div#attributes-#{kind} tr")
-    .select { |row| row.find('td[1]').text == path }
-    .map { |row| row.find('td[2]').text }
+           .select { |row| row.find('td[1]').text == path }
+           .map { |row| row.find('td[2]').text }
 
   assert { values.length == 1 }
   assert { values.first == value }
@@ -42,8 +42,8 @@ end
 
 Then(/^I see an attribute "(.*?)" with value (.*?)$/) do |path, value|
   values = all("table.table tr")
-    .select { |row| row.find('td[1]').text == path }
-    .map { |row| row.find('td[2]').text }
+           .select { |row| row.find('td[1]').text == path }
+           .map { |row| row.find('td[2]').text }
 
   assert { values.length == 1 }
   assert { values.first == value }

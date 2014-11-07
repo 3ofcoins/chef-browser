@@ -1,5 +1,5 @@
-_lib = File.realpath(File.join(File.dirname(__FILE__), '../../lib'))
-$LOAD_PATH.unshift(_lib) unless $LOAD_PATH.include?(_lib)
+lib = File.realpath(File.join(File.dirname(__FILE__), '../../lib'))
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 ENV['CHEF_BROWSER_SETTINGS'] = File.expand_path(File.join(File.dirname(__FILE__),
                                                           '../fixtures/settings.rb'))
