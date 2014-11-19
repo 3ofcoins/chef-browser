@@ -3,9 +3,11 @@
   <div class='col-md-8'>
 <% cookbook.root_files.each do |file| -%>
 <%   if file['name'].downcase =~ /readme/ -%>
-<%==	  ChefBrowser::FileContent.show_file(file) %>
+<%==   ChefBrowser::FileContent.show_file(file) %>
+<%     break -%>
 <%   else -%>
-<%==    pretty_metadata('long_description', cookbook.metadata['long_description']) %>
+<%==   pretty_metadata('long_description', cookbook.metadata['long_description']) %>
+<%     break -%>
 <%   end -%>
 <% end -%>
   </div>
