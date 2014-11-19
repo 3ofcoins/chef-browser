@@ -57,11 +57,13 @@
   <div class="tab-content">
 <%   tabs.each_with_index do |(tab_name, tab_data), tab_index| -%>
     <div class="tab-pane <%= tab_index.zero? ? 'active' : 'fade in'  %>" id="attributes-<%= tab_name %>">
-      <table class="table table-condensed table-striped table-hover">
+      <div class="filterable">
+        <table class="table table-condensed table-striped table-hover">
 <%     with_jsonpath(tab_data) do |path, value| -%>
-        <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+          <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <%     end -%>
-      </table>
+        </table>
+      </div>
     </div>
 <%   end -%>
   </div>

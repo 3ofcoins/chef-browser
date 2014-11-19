@@ -40,11 +40,13 @@
 <%   if tab_data.empty? -%>
       <div class="alert alert-info">This node has no <em><%= tab_name %></em> attributes.</div>
 <%   else -%>
-      <table class="table table-condensed table-striped table-hover">
+      <div class="filterable">
+          <table class="table table-condensed table-striped table-hover">
 <%     with_jsonpath(tab_data) do |path, value| -%>
-        <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
+          <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
 <%     end -%>
-      </table>
+        </table>
+      </div>
 <%   end -%>
     </div>
 <% end -%>
