@@ -67,7 +67,7 @@ Chef-browser is a Sinatra-based app. It uses [Ridley](http://github.com/RiotGame
 
 ## Safety
 
-By default, chef-browser publishes content without any access control, and authentication is left to the proxy server. It can be secured by a login page, which requires a username and password to validate against users registered in the Chef server (just as the original Chef Web UI). To limit access with a login page, set `login` option to `true` in the settings file
+By default, chef-browser publishes content without any access control, and authentication is left to the proxy server. If you use Chef below version 12.0, content can be secured by a login page, which requires a username and password to validate against users registered in the Chef server (just as the original Chef Web UI). To limit access with a login page, set the `login` option to `true` in the settings file.
 
 When login is required, Chef-browser uses Rack sessions. By default, on each restart, a fresh, random session secret is generated. This logs out every user, and can be annoying. To save secret across restarts, generate a random string (e.g. by running `ruby -rsecurerandom -e 'puts SecureRandom.base64(36)'`) and add it to `settings.rb` as `cookie_secret`.
 

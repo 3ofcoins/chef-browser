@@ -23,7 +23,7 @@ client_key ::File.join(::File.dirname(__FILE__), 'features/fixtures/stub.pem')
 #
 # use_partial_search false
 
-# Uncomment to enable login page
+# Uncomment if you use chef below 12.0 to enable login page
 #
 # login true
 
