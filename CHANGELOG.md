@@ -1,3 +1,7 @@
+##1.1.1, 2015-02-05
+
+* [bugfix] Links to individual recipes listed in a run list are no longer broken
+
 ##1.1.0, 2014-10-15
 
 * Adds a cookbook feature:
