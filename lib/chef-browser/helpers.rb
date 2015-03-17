@@ -17,6 +17,18 @@ module ChefBrowser
       session[:authorized] = false
     end
 
+    def verify_none?
+      settings.rb.connection[:ssl] && settings.rb.connection[:ssl][:verify] == false
+    end
+
+    def uri_options
+      if verify_none?
+        { ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE }
+      else
+        {}
+      end
+    end
+
     # This method takes any nested hash/array `obj`, and then
     # calls provided block with two arguments:
     # each value's jsonpath selector, and the value itself.
