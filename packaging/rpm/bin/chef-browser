@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+ARGV << File.join(File.dirname(__FILE__), '..', 'chef-browser', 'config.ru')
+ARGV << '-o'
+ARGV << '192.168.1.125'
+load File.join(File.dirname(__FILE__), '..', 'chef-browser', 'bundle', 'bundler/setup.rb')
+require "rack"
+Rack::Server.start
