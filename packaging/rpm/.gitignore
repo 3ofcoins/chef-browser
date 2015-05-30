@@ -1,0 +1,4 @@
+.vagrant
+build
+chef-browser-checkout
+*.rpm
