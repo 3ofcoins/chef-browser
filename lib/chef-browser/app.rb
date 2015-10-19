@@ -182,7 +182,7 @@ module ChefBrowser
 
     # download a cookbook file
     get '/download/cookbook/:cookbook/*' do
-      from_server = open(cookbook_file.url)
+      from_server = open(cookbook_file.url, uri_options)
 
       # Set content_type first, so we can default to
       # 'application/octet-stream', and `attachment` doesn't blow up
@@ -200,7 +200,7 @@ module ChefBrowser
     # cookbook files
     get '/cookbook/:cookbook/*' do
       erb :file, locals: {
-        content: FileContent.show_file(cookbook_file)
+        content: FileContent.show_file(cookbook_file, uri_options)
       }
     end
 
