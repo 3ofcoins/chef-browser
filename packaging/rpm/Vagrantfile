@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+$SCRIPT = <<EOF
+yum groupinstall -y 'Development Tools'
+yum install -y ruby ruby-devel libicu libicu-devel zlib zlib-devel openssl openssl-devel cmake
+EOF
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 8192
+    v.cpus = 2
+  end
+
+  config.vm.define "chef-browser-build" do |server|
+    server.vm.box = 'chef/centos-7.0'
+    server.vm.hostname = 'chef-browser-build'
+    server.vm.synced_folder ".", "/home/vagrant/chef-browser-build"
+    server.vm.provision "shell", inline: $SCRIPT
+  end
+end
