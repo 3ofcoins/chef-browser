@@ -1,7 +1,7 @@
 .tabbable {
     position: relative;
 }
-.filterable {
+.filterable-dbi {
     position: relative;
     padding-top: 3em;
 }

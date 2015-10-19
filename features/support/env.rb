@@ -1,8 +1,8 @@
-_lib = File.realpath(File.join(File.dirname(__FILE__), '../../lib'))
-$:.unshift(_lib) unless $:.include?(_lib)
+lib = File.realpath(File.join(File.dirname(__FILE__), '../../lib'))
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 ENV['CHEF_BROWSER_SETTINGS'] = File.expand_path(File.join(File.dirname(__FILE__),
-    '../fixtures/settings.rb'))
+                                                          '../fixtures/settings.rb'))
 ENV['CHEF_ZERO_PORT'] ||= '4001'
 
 # `celluloid/test` needs to be required before chef-browser to prevent

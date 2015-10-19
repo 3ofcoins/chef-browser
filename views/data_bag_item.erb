@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1><%= data_bag_item.data_bag.chef_id %>::<%= data_bag_item.chef_id %></h1>
 </div>
-<div class="filterable">
+<div class="filterable filterable-dbi">
   <table class="table table-condensed table-striped table-hover">
 <% with_jsonpath(data_bag_item._attributes_) do |path, value| -%>
     <tr><td><%= path %></td><td><%== pretty_value(value) %></td></tr>
