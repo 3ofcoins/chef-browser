@@ -164,7 +164,7 @@ module ChefBrowser
         recipe = Regexp.last_match[2]
         version = (chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil?) || nil
         if version
-          "<a href='#{url("/cookbook/#{name}-#{version}/recipe/#{recipe || 'default'}.rb")}'>#{run_list_element}</a>"
+          "<a href='#{url("/cookbook/#{name}-#{version}/recipes/#{recipe || 'default'}.rb")}'>#{run_list_element}</a>"
         else
           "<a href='#{url("/cookbooks")}'>#{run_list_element}</a>"
         end
