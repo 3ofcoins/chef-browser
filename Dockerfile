@@ -5,7 +5,7 @@ ADD config/docker_apt_preferences /etc/apt/preferences.d/brightbox-ruby-ng
 RUN echo 'deb http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu trusty main' > /etc/apt/sources.list.d/brightbox-ruby-ng.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv C3173AA6
 RUN apt-get update
-RUN apt-get install --yes ruby2.1-dev git build-essential libssl-dev
+RUN apt-get install --yes ruby2.1 ruby2.1-dev git build-essential libssl-dev
 RUN gem install bundler --no-rdoc --no-ri
 ADD . /opt/chef-browser
 WORKDIR /opt/chef-browser
