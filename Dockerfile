@@ -25,4 +25,4 @@ USER www-data
 EXPOSE 9292
 ENV TITLE Chef Browser
 ENV CHEF_CLIENT_KEY /opt/chef-browser/client.pem
-CMD [ "./bin/rackup", "config.ru" ]
+CMD [ "./bin/rackup", "-o", "0.0.0.0", "-p", "9292", "config.ru" ]
