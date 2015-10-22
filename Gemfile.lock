@@ -92,6 +92,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rake (10.4.2)
     retryable (2.0.2)
     ridley (4.3.2)
       addressable
@@ -362,6 +363,7 @@ DEPENDENCIES
   pygments.rb
   racc
   rack-test
+  rake
   ridley
   rubysl (~> 2.0)
   rubysl-test-unit (~> 2.0)
@@ -369,6 +371,3 @@ DEPENDENCIES
   sinatra
   tinyconfig (~> 0.1)
   wrong (= 0.7.1)
-
-BUNDLED WITH
-   1.10.6

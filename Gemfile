@@ -26,3 +26,7 @@ group :development do
   gem "pry"
   gem "rubysl-test-unit", "~> 2.0", platforms: :rbx
 end
+
+group :test do
+  gem "rake"
+end
