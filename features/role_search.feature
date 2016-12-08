@@ -21,7 +21,7 @@ Background:
 
 Scenario: Search results
   When I visit "/roles"
-  And I search for "name:one"
+  And I search for "name:one*"
   Then I am at "/roles"
   And I can see "Search results (1)"
 
