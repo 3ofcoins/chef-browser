@@ -20,7 +20,7 @@
           </button>
           <a class="navbar-brand" href='<%= url "/" %>'><%= @title[0] %></a>
         </div>
-        <nav class="collapse navbar-collapse" id="navbar-collapse" role="navigation">
+        <nav class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav">
 <% SECTIONS.each do |section, link, _| -%>
             <li<%== ' class="active"' if section == @section %>><a href='<%= url link %>'><%= section %></a></li>
@@ -33,7 +33,7 @@
           </form>
 <% end -%>
 <% if @search_url -%>
-          <form class="navbar-form navbar-right" method="get" action='<%= url @search_url %>' role="search" id="nav-search">
+          <form class="navbar-form navbar-right" method="get" action='<%= url @search_url %>' id="nav-search">
             <div class="input-group">
 <%   if @section == 'Nodes' and not settings.rb.node_search.empty? -%>
               <div class="input-group-btn">

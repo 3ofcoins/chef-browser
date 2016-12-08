@@ -5,7 +5,7 @@
 <% else -%>
 <%= cookbook_file.path %>
 <% end -%>
-  <a role='button' class='btn btn-link' href='<%= url "/download#{request.path}" %>' title='Download file'><span class='glyphicon glyphicon-download'></span></a>
+  <a class='btn btn-link' href='<%= url "/download#{request.path}" %>' title='Download file'><span class='glyphicon glyphicon-download'></span></a>
 </h1>
 <% if content -%>
 <%   if content == 'image' -%>
