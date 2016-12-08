@@ -364,6 +364,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  buff-extensions
   capybara
   chef-zero
   coderay

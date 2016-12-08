@@ -16,6 +16,11 @@ gem "coderay"
 gem "pygments.rb"
 gem "github-linguist", "~> 3.0"
 gem 'rugged', '= 0.21.1b2'      # github-linguist specifies (~> 0.21.1b2), but 0.21.4 breaks
+if RUBY_VERSION < "2.2"
+  gem "buff-extensions", "< 2.0.0"
+else
+  gem "buff-extensions"
+end
 
 group :development do
   gem "capybara"
