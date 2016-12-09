@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem "sinatra"
 gem "erubis", "~> 2.7.0"
-gem "ridley"
+gem "ridley", "~> 5.0.0"
 gem "tinyconfig", "~> 0.1"
 gem "oj", platforms: :ruby         # to be used by multijson
 gem "jrjackson", platforms: :jruby # to be used by multijson
@@ -16,7 +16,6 @@ gem "coderay"
 gem "pygments.rb"
 gem "github-linguist", "~> 3.0"
 gem 'rugged', '= 0.21.1b2'      # github-linguist specifies (~> 0.21.1b2), but 0.21.4 breaks
-gem "buff-extensions", "< 2.0.0"
 
 group :development do
   gem "capybara"
