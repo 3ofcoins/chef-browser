@@ -73,7 +73,7 @@ When login is required, Chef-browser uses Rack sessions. By default, on each res
 
 ## Ruby versions
 
-Chef-browser works with Ruby versions: 2.0.0, 2.1.0, 2.2.1 and 2.3.1 (JRuby and RBX should work, but haven't been tested properly yet).
+Chef-browser works with Ruby versions: 2.2.0, 2.2.1, 2.3.0 and 2.3.1 (JRuby and RBX should work, but haven't been tested properly yet).
 
 ## Contributing
 
