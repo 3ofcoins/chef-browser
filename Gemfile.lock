@@ -68,7 +68,7 @@ GEM
     github-markup (1.4.0)
     hashie (3.4.6)
     hitimes (1.2.4)
-    httpclient (2.8.2.4)
+    httpclient (2.8.3)
     json (2.0.2)
     kramdown (1.13.1)
     libyajl2 (1.2.0)
