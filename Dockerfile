@@ -1,5 +1,5 @@
 # -*- conf -*-
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 COPY config/docker_apt_preferences /etc/apt/preferences.d/brightbox-ruby-ng
 RUN set -e -x ; \
