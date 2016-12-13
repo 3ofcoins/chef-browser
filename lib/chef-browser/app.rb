@@ -72,7 +72,14 @@ module ChefBrowser
     ## -----
 
     get '/' do
-      redirect url '/nodes'
+      redirect url '/dashboard'
+    end
+
+    get '/dashboard' do
+      nodes = chef_server.partial_search(:node, "name:*", %w(name id ohai_time))
+      erb :dashboard, locals: {
+        nodes: nodes
+        }
     end
 
     get '/login/?' do

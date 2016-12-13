@@ -1,0 +1,17 @@
+<div class="page-header">
+  <h1>Last successful Chef run</h1>
+</div>
+<ul class="list-unstyled">
+<% nodes.each do |n| -%>
+    <li>
+      <a href=""><%= n.name %></a>:
+<%   if n[:automatic][:ohai_time] == nil -%>
+    no recorded successful Chef run
+<%   else -%>
+<%= ((Time.now - Time.at(n[:automatic][:ohai_time])) / 3600).to_i.to_s %> hour(s)
+<%= (((Time.now - Time.at(n[:automatic][:ohai_time])) / 60) % 60).to_i.to_s %> minute(s)
+<%= ((Time.now - Time.at(n[:automatic][:ohai_time])) % 60).to_i.to_s %> second(s) ago
+    </li>
+<%   end -%>
+<% end -%>
+</ul>
