@@ -18,7 +18,7 @@ Create a settings.rb file. Provide your server url, client name and the path to 
 Run:
 
 ```
-$ rackup config.ru
+$ rackup -o 0.0.0.0 config.ru
 Puma 2.6.0 starting...
 * Min threads: 0, max threads: 16
 * Environment: development
