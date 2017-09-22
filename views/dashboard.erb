@@ -2,9 +2,9 @@
   <h1>Last successful Chef run</h1>
 </div>
 <ul class="list-unstyled">
-<% nodes.each do |n| -%>
+<% (nodes.sort_by {|node| [node[:automatic][:ohai_time] ? 1 : 0, node[:automatic][:ohai_time] ] }).each do |n| -%>
     <li>
-      <a href=""><%= n.name %></a>:
+      <a href="/node/<%= n.name %>"><%= n.name %></a>:
 <%   if n[:automatic][:ohai_time] == nil -%>
     no recorded successful Chef run
 <%   else -%>
