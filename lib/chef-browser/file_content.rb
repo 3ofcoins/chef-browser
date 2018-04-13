@@ -19,17 +19,15 @@ module ChefBrowser
 
     class << self
       def show_file(file, uri_options = {})
-        content = FileContent.new(file.name, file.url, open(file.url, uri_options).read)
+        content = FileContent.new(file.name, file.url, File.open(file.url, uri_options).read)
         extname = File.extname(file.name).downcase
         if extname == '.md' || MARKUP_FILES.include?(file[:name].downcase)
           GitHub::Markup.render('README.md', content.data)
-        else
-          if content.image?
-            # Unfortunately, this has to be handled by file.erb
-            'image'
-          elsif content.text?
-            FileContent.highlight_file(content.name, extname, content.data)
-          end
+        elsif content.image?
+          # Unfortunately, this has to be handled by file.erb
+          'image'
+        elsif content.text?
+          FileContent.highlight_file(content.name, extname, content.data)
         end
       end
 

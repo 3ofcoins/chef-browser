@@ -8,9 +8,9 @@ if ENV['RACK_SCRIPT_PATH']
 end
 
 if ENV['VALIDATE_HTML']
-  _app_before_validate = $rack_app
+  app_before_validate = $rack_app
   $rack_app = lambda do |env|
-    resp = _app_before_validate.call(env)
+    resp = app_before_validate.call(env)
     resp[2] = [resp[2].join]
     validate_html(resp[2].first) if resp[0] == 200 && resp[1]['Content-Type'] =~ /^text\/html\s*(;.*)?$/
     resp

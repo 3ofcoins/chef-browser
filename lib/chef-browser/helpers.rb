@@ -92,14 +92,12 @@ module ChefBrowser
         when :environment then results.map { |attrs| Ridley::EnvironmentObject.new(nil, attrs["data"]) }
         else                   results.map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
         end
+      elsif data_bag
+        # For data bag search, Ridley returns untyped Hashie::Mash,
+        # we want to augment it with our methods.
+        chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
       else
-        if data_bag
-          # For data bag search, Ridley returns untyped Hashie::Mash,
-          # we want to augment it with our methods.
-          chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
-        else
-          chef_server.search(resource, search_query)
-        end
+        chef_server.search(resource, search_query)
       end
     end
 
@@ -119,7 +117,8 @@ module ChefBrowser
       case key
       when 'long_description' then GitHub::Markup.render('README.md', value)
       when 'attributes' then nil
-      when 'maintainer_email' then "<dt>#{key.capitalize.tr('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
+      when 'maintainer_email'
+        "<dt>#{key.capitalize.tr('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
       when 'platforms', 'dependencies', 'suggestions', 'conflicting', 'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
         unless value.empty?
           list = "<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
@@ -148,7 +147,7 @@ module ChefBrowser
       chef_server.cookbook.versions(cookbook.chef_id).sort_by { |version| Semverse::Version.new(version) }.reverse
     end
 
-    COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/
+    COOKBOOK_FILE_TYPE_RX = %r{^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?}
     def cookbook_file
       @cookbook_file ||=
         begin

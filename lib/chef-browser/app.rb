@@ -56,7 +56,8 @@ module ChefBrowser
 
     SECTIONS.each do |section, list_route, item_route|
       before "#{item_route}*" do
-        @search_url = list_route unless section == 'Data Bags' || section == 'Cookbooks' # Data bags and Cookbooks are special.
+        # Data bags and Cookbooks are special
+        @search_url = list_route unless ['Data Bags', 'Cookbooks'].include? section
         @search_for = section
         @title << section
         @section = section
@@ -153,7 +154,8 @@ module ChefBrowser
     end
 
     get '/data_bag/:data_bag_id/:data_bag_item_id/?' do
-      data_bag_item = chef_server.data_bag.find(params[:data_bag_id]).item.find(params[:data_bag_item_id])
+      data_bag_item = chef_server.data_bag.find(params[:data_bag_id])
+                                 .item.find(params[:data_bag_item_id])
       pass unless data_bag_item
       @title << params[:data_bag_item_id]
       erb :data_bag_item, locals: { data_bag_item: data_bag_item }
@@ -184,7 +186,7 @@ module ChefBrowser
 
     # download a cookbook file
     get '/download/cookbook/:cookbook/*' do
-      from_server = open(cookbook_file.url, uri_options)
+      from_server = File.open(cookbook_file.url, uri_options)
 
       # Set content_type first, so we can default to
       # 'application/octet-stream', and `attachment` doesn't blow up
@@ -206,7 +208,10 @@ module ChefBrowser
       }
     end
 
-    COOKBOOK_BASIC_METADATA = %w[maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description].map(&:freeze).freeze
+    COOKBOOK_BASIC_METADATA = %w[maintainer maintainer_email license platforms
+                                 dependencies recommendations providing suggestions
+                                 conflicting replacing groupings long_description]
+                              .map(&:freeze).freeze
     # single cookbook
     get '/cookbook/:cookbook/?' do
       template_name = if request.query_string.match?(/^\w+$/)
