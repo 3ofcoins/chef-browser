@@ -5,7 +5,7 @@
 <%= cookbook.version %>
       <span class='caret'></span>
     </button>
-    <ul class='dropdown-menu' role='menu' aria-labelledby='versions'>
+    <ul class='dropdown-menu' aria-labelledby='versions'>
 <%  cookbook_versions.each do |version| -%>
       <li>
 <%    if cookbook_file? -%>
@@ -21,7 +21,7 @@
 
 <p class='lead'><%= cookbook.metadata['description'] %></p>
 <div class='tabbable'>
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="nav nav-tabs">
 <% %w(metadata files recipes).each do |tab| -%>
     <li class='cook-tabs<% if request.query_string == tab || ( tab == 'files' && cookbook_file? ) %> active<% end %>'><a href='<%= url "/cookbook/#{cookbook.name}" %>?<%= tab %>'><%= tab.capitalize %></a></li>
 <% end -%>

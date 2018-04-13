@@ -7,7 +7,7 @@ def validate_html(html_str)
     http.post '/nu/?out=text', html_str, 'Content-Type' => 'text/html; charset=utf-8'
   end
   resp.value                    # raise error if not 2xx
-  unless resp.body.rstrip.end_with?("\nThe document validates according to the specified schema(s) and to additional constraints checked by the validator.")
+  unless resp.body.rstrip.end_with?("The document validates according to the specified schema(s).")
     lines = []
     html_str.lines.each_with_index do |line, i|
       lines << "#{i + 1}\t#{line}"

@@ -27,7 +27,7 @@ Background:
 
 Scenario: Search results
   When I visit "/nodes"
-  And I search for "name:some"
+  And I search for "name:some*"
   Then I am at "/nodes"
   And I can see "Search results (1)"
 
