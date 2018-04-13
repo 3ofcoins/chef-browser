@@ -1,4 +1,14 @@
 Style/StringLiterals:
-  Description: 'Checks if uses of quotes match the configured preference.'
-  StyleGuide: '#consistent-string-literals'
   Enabled: false
+
+Style/GlobalVars:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+Naming/FileName:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 2.4.3
