@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'chef-browser/app'
 
 module ChefBrowser
   module Helpers
-    COOKBOOK_FILE_TYPES = %w(attributes templates files definitions resources providers libraries)
-      .map(&:freeze).freeze
+    COOKBOOK_FILE_TYPES = %w[attributes templates files definitions resources providers libraries]
+                          .map(&:freeze).freeze
 
     def chef_server
       @chef_server ||= settings.rb.ridley
@@ -76,14 +78,14 @@ module ChefBrowser
 
     def search_query
       @search_query || params['q']
-      @search_query ||= (params['q'] && params['q'].strip)
+      @search_query ||= (params['q']&.strip)
     end
 
     def search(search_query, resource, data_bag = nil)
       search_query = "tags:*#{search_query}* OR roles:*#{search_query}* OR fqdn:*#{search_query}* OR addresses:*#{search_query}*" unless search_query[':']
       if settings.rb.use_partial_search
         resource = data_bag.chef_id if data_bag
-        results = chef_server.partial_search(resource, search_query, %w(chef_type name id))
+        results = chef_server.partial_search(resource, search_query, %w[chef_type name id])
         case resource
         when :node        then results
         when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
@@ -117,7 +119,7 @@ module ChefBrowser
       case key
       when 'long_description' then GitHub::Markup.render('README.md', value)
       when 'attributes' then nil
-      when 'maintainer_email' then "<dt>#{key.capitalize.gsub('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
+      when 'maintainer_email' then "<dt>#{key.capitalize.tr('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
       when 'platforms', 'dependencies', 'suggestions', 'conflicting', 'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
         unless value.empty?
           list = "<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
@@ -130,7 +132,7 @@ module ChefBrowser
       end
     end
 
-    COOKBOOK_RX = /^(.*)-([0-9\.]+)$/.freeze
+    COOKBOOK_RX = /^(.*)-([0-9\.]+)$/
     def cookbook
       @cookbook ||=
         begin
@@ -146,7 +148,7 @@ module ChefBrowser
       chef_server.cookbook.versions(cookbook.chef_id).sort_by { |version| Semverse::Version.new(version) }.reverse
     end
 
-    COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/.freeze
+    COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/
     def cookbook_file
       @cookbook_file ||=
         begin
@@ -167,18 +169,18 @@ module ChefBrowser
       if run_list_element.include? "role["
         "<a href='#{url("/role/#{run_list_element.gsub('role[', '').chop}")}'>#{run_list_element}</a>"
       elsif run_list_element.include? "recipe["
-        if run_list_element.include? "::"
-          run_list_element =~ /\[(.*)::(.*)\]/
-        else
-          run_list_element =~ /\[(.*)\]/
-        end
+        run_list_element =~ if run_list_element.include? "::"
+                              /\[(.*)::(.*)\]/
+                            else
+                              /\[(.*)\]/
+                            end
         name = Regexp.last_match[1]
         recipe = Regexp.last_match[2]
-        version = (chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil?) || nil
+        version = (chef_server.cookbook.all[name]&.first) || nil
         if version
           "<a href='#{url("/cookbook/#{name}-#{version}/recipes/#{recipe || 'default'}.rb")}'>#{run_list_element}</a>"
         else
-          "<a href='#{url("/cookbooks")}'>#{run_list_element}</a>"
+          "<a href='#{url('/cookbooks')}'>#{run_list_element}</a>"
         end
       else
         run_list_element

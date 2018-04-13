@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'erubis'
 require 'sinatra'
 require 'ridley'
@@ -25,7 +27,7 @@ module ChefBrowser
       ['Roles',        '/roles',        '/role'],
       ['Data Bags',    '/data_bags',    '/data_bag'],
       ['Cookbooks',    '/cookbooks',    '/cookbook']
-    ]
+    ].freeze
 
     ##
     ## Settings
@@ -204,10 +206,10 @@ module ChefBrowser
       }
     end
 
-    COOKBOOK_BASIC_METADATA = %w(maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description).map(&:freeze).freeze
+    COOKBOOK_BASIC_METADATA = %w[maintainer maintainer_email license platforms dependencies recommendations providing suggestions conflicting replacing groupings long_description].map(&:freeze).freeze
     # single cookbook
     get '/cookbook/:cookbook/?' do
-      template_name = if request.query_string =~ /^\w+$/
+      template_name = if request.query_string.match?(/^\w+$/)
                         "cookbook_tab_#{request.query_string}".to_sym
                       else
                         :cookbook

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ridley
   class ChefObject
     def url

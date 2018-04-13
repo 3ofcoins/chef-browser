@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'chef-browser/app'
 
 module ChefBrowser
@@ -6,8 +8,8 @@ module ChefBrowser
 
     attr_accessor :name, :path, :data
 
-    HIGHLIGHT_OPTIONS = { encoding: 'utf-8', formatter: 'html', linenos: 'inline' }
-    MARKUP_FILES = %w(license contributing testing readme)
+    HIGHLIGHT_OPTIONS = { encoding: 'utf-8', formatter: 'html', linenos: 'inline' }.freeze
+    MARKUP_FILES = %w[license contributing testing readme].freeze
 
     def initialize(name, path, content)
       @name = name
@@ -22,11 +24,10 @@ module ChefBrowser
         if extname == '.md' || MARKUP_FILES.include?(file[:name].downcase)
           GitHub::Markup.render('README.md', content.data)
         else
-          case
-          when content.image?
+          if content.image?
             # Unfortunately, this has to be handled by file.erb
             'image'
-          when content.text?
+          elsif content.text?
             FileContent.highlight_file(content.name, extname, content.data)
           end
         end

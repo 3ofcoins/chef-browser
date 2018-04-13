@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 $rack_app = ChefBrowser::App
 
 if ENV['RACK_SCRIPT_PATH']

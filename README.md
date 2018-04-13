@@ -75,8 +75,7 @@ When login is required, Chef-browser uses Rack sessions. By default, on each res
 
 Chef-browser works with following Ruby versions:
 
-- 2.3.0 and 2.3.1,
-- 2.4.0,
+- 2.4.3,
 - 2.5.0.
 
 ## Contributing

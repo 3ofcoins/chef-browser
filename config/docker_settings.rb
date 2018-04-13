@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 server_url ::ENV['CHEF_SERVER_URL']
 client_name ::ENV['CHEF_CLIENT_NAME']
 client_key ::ENV['CHEF_CLIENT_KEY']

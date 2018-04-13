@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-$SCRIPT = <<EOF
-yum groupinstall -y 'Development Tools'
-yum install -y ruby ruby-devel libicu libicu-devel zlib zlib-devel openssl openssl-devel cmake
+$SCRIPT = <<~EOF
+  yum groupinstall -y 'Development Tools'
+  yum install -y ruby ruby-devel libicu libicu-devel zlib zlib-devel openssl openssl-devel cmake
 EOF
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|

@@ -1,7 +1,7 @@
 chef-browser RPM packaging
 ==========================
 
-Easy packaging of chef-browser into a RPM. It handles the needed runtime dependencies and provides a simple start script and base configuration.
+Easy packaging of chef-browser into an RPM. It handles the needed runtime dependencies and provides a simple start script and base configuration.
 
 ## Usage
 
