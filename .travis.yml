@@ -1,4 +1,4 @@
-script: bundle exec cucumber && bundle exec cucumber -p validate
+script: bundle exec rubocop && bundle exec cucumber && bundle exec cucumber -p validate
 language: ruby
 rvm:
   - 2.3.0

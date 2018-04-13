@@ -22,6 +22,7 @@ group :development do
   gem "chef-zero"
   gem "cucumber"
   gem "rack-test"
+  gem "rubocop"
   gem "wrong", "= 0.7.1"
   gem "pry"
   gem "rubysl-test-unit", "~> 2.0", platforms: :rbx
