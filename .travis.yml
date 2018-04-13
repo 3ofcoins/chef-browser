@@ -1,8 +1,6 @@
 script: bundle exec cucumber && bundle exec cucumber -p validate
 language: ruby
 rvm:
-  - 2.2.0
-  - 2.2.1
   - 2.3.0
   - 2.3.1
   - 2.4.0
