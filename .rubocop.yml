@@ -1,3 +1,6 @@
+Style/RegexpLiteral:
+  AllowInnerSlashes: true
+
 Style/StringLiterals:
   Enabled: false
 
@@ -24,6 +27,9 @@ Metrics/ModuleLength:
 
 Metrics/MethodLength:
   Max: 20
+
+Metrics/PerceivedComplexity:
+  Max: 10
 
 Naming/FileName:
   Enabled: false

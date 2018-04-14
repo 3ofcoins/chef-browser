@@ -81,21 +81,30 @@ module ChefBrowser
       @search_query ||= (params['q']&.strip)
     end
 
+    def map_resource(results, resource, data_bag = nil)
+      case resource
+      when :node        then results
+      when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
+      when :environment then results.map { |attrs| Ridley::EnvironmentObject.new(nil, attrs["data"]) }
+      else                   results.map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
+      end
+    end
+
     def search(search_query, resource, data_bag = nil)
-      search_query = "tags:*#{search_query}* OR roles:*#{search_query}* OR fqdn:*#{search_query}* OR addresses:*#{search_query}*" unless search_query[':']
+      unless search_query[':']
+        search_query = "tags:*#{search_query}* OR roles:*#{search_query}* OR \
+                        fqdn:*#{search_query}* OR addresses:*#{search_query}*"
+      end
       if settings.rb.use_partial_search
         resource = data_bag.chef_id if data_bag
         results = chef_server.partial_search(resource, search_query, %w[chef_type name id])
-        case resource
-        when :node        then results
-        when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
-        when :environment then results.map { |attrs| Ridley::EnvironmentObject.new(nil, attrs["data"]) }
-        else                   results.map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
-        end
+        map_resource(results, resource, data_bag)
       elsif data_bag
         # For data bag search, Ridley returns untyped Hashie::Mash,
         # we want to augment it with our methods.
-        chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
+        chef_server.search(data_bag.chef_id, search_query).map do |attrs|
+          Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data])
+        end
       else
         chef_server.search(resource, search_query)
       end
@@ -119,7 +128,8 @@ module ChefBrowser
       when 'attributes' then nil
       when 'maintainer_email'
         "<dt>#{key.capitalize.tr('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
-      when 'platforms', 'dependencies', 'suggestions', 'conflicting', 'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
+      when 'platforms', 'dependencies', 'suggestions', 'conflicting',
+           'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
         unless value.empty?
           list = "<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
           value.sort.each do |name, description|
@@ -147,7 +157,7 @@ module ChefBrowser
       chef_server.cookbook.versions(cookbook.chef_id).sort_by { |version| Semverse::Version.new(version) }.reverse
     end
 
-    COOKBOOK_FILE_TYPE_RX = %r{^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?}
+    COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/
     def cookbook_file
       @cookbook_file ||=
         begin
@@ -165,9 +175,9 @@ module ChefBrowser
     end
 
     def run_list_helper(run_list_element)
-      if run_list_element.include? "role["
+      if run_list_element.include?("role[")
         "<a href='#{url("/role/#{run_list_element.gsub('role[', '').chop}")}'>#{run_list_element}</a>"
-      elsif run_list_element.include? "recipe["
+      elsif run_list_element.include?("recipe[")
         run_list_element =~ if run_list_element.include? "::"
                               /\[(.*)::(.*)\]/
                             else
