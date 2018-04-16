@@ -214,7 +214,7 @@ module ChefBrowser
                               .map(&:freeze).freeze
     # single cookbook
     get '/cookbook/:cookbook/?' do
-      template_name = if request.query_string.match?(/^\w+$/)
+      template_name = if request.query_string.match(/^\w+$/)
                         "cookbook_tab_#{request.query_string}".to_sym
                       else
                         :cookbook
