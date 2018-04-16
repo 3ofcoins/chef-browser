@@ -186,7 +186,7 @@ module ChefBrowser
 
     # download a cookbook file
     get '/download/cookbook/:cookbook/*' do
-      from_server = File.open(cookbook_file.url, uri_options)
+      from_server = open(cookbook_file.url, uri_options)
 
       # Set content_type first, so we can default to
       # 'application/octet-stream', and `attachment` doesn't blow up
