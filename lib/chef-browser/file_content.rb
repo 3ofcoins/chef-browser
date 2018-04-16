@@ -39,10 +39,11 @@ module ChefBrowser
 
       def highlight_file(filename, extname, content)
         lexer = (Linguist::Language[extname.gsub(/^\./, '')] ||
-                 Linguist::Language.find_by_filename(filename).first
+                 Linguist::Language.find_by_filename(filename).first ||
+                 Linguist::Language.find_by_extension(extname).first
                 )
         if lexer
-          lexer.colorize(content, options: @highlight_options)
+          Pygments.highlight(content, lexer: lexer.name, options: @highlight_options)
         else
           Pygments.highlight(content, lexer: 'text', options: @highlight_options)
         end
