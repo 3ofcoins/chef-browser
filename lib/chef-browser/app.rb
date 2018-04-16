@@ -210,7 +210,8 @@ module ChefBrowser
 
     COOKBOOK_BASIC_METADATA = %w[maintainer maintainer_email license platforms
                                  dependencies recommendations providing suggestions
-                                 conflicting replacing groupings long_description]
+                                 conflicting replacing groupings long_description
+                                 issues_url source_url]
                               .map(&:freeze).freeze
     # single cookbook
     get '/cookbook/:cookbook/?' do

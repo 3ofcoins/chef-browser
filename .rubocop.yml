@@ -1,3 +1,7 @@
+# Rubocop thinks we're using Kernel#open, while we're using OpenURI#open's implementation
+Security/Open:
+  Enabled: false
+
 Style/RegexpLiteral:
   AllowInnerSlashes: true
 

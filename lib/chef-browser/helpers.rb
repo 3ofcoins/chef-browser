@@ -124,14 +124,16 @@ module ChefBrowser
 
     def pretty_metadata(key, value)
       case key
-      when 'long_description' then GitHub::Markup.render('README.md', value)
+      when 'long_description' then GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, value)
       when 'attributes' then nil
       when 'maintainer_email'
         "<dt>#{key.capitalize.tr('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
+      when 'issues_url', 'source_url'
+        "<dt>#{key.capitalize.tr('_', ' ')}:</dt><dd><a href='#{value}'>#{value}</a><dd>"
       when 'platforms', 'dependencies', 'suggestions', 'conflicting',
            'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
         unless value.empty?
-          list = "<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
+          list = +"<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
           value.sort.each do |name, description|
             list << "<li>#{name}: #{description}</li>"
           end

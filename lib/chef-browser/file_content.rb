@@ -3,13 +3,16 @@
 require 'chef-browser/app'
 
 module ChefBrowser
+  # We use different gems for highlighting different file types: Github's markup
+  # for Markdown files, and Linguist and Pygments for everything else. We don't render non-test
+  # files, but allow the user to download them.
   class FileContent
     include Linguist::BlobHelper
 
     attr_accessor :name, :path, :data
 
     @highlight_options = { encoding: 'utf-8', formatter: 'html', linenos: 'inline' }
-    @markup_files = %w[license contributing testing readme]
+    @markup_files = %w[license changelog code_of_conduct contributing testing readme]
 
     def initialize(name, path, content)
       @name = name
