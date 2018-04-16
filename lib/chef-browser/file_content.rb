@@ -19,12 +19,15 @@ module ChefBrowser
 
     class << self
       def show_file(file, uri_options = {})
+        # Using Kernel#open (via OpenURI#open) can be a security risk but
+        # alternatives don't seem to work here: we're opening a URL,
+        # not a file on disk and File#open fails.
         content = FileContent.new(file.name, file.url, open(file.url, uri_options).read)
         extname = File.extname(file.name).downcase
         if extname == '.md' || @markup_files.include?(file[:name].downcase)
-          GitHub::Markup.render('README.md', content.data)
+          GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, content.data.force_encoding("utf-8"))
         elsif content.image?
-          # Unfortunately, this has to be handled by file.erb
+          # Unfortunately, this part has to be handled by views/file.erb
           'image'
         elsif content.text?
           FileContent.highlight_file(content.name, extname, content.data)
