@@ -11,6 +11,8 @@ To install chef-browser, run:
 $ bundle install
 ```
 
+Note: You might have to install icu4c (MacOS) or libicu-dev (Debian/Ubuntu) to successfully install the required charlock_holmes gem.
+
 ## Usage
 
 Create a settings.rb file. Provide your server url, client name and the path to the client key. You can add additional connection options, but that's not necessary to run chef-browser properly. A full list of available options can be found in Ridley's [yard documentation](http://rubydoc.info/gems/ridley/Ridley/Client:initialize).
@@ -85,5 +87,5 @@ Chef-browser works with following Ruby versions:
 * Make sure you test your new feature.
 * Commit your changes together with specs for them: `git commit -am 'Add some feature'`
 * Push your changes to your feature branch.
-* Submit a pull request to the **develop** repository. Describe your feature in the pull request. Make sure you commit the specs.
+* Submit a pull request to the **develop** branch. Describe your feature in the pull request. Make sure you commit the specs.
 * A pull request does not necessarily need to represent the final, finished feature. Feel free to treat it as a base for discussion.
