@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 PAGES = {
   'main page' => '/'
-}
+}.freeze
 
 When(/^I visit (?:the )?"(.*?)"$/) do |page_url|
   page_url = PAGES[page_url.downcase] unless page_url =~ /^\//
@@ -11,14 +13,14 @@ end
 Then(/^I can see "(.*?)"$/) do |text|
   # We normally expect the request to succeed, put the assertion here
   # to avoid too verbose feature files.
-  assert { (200..399).include?(page.status_code) }
+  assert { (200..399).cover?(page.status_code) }
   assert { page.has_content?(text) }
 end
 
 Then(/^I can't see "(.*?)"$/) do |text|
   # We normally expect the request to succeed, put the assertion here
   # to avoid too verbose feature files.
-  assert { (200..399).include?(page.status_code) }
+  assert { (200..399).cover?(page.status_code) }
   assert { page.has_content?(text) == false }
 end
 
@@ -50,7 +52,7 @@ Then(/^I see an attribute "(.*?)" with value (.*?)$/) do |path, value|
 end
 
 When(/^I search for "(.*?)"$/) do |search_query|
-  page.fill_in 'q', with: "#{search_query}"
+  page.fill_in 'q', with: search_query.to_s
   page.find('button[id="search-submit"]').click
 end
 
@@ -59,8 +61,8 @@ Then(/^this page doesn't exist$/) do
 end
 
 When(/^I log in as "(.*?)" with password "(.*?)"$/) do |user, password|
-  page.fill_in 'username', with: "#{user}"
-  page.fill_in 'password', with: "#{password}"
+  page.fill_in 'username', with: user.to_s
+  page.fill_in 'password', with: password.to_s
   page.find('button[type="submit"]').click
 end
 

@@ -1,4 +1,6 @@
-Given /a settings.rb configuration:/ do |settings|
+# frozen_string_literal: true
+
+Given(/a settings.rb configuration:/) do |settings|
   @chef_browser_settings = ChefBrowser::App.settings.rb
 
   new_settings = ChefBrowser::Settings.load

@@ -1,0 +1,49 @@
+# Rubocop thinks we're using Kernel#open, while we're using OpenURI#open's implementation
+Security/Open:
+  Enabled: false
+
+Style/RegexpLiteral:
+  AllowInnerSlashes: true
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/GlobalVars:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 22
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Max: 9
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+Naming/FileName:
+  Enabled: false
+
+# The two following cops have to be disabled due to false positives
+Performance/RedundantMatch:
+  Enabled: false
+
+Performance/RegexpMatch:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 2.4.3

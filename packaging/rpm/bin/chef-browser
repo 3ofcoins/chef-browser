@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 ARGV << File.join(File.dirname(__FILE__), '..', 'chef-browser', 'config.ru')
 ARGV << '-o'
 ARGV << '192.168.1.125'

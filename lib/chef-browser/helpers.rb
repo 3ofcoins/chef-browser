@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'chef-browser/app'
 
 module ChefBrowser
   module Helpers
-    COOKBOOK_FILE_TYPES = %w(attributes templates files definitions resources providers libraries)
-      .map(&:freeze).freeze
+    COOKBOOK_FILE_TYPES = %w[attributes templates files definitions resources providers libraries]
+                          .map(&:freeze).freeze
 
     def chef_server
       @chef_server ||= settings.rb.ridley
@@ -76,28 +78,35 @@ module ChefBrowser
 
     def search_query
       @search_query || params['q']
-      @search_query ||= (params['q'] && params['q'].strip)
+      @search_query ||= (params['q']&.strip)
+    end
+
+    def map_resource(results, resource, data_bag = nil)
+      case resource
+      when :node        then results
+      when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
+      when :environment then results.map { |attrs| Ridley::EnvironmentObject.new(nil, attrs["data"]) }
+      else                   results.map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
+      end
     end
 
     def search(search_query, resource, data_bag = nil)
-      search_query = "tags:*#{search_query}* OR roles:*#{search_query}* OR fqdn:*#{search_query}* OR addresses:*#{search_query}*" unless search_query[':']
+      unless search_query[':']
+        search_query = "tags:*#{search_query}* OR roles:*#{search_query}* OR \
+                        fqdn:*#{search_query}* OR addresses:*#{search_query}*"
+      end
       if settings.rb.use_partial_search
         resource = data_bag.chef_id if data_bag
-        results = chef_server.partial_search(resource, search_query, %w(chef_type name id))
-        case resource
-        when :node        then results
-        when :role        then results.map { |attrs| Ridley::RoleObject.new(nil, attrs["data"]) }
-        when :environment then results.map { |attrs| Ridley::EnvironmentObject.new(nil, attrs["data"]) }
-        else                   results.map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs["data"]) }
+        results = chef_server.partial_search(resource, search_query, %w[chef_type name id])
+        map_resource(results, resource, data_bag)
+      elsif data_bag
+        # For data bag search, Ridley returns untyped Hashie::Mash,
+        # we want to augment it with our methods.
+        chef_server.search(data_bag.chef_id, search_query).map do |attrs|
+          Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data])
         end
       else
-        if data_bag
-          # For data bag search, Ridley returns untyped Hashie::Mash,
-          # we want to augment it with our methods.
-          chef_server.search(data_bag.chef_id, search_query).map { |attrs| Ridley::DataBagItemObject.new(nil, data_bag, attrs[:raw_data]) }
-        else
-          chef_server.search(resource, search_query)
-        end
+        chef_server.search(resource, search_query)
       end
     end
 
@@ -115,12 +124,16 @@ module ChefBrowser
 
     def pretty_metadata(key, value)
       case key
-      when 'long_description' then GitHub::Markup.render('README.md', value)
+      when 'long_description' then GitHub::Markup.render_s(GitHub::Markups::MARKUP_MARKDOWN, value)
       when 'attributes' then nil
-      when 'maintainer_email' then "<dt>#{key.capitalize.gsub('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
-      when 'platforms', 'dependencies', 'suggestions', 'conflicting', 'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
+      when 'maintainer_email'
+        "<dt>#{key.capitalize.tr('_', ' ')}:</dt><dd><a href='mailto:#{value}'>#{value}</a><dd>"
+      when 'issues_url', 'source_url'
+        "<dt>#{key.capitalize.tr('_', ' ')}:</dt><dd><a href='#{value}'>#{value}</a><dd>"
+      when 'platforms', 'dependencies', 'suggestions', 'conflicting',
+           'replacing', 'providing', 'recipes', 'recommendations', 'groupings'
         unless value.empty?
-          list = "<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
+          list = +"<dt>#{key.capitalize}:</dt><dd><ul class='list-unstyled'>"
           value.sort.each do |name, description|
             list << "<li>#{name}: #{description}</li>"
           end
@@ -130,7 +143,7 @@ module ChefBrowser
       end
     end
 
-    COOKBOOK_RX = /^(.*)-([0-9\.]+)$/.freeze
+    COOKBOOK_RX = /^(.*)-([0-9\.]+)$/
     def cookbook
       @cookbook ||=
         begin
@@ -146,7 +159,7 @@ module ChefBrowser
       chef_server.cookbook.versions(cookbook.chef_id).sort_by { |version| Semverse::Version.new(version) }.reverse
     end
 
-    COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/.freeze
+    COOKBOOK_FILE_TYPE_RX = /^(?:(#{Regexp.union('recipes', *COOKBOOK_FILE_TYPES)})\/)?/
     def cookbook_file
       @cookbook_file ||=
         begin
@@ -164,21 +177,21 @@ module ChefBrowser
     end
 
     def run_list_helper(run_list_element)
-      if run_list_element.include? "role["
+      if run_list_element.include?("role[")
         "<a href='#{url("/role/#{run_list_element.gsub('role[', '').chop}")}'>#{run_list_element}</a>"
-      elsif run_list_element.include? "recipe["
-        if run_list_element.include? "::"
-          run_list_element =~ /\[(.*)::(.*)\]/
-        else
-          run_list_element =~ /\[(.*)\]/
-        end
+      elsif run_list_element.include?("recipe[")
+        run_list_element =~ if run_list_element.include? "::"
+                              /\[(.*)::(.*)\]/
+                            else
+                              /\[(.*)\]/
+                            end
         name = Regexp.last_match[1]
         recipe = Regexp.last_match[2]
-        version = (chef_server.cookbook.all[name].first unless chef_server.cookbook.all[name].nil?) || nil
+        version = (chef_server.cookbook.all[name]&.first) || nil
         if version
           "<a href='#{url("/cookbook/#{name}-#{version}/recipes/#{recipe || 'default'}.rb")}'>#{run_list_element}</a>"
         else
-          "<a href='#{url("/cookbooks")}'>#{run_list_element}</a>"
+          "<a href='#{url('/cookbooks')}'>#{run_list_element}</a>"
         end
       else
         run_list_element

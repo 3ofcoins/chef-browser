@@ -13,9 +13,9 @@
   </div>
   <div class='col-md-4' id='basic'>
     <dl class='dl-horizontal'>
-<% COOKBOOK_BASIC_METADATA.each do |b| -%>
-<%   unless cookbook.metadata[b].empty? -%>
-<%==   pretty_metadata(b, cookbook.metadata[b]) unless b == 'long_description' %>
+<% COOKBOOK_BASIC_METADATA.each do |field| -%>
+<%   unless cookbook.metadata[field].nil? || cookbook.metadata[field].empty? -%>
+<%==   pretty_metadata(field, cookbook.metadata[field]) unless field == 'long_description' %>
 <%   end -%>
 <% end -%>
     </dl>

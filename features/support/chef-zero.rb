@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'chef_zero/server'
 
 $chef_zero = ChefZero::Server.new(port: ENV['CHEF_ZERO_PORT'].to_i)
