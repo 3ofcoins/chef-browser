@@ -43,7 +43,7 @@ Scenario: Data not visible when not logged in
 Scenario: Logging in
   When I visit "/login"
   And I log in as "admin" with password "admin"
-  Then I am at "/nodes"
+  Then I am at "/dashboard"
   And I can see "Logged in as admin"
 
 Scenario: Wrong password
