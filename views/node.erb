@@ -5,6 +5,9 @@
 <p><%= node[:automatic][:fqdn] %> (<%= node[:automatic][:ipaddress] %>)</p>
 
 <p><strong>Environment:</strong> <a href='<%= url "/nodes?q=chef_environment:#{node.chef_environment}" %>'><%= node.chef_environment %></a></p>
+<% if attributes[:policy_name] && !attributes[:policy_name].empty? -%>
+<p><strong>Policy:</strong> <%= attributes[:policy_name] %></p>
+<% end -%>
 
 <% if attributes[:tags] && !attributes[:tags].empty? -%>
 <p><strong>Tags:</strong></p>
