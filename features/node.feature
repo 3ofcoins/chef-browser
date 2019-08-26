@@ -6,6 +6,7 @@ Background:
       {
         "nodes": {
           "some-node-name": {
+            "chef_environment": "production",
             "automatic": {
               "fqdn": "some-node-name.example.com",
               "ipaddress": "1.2.3.4",
@@ -19,12 +20,23 @@ Background:
           "another-node-name": {
             "automatic": {
               "fqdn": "another-node-name.example.com",
-              "ipaddress": "1.2.3.5"
+              "ipaddress": "1.2.3.5",
+              "policy_name": "my-policy"
             }
           }
         }
       }
     """
+
+Scenario: Show main attributes without policy
+  When I visit "/node/some-node-name"
+  Then I can't see "Policy:"
+  And I can see "Environment: production"
+
+Scenario: Show main attributes with policy
+  When I visit "/node/another-node-name"
+  Then I can see "Policy: my-policy"
+  And I can see "Environment: _default"
 
 Scenario: List of node attributes
   When I visit "/node/some-node-name"
