@@ -107,7 +107,7 @@ GEM
     pygments.rb (1.2.1)
       multi_json (>= 1.0.0)
     racc (1.4.14)
-    rack (2.0.4)
+    rack (2.0.8)
     rack-protection (2.0.1)
       rack
     rack-test (1.0.0)
