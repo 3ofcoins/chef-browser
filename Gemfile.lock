@@ -113,7 +113,7 @@ GEM
     rack-test (1.0.0)
       rack (>= 1.0, < 3)
     rainbow (3.0.0)
-    rake (12.3.1)
+    rake (12.3.3)
     retryable (2.0.4)
     ridley (5.1.1)
       addressable
