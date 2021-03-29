@@ -72,7 +72,8 @@ GEM
     hitimes (1.2.6)
     httpclient (2.8.3)
     json (2.1.0)
-    kramdown (1.16.2)
+    kramdown (2.3.1)
+      rexml
     libyajl2 (1.2.0)
     method_source (0.9.0)
     mime-types (3.1)
@@ -115,6 +116,7 @@ GEM
     rainbow (3.0.0)
     rake (12.3.1)
     retryable (2.0.4)
+    rexml (3.2.4)
     ridley (5.1.1)
       addressable
       buff-config (~> 2.0)
